@@ -1,0 +1,37 @@
+cookie_bar:
+  hi: Salve
+  accept: Accipere
+  cookies: nulla crustula
+
+nav:
+  link_home: Domus
+  link_about: De
+  link_vitesse: Originali Vitesse
+  toggle_dark: Toggle tenebris modus
+  toggle_langs: Mutare linguas
+
+home:
+  description: Stricte Vitesse-based Starter Template
+  input_placeholder: Quid est tibi nomen?
+  input_placeholder_with_name: Quid est tibi nomen? Adhuc "{name}"?
+  button: VADO!
+  vue_tag: Tardus Vue emissio tag est {tag} fundatur in GitHub API
+  vue_tag_loading: Loading tardus Vue emissio tag...
+  vue_tag_error: Loading tardus Vue emissio tag ex GitHub API defecit!
+
+about:
+  title: De
+  add_paragraph: Addere paragraphum
+  remove_paragraph: Aufer paragraphum
+
+name:
+  hi: Salve, {name}!
+  description: Demo de dynamic pagina
+  aka: Qui et
+
+page_not_found: 'Pagina non inveni:'
+
+common:
+  button:
+    back: Retro
+    home: Domus

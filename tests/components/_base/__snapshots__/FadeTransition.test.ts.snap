@@ -1,0 +1,7 @@
+// Vitest Snapshot v1
+
+exports[`FadeTransition > should render 1`] = `
+"<transition-stub enterfromclass=\\"op0\\" leavetoclass=\\"op0\\" enteractiveclass=\\"transition-opacity pointer-events-none\\" leaveactiveclass=\\"transition-opacity pointer-events-none\\" mode=\\"out-in\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
+  <div> abc </div>
+</transition-stub>"
+`;

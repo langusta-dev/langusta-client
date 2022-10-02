@@ -1,0 +1,323 @@
+root: true
+
+ignorePatterns:
+  - 'coverage'
+  - 'dist'
+  - 'node_modules'
+  - 'public'
+  - 'pnpm-lock.yaml'
+  - '**/__vite*'
+  - LICENSE
+
+env:
+  browser: true
+  es2022: true
+  es6: true
+  node: true
+
+parserOptions:
+  ecmaVersion: latest
+  sourceType: module
+
+extends:
+  - '@vue/typescript/recommended'
+  - 'standard'
+  - 'eslint:recommended'
+  - 'plugin:@typescript-eslint/recommended'
+  - 'plugin:eslint-comments/recommended'
+  - 'plugin:import/recommended'
+  - 'plugin:import/typescript'
+  - 'plugin:jsonc/recommended-with-jsonc'
+  - 'plugin:markdown/recommended'
+  - 'plugin:prettier/recommended'
+  - 'plugin:promise/recommended'
+  - 'plugin:unicorn/recommended'
+  - 'plugin:vue/vue3-recommended'
+  - 'plugin:vue-scoped-css/vue3-recommended'
+  - 'plugin:yml/standard'
+  - 'plugin:yml/prettier'
+
+plugins:
+  - 'html'
+  - 'import'
+  - 'n'
+  - 'promise'
+  - 'prefer-arrow'
+  - 'unicorn'
+  - 'unused-imports'
+
+rules:
+  'arrow-body-style':
+    - warn
+    - as-needed
+  'curly':
+    - warn
+    - all
+  'no-console': warn
+  'no-debugger': warn
+  'no-empty': warn
+  'no-undef-init': warn
+  'prefer-const': warn
+
+  '@typescript-eslint/array-type':
+    - warn
+    - default: array
+      readonly: array
+  '@typescript-eslint/consistent-indexed-object-style':
+    - warn
+    - record
+  '@typescript-eslint/consistent-type-assertions':
+    - error
+    - assertionStyle: as
+      objectLiteralTypeAssertions: never
+  '@typescript-eslint/consistent-type-definitions':
+    - warn
+    - interface
+  '@typescript-eslint/no-inferrable-types': warn
+  '@typescript-eslint/no-invalid-void-type': error
+  '@typescript-eslint/unified-signatures': error
+
+  'import/order':
+    - warn
+    - groups:
+        - builtin
+        - external
+        - internal
+        - sibling
+        - index
+        - type
+      pathGroups:
+        # assets
+        - group: builtin
+          pattern: '~/assets/**'
+          position: before
+        # components
+        - group: builtin
+          pattern: '**/*.vue'
+          position: before
+        - group: builtin
+          pattern: './**/*.vue'
+          position: before
+        # stores
+        - group: internal
+          pattern: '~/stores/**'
+          position: after
+        # composables
+        - group: internal
+          pattern: '~/composables/**'
+          position: after
+        # api
+        - group: internal
+          pattern: '~/api/**'
+          position: after
+        # helpers
+        - group: internal
+          pattern: '~/helpers/**'
+          position: after
+      alphabetize:
+        order: asc
+        caseInsensitive: false
+      newlines-between: always
+  'import/no-unused-modules':
+    - warn
+    - unusedExports: true
+      src: [src]
+      ignoreExports:
+        - '**/*.d.ts'
+        - 'src/main.ts'
+        - 'src/modules'
+
+  'prefer-arrow/prefer-arrow-functions':
+    - error
+    - disallowPrototype: true
+
+  'promise/prefer-await-to-then': error
+
+  'unicorn/better-regex': warn
+  'unicorn/catch-error-name': warn
+  'unicorn/explicit-length-check': off
+  'unicorn/no-null': off
+  'unicorn/no-zero-fractions': warn
+  'unicorn/numeric-separators-style': warn
+  'unicorn/prefer-array-flat-map': warn
+  'unicorn/prevent-abbreviations': off
+
+  'vue/block-lang':
+    - error
+    - script:
+        lang: ts
+  'vue/block-tag-newline':
+    - warn
+    - singleline: always
+      multiline: always
+      maxEmptyLines: 0
+  'vue/component-api-style':
+    - error
+    - [script-setup]
+  'vue/component-name-in-template-casing':
+    - error
+    - PascalCase
+    - registeredComponentsOnly: false
+      ignores: [component]
+  'vue/component-tags-order':
+    - error
+    - order:
+        - route
+        - script
+        - template
+        - style
+  'vue/custom-event-name-casing': error
+  'vue/define-macros-order': warn
+  'vue/html-comment-content-newline': warn
+  'vue/html-comment-content-spacing': warn
+  'vue/html-comment-indent': warn
+  'vue/html-self-closing':
+    - warn
+    - html:
+        component: always
+        normal: always
+        void: always
+      svg: always
+  'vue/new-line-between-multi-line-property': warn
+  'vue/next-tick-style': error
+  'vue/no-empty-component-block': error
+  'vue/no-multiple-objects-in-class': error
+  'vue/no-static-inline-styles':
+    - error
+    - allowBinding: false
+  'vue/no-undef-properties': error
+  'vue/no-unused-properties': error
+  'vue/no-unused-refs': error
+  'vue/no-useless-mustaches': warn
+  'vue/no-useless-v-bind': warn
+  'vue/no-v-text': error
+  'vue/padding-line-between-blocks': warn
+  'vue/prefer-separate-static-class': warn
+  'vue/prefer-true-attribute-shorthand': error
+  'vue/static-class-names-order': warn
+  'vue/v-for-delimiter-style': warn
+  'vue/v-on-function-call':
+    - error
+    - always
+
+  'vue-scoped-css/enforce-style-type': error
+  'vue-scoped-css/no-deprecated-deep-combinator': error
+  'vue-scoped-css/no-deprecated-v-enter-v-leave-class': error
+  'vue-scoped-css/no-parent-of-v-global': error
+  'vue-scoped-css/no-parsing-error': error
+  'vue-scoped-css/no-unused-keyframes': error
+  'vue-scoped-css/no-unused-selector': error
+  'vue-scoped-css/require-v-deep-argument': error
+  'vue-scoped-css/require-v-global-argument': error
+  'vue-scoped-css/require-v-slotted-argument': error
+  'vue-scoped-css/require-selector-used-inside': error
+
+  # The code below is necessary for some deps to work properly.
+  # Therefore, it is not recommended to modify it.
+  # - TypeScript
+  'unicorn/no-useless-undefined': off
+
+  # - Vue
+  'import/default': off
+  'import/no-unresolved': off
+  'no-undef': off
+  'unicorn/consistent-function-scoping': off
+  'unicorn/filename-case': off
+  'vue/multi-word-component-names': off
+
+  # - Vue (Reactivity Transform)
+  'vue/no-setup-props-destructure': off
+
+  # - Vite
+  '@typescript-eslint/consistent-type-imports':
+    - warn
+    - prefer: type-imports
+      disallowTypeAnnotations: true
+
+  # - Prettier
+  'prettier/prettier': warn
+  'vue/max-attributes-per-line': off
+  'vue/singleline-html-element-content-newline': off
+
+  # - ESlint
+  'yml/plain-scalar': off
+
+  # - eslint-plugin-unused-imports
+  '@typescript-eslint/no-unused-vars': off
+  'unused-imports/no-unused-imports': error
+  'unused-imports/no-unused-vars':
+    - warn
+    - vars: all
+      varsIgnorePattern: ^_
+      args: after-used
+      argsIgnorePattern: ^_
+
+settings:
+  'import/parsers':
+    '@typescript-eslint/parser': ['.ts']
+    'vue-eslint-parser': ['.vue']
+  'import/resolver':
+    typescript:
+      project: 'tsconfig.json'
+
+overrides:
+  - files: '*.vue'
+    parser: 'vue-eslint-parser'
+    parserOptions:
+      parser: '@typescript-eslint/parser'
+
+  - files: ['*.ts', '*.vue']
+    parserOptions:
+      project: 'tsconfig.json'
+    rules:
+      '@typescript-eslint/consistent-type-exports':
+        - warn
+        - fixMixedExportsWithInlineTypeSpecifier: true
+
+      # FIXME: this feature is currently broken with Reactivity Transform (as of Vue 3.2.37), but it should be enabled in the future
+      # '@typescript-eslint/no-unnecessary-condition': error
+      '@typescript-eslint/no-unnecessary-type-arguments': warn
+
+      'padding-line-between-statements': off
+      '@typescript-eslint/padding-line-between-statements':
+        - warn
+        - blankLine: always
+          prev: import
+          next: '*'
+        - blankLine: any
+          prev: import
+          next: import
+
+      'require-await': off
+      '@typescript-eslint/require-await': error
+
+      'no-return-await': off
+      '@typescript-eslint/return-await':
+        - error
+        - never
+
+  - files: 'src/helpers/_global.ts'
+    rules:
+      'import/no-unused-modules': off
+
+  - files: 'src/modules/*.ts'
+    rules:
+      '@typescript-eslint/no-explicit-any': off
+
+  - files: 'shims.d.ts'
+    rules:
+      '@typescript-eslint/ban-types': off
+      '@typescript-eslint/no-explicit-any': off
+      '@typescript-eslint/padding-line-between-statements': off
+
+  - files: '*.test.ts'
+    rules:
+      '@typescript-eslint/ban-types': off
+      '@typescript-eslint/no-empty-function': off
+      '@typescript-eslint/no-explicit-any': off
+
+  - files: ['*.json', '*.json5', '*.jsonc']
+    parser: 'jsonc-eslint-parser'
+
+  - files: ['*.yaml', '*.yml']
+    parser: 'yaml-eslint-parser'

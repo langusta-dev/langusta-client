@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: pnpm/action-setup@v2
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18.9
+          cache: pnpm
+
+      - run: npx playwright install --with-deps
+
+      - name: Install node_modules
+        run: pnpm i --frozen-lockfile
+
+      - name: Typecheck
+        run: pnpm tsc
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Tests
+        run: pnpm test:coverage
+
+      - name: Tests e2e
+        run: pnpm test:e2e

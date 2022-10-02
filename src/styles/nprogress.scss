@@ -1,0 +1,17 @@
+// STARTER_DOCS: https://github.com/rstacruz/nprogress/blob/master/nprogress.css
+#nprogress {
+  @apply pointer-events-none;
+
+  .bar {
+    @apply fixed
+      top-0
+        inset-x-0
+      z-1
+      h-.5
+      bg-accent;
+  }
+}
+
+.nprogress-busy {
+  @apply pointer-events-none;
+}

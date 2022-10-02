@@ -1,0 +1,37 @@
+cookie_bar:
+  hi: Hi
+  accept: Accept
+  cookies: the nonexistent cookies
+
+nav:
+  link_home: Home
+  link_about: About
+  link_vitesse: The original Vitesse
+  toggle_dark: Toggle dark mode
+  toggle_langs: Change languages
+
+home:
+  description: Strict Vitesse-based Starter Template
+  input_placeholder: What's your name?
+  input_placeholder_with_name: What's your name? Still "{name}"?
+  button: GO!
+  vue_tag: The latest Vue release tag is {tag} based on GitHub API
+  vue_tag_loading: Fetching the latest Vue release tag...
+  vue_tag_error: Fetching the latest Vue release tag from GitHub API has failed!
+
+about:
+  title: About
+  add_paragraph: Add paragraph
+  remove_paragraph: Remove paragraph
+
+name:
+  hi: Hi, {name}!
+  description: Demo of dynamic route
+  aka: Also known as
+
+page_not_found: 'Page not found:'
+
+common:
+  button:
+    back: Back
+    home: Home
