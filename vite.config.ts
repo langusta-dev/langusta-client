@@ -44,6 +44,7 @@ const PagesImportModeResolver =
         return 'sync'
       }
     }
+
     return 'async'
   }
 

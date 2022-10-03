@@ -281,12 +281,24 @@ overrides:
       'padding-line-between-statements': off
       '@typescript-eslint/padding-line-between-statements':
         - warn
+
+        # imports
         - blankLine: always
           prev: import
           next: '*'
         - blankLine: any
           prev: import
           next: import
+
+        # blocks
+        - blankLine: always
+          prev: [block-like, multiline-expression]
+          next: '*'
+
+        # interfaces / types
+        - blankLine: always
+          prev: '*'
+          next: [interface, type]
 
       'require-await': off
       '@typescript-eslint/require-await': error
