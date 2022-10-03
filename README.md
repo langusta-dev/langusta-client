@@ -375,26 +375,7 @@ Adjust the file structure to your needs.
 
 #### src/**layouts**/
 
-Layout components used by [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts) live here.\
-Quote from the GitHub page of the plugin:
-
-> This works best along with the [vite-plugin-pages](https://github.com/hannoeru/vite-plugin-pages).
->
-> Layouts are stored in the `/src/layouts` folder by default and are standard Vue components with a `<router-view></router-view>` in the template.
->
-> Pages without a layout specified use `default.vue` for their layout.
->
-> You can use route blocks to allow each page to determine its layout. The block below in a page will look for `/src/layouts/users.vue` for its layout.
->
-> See the Vitesse starter template for a working example.
->
-> <!-- prettier-ignore -->
-> ```html
-> <route lang="yaml">
->   meta:
->     layout: users
-> </route>
-> ```
+Layout components used by [vite-plugin-vue-layouts](https://github.com/JohnCampionJr/vite-plugin-vue-layouts) live here.
 
 #### src/**pages**/
 
