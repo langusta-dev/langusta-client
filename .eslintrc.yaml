@@ -290,6 +290,14 @@ overrides:
           prev: import
           next: import
 
+        # exports
+        - blankLine: always
+          prev: export
+          next: '*'
+        - blankLine: always
+          prev: export
+          next: '*'
+
         # blocks
         - blankLine: always
           prev: [block-like, multiline-expression]

@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import TheSideMenu from '~/components/&layouts/_default/TheSideMenu.vue'
+import TheNav from '~/components/&layouts/_default/TheNav.vue'
 </script>
 
 <template>
   <main _p="x4 y10">
     <RouterView />
-    <TheSideMenu />
+    <TheNav />
   </main>
 </template>

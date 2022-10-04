@@ -1,14 +1,13 @@
 // TODO login hack - remove after api is online
-// let jwt = $(useSessionStorage<string | null>('token', null))
-let jwt = $(useSessionStorage<string | null>('token', 'abc123'))
+// const jwt = useSessionStorage<string | null>('token', null)
+const jwt = useSessionStorage<string | null>('token', 'abc123')
 
-const setJwt = (value: string) => {
-  jwt = value
+const setJwt = (newJwt: string) => {
+  jwt.value = newJwt
 }
 
 const unsetJwt = () => {
-  jwt = null
+  jwt.value = null
 }
 
-const jwtRef = $$(jwt)
-export { jwtRef as jwt, setJwt, unsetJwt }
+export { jwt, setJwt, unsetJwt }

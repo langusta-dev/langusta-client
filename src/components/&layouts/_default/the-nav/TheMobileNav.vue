@@ -1,3 +1,3 @@
 <template>
-  <div />
+  <div>mobile</div>
 </template>
