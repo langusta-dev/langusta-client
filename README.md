@@ -134,10 +134,10 @@ pnpm build
 
 ## 🏁 Checklist
 
-- [ ] Change the project name in `package.json`
-- [ ] Change the author name in `LICENSE` or simply remove the file
+- [x] Change the project name in `package.json`
+- [x] Change the author name in `LICENSE` or simply remove the file
 - [ ] Change the favicon in `public/`
-- [ ] Track down all `STARTER_DOCS` comments across the template, make sure you're familiar with the functionality of the related code, and then remove the comment
+- [x] Track down all `STARTER_DOCS` comments across the template, make sure you're familiar with the functionality of the related code, and then remove the comment
 
 ## 🌳 Project structure
 

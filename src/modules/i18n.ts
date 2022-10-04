@@ -2,9 +2,6 @@ import { createI18n } from 'vue-i18n'
 
 import type { InstallModule } from '~/types/modules'
 
-// STARTER_DOCS:
-// Import i18n resources
-// https://vitejs.dev/guide/features.html#glob-import
 const messages = Object.fromEntries(
   Object.entries(
     import.meta.glob<{ default: any }>('../../locales/*.yaml', { eager: true })

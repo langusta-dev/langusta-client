@@ -26,7 +26,6 @@ export default defineConfig({
   presets: [
     presetWind(),
 
-    // STARTER_DOCS: https://github.com/brofrain/unocss-preset-colors-with-variants
     presetBetterNestedColors({
       colors: {
         primary: {
@@ -77,16 +76,12 @@ export default defineConfig({
       },
     }),
 
-    // STARTER_DOCS: https://github.com/unocss/unocss/tree/main/packages/preset-attributify
     presetAttributify({ prefix: '_', prefixedOnly: true }),
 
-    // STARTER_DOCS: https://github.com/unocss/unocss/tree/main/packages/preset-icons
     presetIcons({ prefix: 'icon-', scale: 1.2, warn: true }),
 
-    // STARTER_DOCS: https://github.com/unocss/unocss/tree/main/packages/preset-typography
     presetTypography(),
 
-    // STARTER_DOCS: https://github.com/unocss/unocss/tree/main/packages/preset-web-fonts
     presetWebFonts({
       fonts: {
         sans: 'DM Sans',

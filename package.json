@@ -1,5 +1,5 @@
 {
-  "name": "vitestrict",
+  "name": "langusta-client",
   "version": "0.0.0",
   "private": true,
   "packageManager": "pnpm@7.11.0",
