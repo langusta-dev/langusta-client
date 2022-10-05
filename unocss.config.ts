@@ -11,7 +11,7 @@ import {
 import { presetBetterNestedColors } from 'unocss-preset-better-nested-colors'
 
 export default defineConfig({
-  safelist: [],
+  safelist: ['icon-emojione-monotone:pot-of-food', 'icon-fa:calendar'],
 
   shortcuts: [
     {

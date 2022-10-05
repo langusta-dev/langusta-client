@@ -1,7 +1,10 @@
+title: LANgusta
+
 nav:
   index: Home
 
 index:
+  title: LANgusta index
   description: LANgusta
 
 login:
@@ -9,5 +12,8 @@ login:
 
 register:
   sign_up: Sign up
+
+calendar:
+  title: LANgusta calendar
 
 page_not_found: Page not found

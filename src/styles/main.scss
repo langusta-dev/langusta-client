@@ -5,7 +5,8 @@ body,
 }
 
 #app {
-  @apply bg-primary
+  @apply h-screen
+    bg-primary
     text-secondary
     transition-colors
     overflow-hidden
