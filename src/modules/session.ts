@@ -1,5 +1,7 @@
 import { useSession } from '~/stores/session'
 
+import { jwt } from '~/composables/jwt'
+
 import type { InstallModule } from '~/types/modules'
 
 export const install: InstallModule = ({ isClient, router }) => {
@@ -17,5 +19,11 @@ export const install: InstallModule = ({ isClient, router }) => {
     }
 
     return true
+  })
+
+  watch(jwt, (v) => {
+    if (!v) {
+      router.push('/login')
+    }
   })
 }

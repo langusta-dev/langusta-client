@@ -9,10 +9,11 @@ import type { AuthPayload } from '~/types/session'
 export const useSession = defineStore('session', () => {
   const isAuth = $computed(() => !!jwt.value)
 
-  const logIn = async (data: AuthPayload) => {
-    const { data: newJwt } = await api.logIn(data)
-    if (newJwt) {
-      setJwt(newJwt)
+  const logIn = async (payload: AuthPayload) => {
+    const { data } = await api.logIn(payload)
+
+    if (data?.token) {
+      setJwt(data.token)
     }
   }
 
@@ -20,19 +21,13 @@ export const useSession = defineStore('session', () => {
     unsetJwt()
   }
 
-  const register = async (data: AuthPayload) => {
-    const { data: newJwt } = await api.register(data)
-    if (newJwt) {
-      setJwt(newJwt)
+  const register = async (payload: AuthPayload) => {
+    const { data } = await api.register(payload)
+
+    if (data?.token) {
+      setJwt(data.token)
     }
   }
-
-  watch($$(isAuth), (currentValue, previousValue) => {
-    if (!currentValue && previousValue) {
-      const router = useRouter()
-      router.push('/login')
-    }
-  })
 
   return $$({ isAuth, logIn, logOut, register })
 })

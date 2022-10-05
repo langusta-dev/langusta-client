@@ -300,13 +300,19 @@ overrides:
 
         # blocks
         - blankLine: always
-          prev: [block-like, multiline-expression]
+          prev:
+            - multiline-const
+            - multiline-let
+            - multiline-expression
+            - block-like
           next: '*'
 
         # interfaces / types
         - blankLine: always
           prev: '*'
-          next: [interface, type]
+          next:
+            - interface
+            - type
 
       'require-await': off
       '@typescript-eslint/require-await': error
