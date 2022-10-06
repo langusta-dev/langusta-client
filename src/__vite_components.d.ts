@@ -11,6 +11,7 @@ declare module '@vue/runtime-core' {
     BaseFadeTransition: typeof import('~/components/_base/FadeTransition.vue')['default']
     BaseInput: typeof import('~/components/_base/Input.vue')['default']
     BaseLink: typeof import('~/components/_base/Link.vue')['default']
+    BaseRouterView: typeof import('~/components/_base/RouterView.vue')['default']
     BaseScroll: typeof import('~/components/_base/Scroll.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

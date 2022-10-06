@@ -1,4 +1,4 @@
-import { useSession } from '~/stores/session'
+import { useSessionStore } from '~/stores/session'
 
 import { jwt } from '~/composables/jwt'
 
@@ -11,9 +11,9 @@ export const install: InstallModule = ({ isClient, router }) => {
 
   router.beforeEach((to) => {
     if (to.meta.auth) {
-      const session = useSession()
+      const sessionStore = useSessionStore()
 
-      if (!session.isAuth) {
+      if (!sessionStore.isAuth) {
         return '/login'
       }
     }

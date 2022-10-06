@@ -1,9 +1,9 @@
 import { rest } from '~/helpers/api'
 
-import type { AuthPayload } from '~/types/session'
+import type { LogInPayload, RegisterPayload } from '~/types/session'
 
-export const logIn = (data: AuthPayload) =>
+export const logIn = (data: LogInPayload) =>
   rest.post<{ token: string }>('/auth/login', data)
 
-export const register = (data: AuthPayload) =>
+export const register = (data: RegisterPayload) =>
   rest.post<{ token: string }>('/auth/register', data)

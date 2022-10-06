@@ -8,7 +8,6 @@ const title = computed(() =>
   t(isStr(route.meta.title) ? route.meta.title : 'title')
 )
 
-// TODO: add route-based title
 useHead({
   title,
   meta: [
@@ -23,9 +22,5 @@ useHead({
 </script>
 
 <template>
-  <RouterView v-slot="{ Component }">
-    <BaseFadeTransition appear>
-      <component :is="Component" />
-    </BaseFadeTransition>
-  </RouterView>
+  <BaseRouterView lazy />
 </template>

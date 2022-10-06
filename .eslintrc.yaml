@@ -303,7 +303,6 @@ overrides:
           prev:
             - multiline-const
             - multiline-let
-            - multiline-expression
             - block-like
           next: '*'
 

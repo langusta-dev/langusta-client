@@ -1,6 +1,4 @@
-// TODO login hack - remove after api is online
-// const jwt = useSessionStorage<string | null>('token', null)
-const jwt = useSessionStorage<string | null>('token', 'abc123')
+const jwt = useSessionStorage<string | null>('token', null)
 
 const setJwt = (newJwt: string) => {
   jwt.value = newJwt

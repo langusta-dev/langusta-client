@@ -8,10 +8,23 @@ index:
   description: LANgusta
 
 login:
-  sign_in: Sign in
+  username: Username or email address
+  password: Password
+  log_in: Log in
+  enable_local_profile: Continue without logging in
+  has_no_account: Don't have an account yet?
+  sign_up: Sign up
 
 register:
+  email: Email address
+  username: Username
+  firstname: First name
+  lastname: Last name
+  password: Password
+  repeat_password: Repeat password
   sign_up: Sign up
+  has_account: Already have an account?
+  log_in: Log in
 
 calendar:
   title: LANgusta calendar

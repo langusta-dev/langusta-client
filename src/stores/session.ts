@@ -4,12 +4,18 @@ import { jwt, setJwt, unsetJwt } from '~/composables/jwt'
 
 import * as api from '~/api/session'
 
-import type { AuthPayload } from '~/types/session'
+import { useLocalProfileStore } from './localProfile'
 
-export const useSession = defineStore('session', () => {
-  const isAuth = $computed(() => !!jwt.value)
+import type { LogInPayload, RegisterPayload } from '~/types/session'
 
-  const logIn = async (payload: AuthPayload) => {
+export const useSessionStore = defineStore('session', () => {
+  const localProfileStore = useLocalProfileStore()
+
+  const isAuth = $computed(
+    () => !!jwt.value || localProfileStore.isLocalProfileEnabled
+  )
+
+  const logIn = async (payload: LogInPayload) => {
     const { data } = await api.logIn(payload)
 
     if (data?.token) {
@@ -21,7 +27,7 @@ export const useSession = defineStore('session', () => {
     unsetJwt()
   }
 
-  const register = async (payload: AuthPayload) => {
+  const register = async (payload: RegisterPayload) => {
     const { data } = await api.register(payload)
 
     if (data?.token) {
@@ -33,5 +39,5 @@ export const useSession = defineStore('session', () => {
 })
 
 if (import.meta.hot) {
-  import.meta.hot.accept(acceptHMRUpdate(useSession, import.meta.hot))
+  import.meta.hot.accept(acceptHMRUpdate(useSessionStore, import.meta.hot))
 }

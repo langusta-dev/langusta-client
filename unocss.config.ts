@@ -39,8 +39,9 @@ export default defineConfig({
 
           interactive: {
             DEFAULT: '~',
-            ':dark': '~',
             ':hover': 'accent',
+            ':dark': '~',
+            ':dark:hover': 'accent',
           },
         },
 
