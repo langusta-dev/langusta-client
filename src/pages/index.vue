@@ -12,7 +12,5 @@ const { t } = useI18n()
 </script>
 
 <template>
-  <div>
-    {{ t('index.description') }}
-  </div>
+  <div>Home</div>
 </template>

@@ -95,7 +95,7 @@ const scrollHandleStyle = $computed(() => ({
         _h-full
         _inset-y-0
         _right-0
-        _w-2
+        _w2
         _rounded-full
       >
         <div

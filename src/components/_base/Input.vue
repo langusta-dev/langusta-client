@@ -34,14 +34,14 @@ const handleInput = (e: Event) => {
     :type="type"
     autocomplete="false"
     _p="x4 y1"
-    _w-72
+    _w72
     _text-center
     _bg-primary
     _rounded
     _placeholder="text-sm italic text-primary-contrast/75"
     _border="1px primary-contrast/30"
     _outline="~ 2px offset-0 transparent hover:accent !focus:accent-focus"
-    _duration-150
+    _transition-all
     @input="(e) => handleInput(e)"
   />
 </template>

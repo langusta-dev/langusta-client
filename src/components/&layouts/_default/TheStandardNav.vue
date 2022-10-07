@@ -13,7 +13,7 @@ const { navigableRoutes } = useNav()
       v-for="{ path, meta: { icon, title } } in navigableRoutes"
       :key="path"
       _flex
-      _gap-2
+      _gap2
       _items-center
       _p="l2 r4 y1"
       _rounded

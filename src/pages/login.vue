@@ -35,7 +35,7 @@ useRedirectOnAuth()
   <div _flex="~ col" _items-center>
     <div _h="[15%]" />
 
-    <div _flex="~ col" _items-center _text-center _gap-3>
+    <div _flex="~ col" _items-center _text-center _gap3>
       <div>
         <div>{{ t('login.username') }}</div>
         <BaseInput v-model="username" />
@@ -46,7 +46,7 @@ useRedirectOnAuth()
         <BaseInput v-model="password" />
       </div>
 
-      <div _flex="~ col" _items-center _text-center _gap-2>
+      <div _flex="~ col" _items-center _text-center _gap2>
         <BaseButton @click="logIn()"> {{ t('login.log_in') }} </BaseButton>
 
         <BaseButton alt sm @click="enableLocalProfile()">

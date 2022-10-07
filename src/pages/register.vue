@@ -33,7 +33,7 @@ useRedirectOnAuth()
   <div _flex="~ col" _items-center>
     <div _h="[3%]" />
 
-    <div _flex="~ col" _items-center _text-center _gap-3>
+    <div _flex="~ col" _items-center _text-center _gap3>
       <div>
         <div>{{ t('register.email') }}</div>
         <BaseInput v-model="email" />
@@ -64,7 +64,7 @@ useRedirectOnAuth()
         <BaseInput v-model="repeatedPassword" />
       </div>
 
-      <div _flex="~ col" _items-center _text-center _gap-2>
+      <div _flex="~ col" _items-center _text-center _gap2>
         <BaseButton @click="register()">
           {{ t('register.sign_up') }}
         </BaseButton>

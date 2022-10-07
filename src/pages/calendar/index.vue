@@ -8,5 +8,5 @@ meta:
 </route>
 
 <template>
-  <div />
+  <div>Calendar</div>
 </template>

@@ -13,6 +13,7 @@ declare module '@vue/runtime-core' {
     BaseLink: typeof import('~/components/_base/Link.vue')['default']
     BaseRouterView: typeof import('~/components/_base/RouterView.vue')['default']
     BaseScroll: typeof import('~/components/_base/Scroll.vue')['default']
+    BaseToggler: typeof import('~/components/_base/Toggler.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
   }
