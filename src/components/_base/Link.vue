@@ -30,7 +30,7 @@ const handleClick = () => {
     _inline-block
     _underline
     _fw500
-    _text-secondary-interactive
+    _text-primary-contrast-interactive
     _transition-colors
     _cursor-pointer
     _select-none

@@ -104,7 +104,7 @@ const scrollHandleStyle = $computed(() => ({
           _relative
           _rounded-full
           _transition-colors
-          :_bg="isTrackScrollActive ? 'accent-focus/75' : 'secondary/25'"
+          :_bg="isTrackScrollActive ? 'accent-focus/75' : 'primary-contrast/25'"
           @mousedown.stop="(e) => startTrackScroll(e)"
         >
           <div
@@ -114,7 +114,9 @@ const scrollHandleStyle = $computed(() => ({
             _rounded-full
             _transition="background-color,height"
             :_bg="
-              isMouseScrollActive ? 'accent-focus' : 'secondary hover:accent'
+              isMouseScrollActive
+                ? 'accent-focus'
+                : 'primary-contrast hover:accent'
             "
             :_pointer-events="isTrackScrollActive ? 'none' : 'auto'"
             @mousedown.stop="(e) => startMouseScroll(e)"

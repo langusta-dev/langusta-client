@@ -38,8 +38,8 @@ const handleInput = (e: Event) => {
     _text-center
     _bg-primary
     _rounded
-    _placeholder="text-sm italic text-secondary/75"
-    _border="1px secondary/30"
+    _placeholder="text-sm italic text-primary-contrast/75"
+    _border="1px primary-contrast/30"
     _outline="~ 2px offset-0 transparent hover:accent !focus:accent-focus"
     _duration-150
     @input="(e) => handleInput(e)"

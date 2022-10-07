@@ -1,5 +1,6 @@
 <route lang="yaml">
 meta:
+  title: register.title
   layout: blank
 </route>
 
@@ -29,7 +30,9 @@ useRedirectOnAuth()
 </script>
 
 <template>
-  <div _flex _justify-center _items-start _p="t[5%]">
+  <div _flex="~ col" _items-center>
+    <div _h="[3%]" />
+
     <div _flex="~ col" _items-center _text-center _gap-3>
       <div>
         <div>{{ t('register.email') }}</div>

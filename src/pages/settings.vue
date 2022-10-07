@@ -2,9 +2,9 @@
 meta:
   auth: true
   nav: true
-  navOrder: 3
-  title: calendar.title
-  icon: fa:calendar
+  navOrder: 99
+  title: settings.title
+  icon: fa6-solid:gear
 </route>
 
 <template>

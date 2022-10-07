@@ -1,5 +1,6 @@
 <route lang="yaml">
 meta:
+  title: login.title
   layout: blank
 </route>
 
@@ -31,7 +32,9 @@ useRedirectOnAuth()
 </script>
 
 <template>
-  <div _flex _justify-center _items-start _p="t[15%]">
+  <div _flex="~ col" _items-center>
+    <div _h="[15%]" />
+
     <div _flex="~ col" _items-center _text-center _gap-3>
       <div>
         <div>{{ t('login.username') }}</div>

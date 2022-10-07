@@ -8,7 +8,7 @@ const { alt, sm } = defineProps<{
 <template>
   <button
     :class="[
-      !alt ? 'bg-accent-interactive' : 'bg-secondary-interactive',
+      !alt ? 'bg-accent-interactive' : 'bg-accent-alt-interactive',
       !sm ? 'p-(x4 y.5)' : 'p-(x3 y.5) text-sm',
     ]"
     _rounded

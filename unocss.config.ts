@@ -11,7 +11,12 @@ import {
 import { presetBetterNestedColors } from 'unocss-preset-better-nested-colors'
 
 export default defineConfig({
-  safelist: ['icon-emojione-monotone:pot-of-food', 'icon-fa:calendar'],
+  safelist: [
+    'icon-fa:home',
+    'icon-emojione-monotone:pot-of-food',
+    'icon-fa:calendar',
+    'icon-fa6-solid:gear',
+  ],
 
   shortcuts: [
     {
@@ -27,27 +32,45 @@ export default defineConfig({
     presetWind(),
 
     presetBetterNestedColors({
+      // todo color theme
       colors: {
         primary: {
-          DEFAULT: '#f5f5f5',
-          ':dark': '#1a1a1a',
-        },
+          DEFAULT: '#eee',
+          ':dark': '#222',
 
-        secondary: {
-          DEFAULT: 'rgba(40,40,40,.8)',
-          ':dark': 'rgba(250,250,250,.9)',
+          contrast: {
+            DEFAULT: '#222',
+            ':dark': '#fafafa',
 
-          interactive: {
-            DEFAULT: '~',
-            ':hover': 'accent',
-            ':dark': '~',
-            ':dark:hover': 'accent',
+            interactive: {
+              DEFAULT: '~',
+              ':hover': 'accent',
+              ':dark': '~',
+              ':dark:hover': 'accent',
+            },
           },
         },
 
+        // secondary: {
+        //   DEFAULT: 'rgba(40,40,40,.8)',
+        //   ':dark': 'rgba(250,250,250,.9)',
+
+        //   interactive: {
+        //     DEFAULT: '~',
+        //     ':hover': 'accent',
+        //     ':dark': '~',
+        //     ':dark:hover': 'accent',
+        //   },
+        // },
+
         accent: {
           DEFAULT: '#42b883',
-          contrast: '#fff',
+
+          contrast: {
+            DEFAULT: '#fff',
+            ':dark': '#333',
+          },
+
           focus: {
             DEFAULT: '#33a06f',
             ':dark': '#42d392',
@@ -66,10 +89,23 @@ export default defineConfig({
 
             contrast: {
               DEFAULT: 'accent-contrast',
-              ':dark': '#333',
+              ':dark': 'accent-contrast:dark',
               ':disabled': {
                 DEFAULT: '#f1f1f1',
                 ':dark': '#888',
+              },
+            },
+          },
+
+          alt: {
+            DEFAULT: '#999',
+
+            interactive: {
+              DEFAULT: '~',
+              ':hover': 'accent',
+              ':disabled': {
+                DEFAULT: '#999',
+                ':dark': '#333',
               },
             },
           },

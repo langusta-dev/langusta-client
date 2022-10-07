@@ -4,10 +4,20 @@ nav:
   index: Home
 
 index:
-  title: LANgusta index
+  title: Home
   description: LANgusta
 
+recipes:
+  title: Recipes
+
+calendar:
+  title: Calendar
+
+settings:
+  title: Settings
+
 login:
+  title: Log in
   username: Username or email address
   password: Password
   log_in: Log in
@@ -16,6 +26,7 @@ login:
   sign_up: Sign up
 
 register:
+  title: Sign up
   email: Email address
   username: Username
   firstname: First name
@@ -25,8 +36,5 @@ register:
   sign_up: Sign up
   has_account: Already have an account?
   log_in: Log in
-
-calendar:
-  title: LANgusta calendar
 
 page_not_found: Page not found
