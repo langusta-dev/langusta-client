@@ -1,10 +1,10 @@
 <route lang="yaml">
 meta:
+  title: calendar.title
   auth: true
   nav: true
   navOrder: 3
-  title: calendar.title
-  icon: fa:calendar
+  navIcon: fa:calendar
 </route>
 
 <template>

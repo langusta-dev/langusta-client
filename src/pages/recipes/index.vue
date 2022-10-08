@@ -1,10 +1,10 @@
 <route lang="yaml">
 meta:
+  title: recipes.title
   auth: true
   nav: true
   navOrder: 2
-  title: recipes.title
-  icon: emojione-monotone:pot-of-food
+  navIcon: emojione-monotone:pot-of-food
 </route>
 
 <script setup lang="ts">

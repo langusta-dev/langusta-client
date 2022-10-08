@@ -1,8 +1,5 @@
 title: LANgusta
 
-nav:
-  index: Home
-
 index:
   title: Home
 
@@ -40,3 +37,8 @@ register:
   log_in: Log in
 
 page_not_found: Page not found
+
+confirm:
+  default_msg: Are you sure?
+  default_confirm_msg: Confirm
+  default_cancel_msg: Cancel

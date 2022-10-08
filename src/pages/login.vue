@@ -8,6 +8,7 @@ meta:
 import { useLocalProfileStore } from '~/stores/localProfile'
 import { useSessionStore } from '~/stores/session'
 
+import { showConfirm } from '~/composables/confirm'
 import { useRedirectOnAuth } from '~/composables/redirect'
 
 const { t } = useI18n()
@@ -24,8 +25,7 @@ const logIn = () => {
 }
 
 const enableLocalProfile = () => {
-  // todo warning & confirm
-  localProfileStore.enableLocalProfile()
+  showConfirm({ cb: localProfileStore.enableLocalProfile })
 }
 
 useRedirectOnAuth()

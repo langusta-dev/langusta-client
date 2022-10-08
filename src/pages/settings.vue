@@ -1,10 +1,10 @@
 <route lang="yaml">
 meta:
+  title: settings.title
   auth: true
   nav: true
   navOrder: 99
-  title: settings.title
-  icon: fa6-solid:gear
+  navIcon: fa6-solid:gear
 </route>
 
 <script setup lang="ts">

@@ -9,10 +9,10 @@ export const useNav = () => {
       .filter(
         (route): route is NavigableRoute =>
           !!(
+            route.meta.title &&
             route.meta.nav &&
             isNum(route.meta.navOrder) &&
-            route.meta.title &&
-            route.meta.icon
+            route.meta.navIcon
           )
       )
       .sort((a, b) => a.meta.navOrder - b.meta.navOrder)

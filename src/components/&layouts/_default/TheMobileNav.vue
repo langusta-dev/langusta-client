@@ -10,7 +10,7 @@ const { navigableRoutes } = useNav()
 <template>
   <div _flex _justify-center _gap1 _bg="primary-contrast/30" _p="t1 x1">
     <div
-      v-for="{ path, meta: { icon, title } } in navigableRoutes"
+      v-for="{ path, meta: { navIcon, title } } in navigableRoutes"
       :key="path"
       _grow
       _flex="~ col"
@@ -25,7 +25,7 @@ const { navigableRoutes } = useNav()
       _transition-all
       @click="router.push(path)"
     >
-      <div :class="`icon-${icon}`" />
+      <div :class="`icon-${navIcon}`" />
       <div _text-sm>
         {{ t(title) }}
       </div>

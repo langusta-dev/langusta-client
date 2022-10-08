@@ -1,22 +1,21 @@
 import { useNProgress } from '@vueuse/integrations/useNProgress'
 
-const { start, done, isLoading } = useNProgress(null, { showSpinner: false })
+import { useActivator } from './useActivator'
 
-let activeJobCount = $ref(0)
+const { start, done, isLoading } = $(useNProgress(null, { showSpinner: false }))
 
-const activeJobCountDebounced = refDebounced($$(activeJobCount), 50)
-watch(activeJobCountDebounced, (v) => {
-  if (v && !isLoading.value) {
-    start()
-  } else if (!v && isLoading.value) {
-    done()
-  }
+const { activate: startNProgress, deactivate: stopNProgress } = useActivator({
+  onActivation: () => {
+    if (!isLoading) {
+      start()
+    }
+  },
+  onDeactivation: () => {
+    if (isLoading) {
+      done()
+    }
+  },
+  debounce: 1,
 })
 
-export const startNProgress = () => {
-  activeJobCount++
-}
-
-export const stopNProgress = () => {
-  activeJobCount = Math.max(0, activeJobCount - 1)
-}
+export { startNProgress, stopNProgress }

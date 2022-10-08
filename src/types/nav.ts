@@ -5,7 +5,7 @@ export interface NavigableRoute extends RouteRecordNormalized {
   meta: {
     nav: true
     navOrder: number
-    icon: string
+    navIcon: string
     title: LocaleKey
   }
 }
