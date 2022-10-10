@@ -8,7 +8,7 @@ interface Options {
 
 type EmitFn = (event: 'update:modelValue', value: number) => void
 
-export default (options: Options, emit: EmitFn) => {
+export const useModelValue = (options: Options, emit: EmitFn) => {
   const { modelValue = 0, wrapperScrollTopPx, wrapperEl } = $(options)
 
   watchDebounced(

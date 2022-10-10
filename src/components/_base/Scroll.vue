@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import useContainer from './scroll/useContainer'
-import useModelValue from './scroll/useModelValue'
-import useMouseScroll from './scroll/useMouseScroll'
-import useTrackScroll from './scroll/useTrackScroll'
-import useWrapper from './scroll/useWrapper'
+import { useContainer } from './scroll/useContainer'
+import { useModelValue } from './scroll/useModelValue'
+import { useMouseScroll } from './scroll/useMouseScroll'
+import { useTrackScroll } from './scroll/useTrackScroll'
+import { useWrapper } from './scroll/useWrapper'
 
 const { modelValue } = defineProps<{ modelValue?: number }>()
 

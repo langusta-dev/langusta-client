@@ -10,7 +10,7 @@ interface Options {
   wrapperScrollArrivedBottom: Ref<boolean>
 }
 
-export default (options: Options) => {
+export const useTrackScroll = (options: Options) => {
   const {
     wrapperEl,
     isWrapperElReady,

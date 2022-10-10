@@ -110,6 +110,8 @@ export default defineConfig({
             },
           },
         },
+
+        error: '#d55',
       },
     }),
 

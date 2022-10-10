@@ -1,4 +1,4 @@
-export default () => {
+export const useWrapper = () => {
   const wrapperEl = $ref<HTMLDivElement>()
 
   const {

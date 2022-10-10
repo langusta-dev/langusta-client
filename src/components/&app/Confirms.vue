@@ -55,21 +55,21 @@ onBeforeUnmount(unsubscribe)
     <div
       v-for="{ id, msg, confirmMsg, cancelMsg, cb } in payloadQueue"
       :key="id"
-      _w-80
+      _w-86
       _absolute
-      _top-10
+      _top="[25%]"
       _left-0
       _right-0
       _mx-auto
       _rounded
-      _p="y3 x2"
-      _bg-red
+      _p4
+      _bg-primary
     >
       <div _text-center>
         {{ msg }}
       </div>
 
-      <div _flex _justify-center _gap4>
+      <div _mt4 _flex _justify-center _gap4>
         <BaseButton alt @click="dropPayload(id)">{{ cancelMsg }}</BaseButton>
 
         <BaseButton @click="executePayloadCb(id, cb)">

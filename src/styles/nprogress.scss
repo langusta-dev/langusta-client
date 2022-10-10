@@ -14,3 +14,15 @@
 .nprogress-busy {
   @apply pointer-events-none;
 }
+
+#app {
+  @apply transition-opacity-300;
+}
+
+.nprogress-busy {
+  @apply pointer-events-none;
+
+  #app {
+    @apply op50;
+  }
+}

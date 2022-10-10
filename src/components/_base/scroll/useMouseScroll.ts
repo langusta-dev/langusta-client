@@ -7,7 +7,7 @@ interface Options {
   wrapperScrollTopPx: Ref<number>
 }
 
-export default (options: Options) => {
+export const useMouseScroll = (options: Options) => {
   const { wrapperEl, isWrapperElReady, wrapperHeightPx, wrapperScrollTopPx } =
     $(options)
 

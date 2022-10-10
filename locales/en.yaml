@@ -21,8 +21,12 @@ login:
   password: Password
   log_in: Log in
   enable_local_profile: Continue without logging in
+  local_profile_confirm: |
+    All the features will be available, but your preferences will remain tied to this device
+    This option is not recommended
   has_no_account: Don't have an account yet?
   sign_up: Sign up
+  login_failed_error: Incorrect username or password
 
 register:
   title: Sign up

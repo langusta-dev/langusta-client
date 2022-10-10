@@ -4,6 +4,6 @@ import { isOverlayVisible } from '~/composables/overlay'
 
 <template>
   <BaseFadeTransition>
-    <div v-if="isOverlayVisible" _cover _bg="#000/20" />
+    <div v-if="isOverlayVisible" _cover _bg="#000/50" />
   </BaseFadeTransition>
 </template>

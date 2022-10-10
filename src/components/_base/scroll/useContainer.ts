@@ -4,7 +4,7 @@ interface Options {
   scrollEl: Ref<HTMLDivElement>
 }
 
-export default (options: Options) => {
+export const useContainer = (options: Options) => {
   const { scrollEl } = $(options)
 
   const containerEl = $ref<HTMLDivElement>()

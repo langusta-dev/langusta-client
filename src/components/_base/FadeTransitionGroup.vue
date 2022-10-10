@@ -2,9 +2,9 @@
   <TransitionGroup
     enter-from-class="op0"
     leave-to-class="op0"
-    enter-active-class="transition-opacity pointer-events-none"
-    leave-active-class="transition-opacity pointer-events-none"
-    mode="out-in"
+    move-class="duration-300"
+    enter-active-class="pointer-events-none duration-300"
+    leave-active-class="absolute pointer-events-none duration-300"
   >
     <slot />
   </TransitionGroup>

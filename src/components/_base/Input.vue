@@ -1,5 +1,5 @@
 <script setup lang="ts">
-type InputType = 'number' | 'text'
+type InputType = 'number' | 'text' | 'password'
 
 type InputEvent = Event & { target: { value: string } }
 
@@ -7,6 +7,7 @@ interface Props {
   modelValue: string
   type?: InputType
   placeholder?: string
+  error?: boolean
 }
 
 interface Emits {
@@ -17,6 +18,7 @@ const {
   type = 'text',
   placeholder = '',
   modelValue = '',
+  error = false,
 } = defineProps<Props>()
 
 const emit = defineEmits<Emits>()
@@ -30,8 +32,8 @@ const handleInput = (e: Event) => {
   <input
     :value="modelValue"
     :placeholder="placeholder"
-    :aria-label="placeholder"
     :type="type"
+    :class="error ? 'border-error' : 'border-primary-contrast/30'"
     autocomplete="false"
     _p="x4 y1"
     _w72
@@ -39,7 +41,7 @@ const handleInput = (e: Event) => {
     _bg-primary
     _rounded
     _placeholder="text-sm italic text-primary-contrast/75"
-    _border="1px primary-contrast/30"
+    _border-1px
     _outline="~ 2px offset-0 transparent hover:accent !focus:accent-focus"
     _transition-all
     @input="(e) => handleInput(e)"

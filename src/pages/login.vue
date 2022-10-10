@@ -10,22 +10,52 @@ import { useSessionStore } from '~/stores/session'
 
 import { showConfirm } from '~/composables/confirm'
 import { useRedirectOnAuth } from '~/composables/redirect'
+import { useInput } from '~/composables/useInput'
 
 const { t } = useI18n()
 
 const localProfileStore = useLocalProfileStore()
 const sessionStore = useSessionStore()
 
-const username = $ref('')
-const password = $ref('')
+const {
+  value: username,
+  hasError: showUsernameError,
+  triggerError: triggerUsernameError,
+} = $(useInput())
 
-const logIn = () => {
-  // todo errors
-  sessionStore.logIn({ username, password })
+const {
+  value: password,
+  hasError: showPasswordError,
+  triggerError: triggerPasswordError,
+} = $(useInput())
+
+let errorLabel = $ref<string | null>(null)
+
+const logIn = async () => {
+  if (!username) {
+    triggerUsernameError()
+  }
+
+  if (!password) {
+    triggerPasswordError()
+  }
+
+  if (!username || !password) {
+    return
+  }
+
+  await sessionStore.logIn({ username, password })
+
+  if (!sessionStore.isAuth) {
+    errorLabel = t('login.login_failed_error')
+  }
 }
 
 const enableLocalProfile = () => {
-  showConfirm({ cb: localProfileStore.enableLocalProfile })
+  showConfirm({
+    msg: t('login.local_profile_confirm'),
+    cb: localProfileStore.enableLocalProfile,
+  })
 }
 
 useRedirectOnAuth()
@@ -36,28 +66,38 @@ useRedirectOnAuth()
     <div _h="[15%]" />
 
     <div _flex="~ col" _items-center _text-center _gap3>
-      <div>
-        <div>{{ t('login.username') }}</div>
-        <BaseInput v-model="username" />
-      </div>
+      <BaseFadeTransitionGroup>
+        <div v-if="errorLabel" key="errorLabel" _text-error>
+          {{ errorLabel }}
+        </div>
 
-      <div>
-        <div>{{ t('login.password') }}</div>
-        <BaseInput v-model="password" />
-      </div>
+        <div key="username">
+          <div>{{ t('login.username') }}</div>
+          <BaseInput v-model="username" :error="showUsernameError" />
+        </div>
 
-      <div _flex="~ col" _items-center _text-center _gap2>
-        <BaseButton @click="logIn()"> {{ t('login.log_in') }} </BaseButton>
+        <div key="password">
+          <div>{{ t('login.password') }}</div>
+          <BaseInput
+            v-model="password"
+            type="password"
+            :error="showPasswordError"
+          />
+        </div>
 
-        <BaseButton alt sm @click="enableLocalProfile()">
-          {{ t('login.enable_local_profile') }}
-        </BaseButton>
-      </div>
+        <div key="loginActions" _flex="~ col" _items-center _text-center _gap2>
+          <BaseButton @click="logIn()"> {{ t('login.log_in') }} </BaseButton>
 
-      <div>
-        {{ t('login.has_no_account') }}
-        <BaseLink to="/register">{{ t('login.sign_up') }}</BaseLink>
-      </div>
+          <BaseButton alt sm @click="enableLocalProfile()">
+            {{ t('login.enable_local_profile') }}
+          </BaseButton>
+        </div>
+
+        <div key="registerActions">
+          {{ t('login.has_no_account') }}
+          <BaseLink to="/register">{{ t('login.sign_up') }}</BaseLink>
+        </div>
+      </BaseFadeTransitionGroup>
     </div>
   </div>
 </template>

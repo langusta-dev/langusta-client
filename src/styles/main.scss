@@ -1,16 +1,17 @@
 html,
 body,
 #app {
-  @apply min-h-screen;
+  @apply min-h-screen
+    bg-primary;
 }
 
 #app {
   @apply h-screen
-    bg-primary
+    overflow-hidden
+    relative
     text-primary-contrast
     transition-colors
-    overflow-hidden
-    relative;
+    whitespace-pre-line;
 
   *::selection {
     @apply bg-accent/75;
