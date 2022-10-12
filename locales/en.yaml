@@ -39,6 +39,8 @@ register:
   sign_up: Sign up
   has_account: Already have an account?
   log_in: Log in
+  passwords_not_equal_error: Passwords are not the same
+  register_failed_error: Unknown error
 
 page_not_found: Page not found
 

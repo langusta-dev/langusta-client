@@ -9,8 +9,8 @@ import { useLocalProfileStore } from '~/stores/localProfile'
 import { useSessionStore } from '~/stores/session'
 
 import { showConfirm } from '~/composables/confirm'
+import { useInputGroup } from '~/composables/input'
 import { useRedirectOnAuth } from '~/composables/redirect'
-import { useInput } from '~/composables/useInput'
 
 const { t } = useI18n()
 
@@ -18,29 +18,27 @@ const localProfileStore = useLocalProfileStore()
 const sessionStore = useSessionStore()
 
 const {
-  value: username,
-  hasError: showUsernameError,
-  triggerError: triggerUsernameError,
-} = $(useInput())
+  setValueByKey,
+  getValueByKey,
+  hasErrorByKey,
+  hasEmptyValues,
+  triggerErrorByKey,
+} = $(useInputGroup(['username', 'password']))
 
-const {
-  value: password,
-  hasError: showPasswordError,
-  triggerError: triggerPasswordError,
-} = $(useInput())
+const username = $computed({
+  get: () => getValueByKey('username'),
+  set: (v) => setValueByKey('username', v),
+})
+
+let password = $computed({
+  get: () => getValueByKey('password'),
+  set: (v) => setValueByKey('password', v),
+})
 
 let errorLabel = $ref<string | null>(null)
 
 const logIn = async () => {
-  if (!username) {
-    triggerUsernameError()
-  }
-
-  if (!password) {
-    triggerPasswordError()
-  }
-
-  if (!username || !password) {
+  if (hasEmptyValues) {
     return
   }
 
@@ -48,6 +46,8 @@ const logIn = async () => {
 
   if (!sessionStore.isAuth) {
     errorLabel = t('login.login_failed_error')
+    password = ''
+    triggerErrorByKey('password')
   }
 }
 
@@ -73,7 +73,7 @@ useRedirectOnAuth()
 
         <div key="username">
           <div>{{ t('login.username') }}</div>
-          <BaseInput v-model="username" :error="showUsernameError" />
+          <BaseInput v-model="username" />
         </div>
 
         <div key="password">
@@ -81,12 +81,14 @@ useRedirectOnAuth()
           <BaseInput
             v-model="password"
             type="password"
-            :error="showPasswordError"
+            :error="hasErrorByKey('password')"
           />
         </div>
 
         <div key="loginActions" _flex="~ col" _items-center _text-center _gap2>
-          <BaseButton @click="logIn()"> {{ t('login.log_in') }} </BaseButton>
+          <BaseButton :disabled="hasEmptyValues" @click="logIn()">
+            {{ t('login.log_in') }}
+          </BaseButton>
 
           <BaseButton alt sm @click="enableLocalProfile()">
             {{ t('login.enable_local_profile') }}

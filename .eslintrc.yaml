@@ -136,6 +136,7 @@ rules:
   'unicorn/better-regex': warn
   'unicorn/catch-error-name': warn
   'unicorn/explicit-length-check': off
+  'unicorn/no-array-callback-reference': off
   'unicorn/no-null': off
   'unicorn/no-zero-fractions': warn
   'unicorn/numeric-separators-style': warn

@@ -1,7 +1,12 @@
 <script setup lang="ts">
-const { alt, sm } = defineProps<{
+const {
+  alt,
+  sm,
+  disabled = false,
+} = defineProps<{
   alt?: boolean
   sm?: boolean
+  disabled?: boolean
 }>()
 </script>
 
@@ -11,6 +16,7 @@ const { alt, sm } = defineProps<{
       !alt ? 'bg-accent-interactive' : 'bg-accent-alt-interactive',
       !sm ? 'p-(x4 y.5)' : 'p-(x3 y.5) text-sm',
     ]"
+    :disabled="disabled"
     _rounded
     _inline-block
     _fw600
