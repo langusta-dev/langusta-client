@@ -34,12 +34,17 @@ export const useInputGroup = <T extends string>(inputKeys: T[]) => {
 
   const hasErrors = computed(() => inputKeys.some(hasErrorByKey))
 
+  const injectValueByKey = (key: T) =>
+    computed({
+      get: () => getValueByKey(key),
+      set: (v) => setValueByKey(key, v),
+    })
+
   return $$({
-    setValueByKey,
-    getValueByKey,
     hasErrorByKey,
     triggerErrorByKey,
     hasEmptyValues,
     hasErrors,
+    injectValueByKey,
   })
 }

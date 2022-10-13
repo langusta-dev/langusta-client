@@ -17,23 +17,11 @@ const { t } = useI18n()
 const localProfileStore = useLocalProfileStore()
 const sessionStore = useSessionStore()
 
-const {
-  setValueByKey,
-  getValueByKey,
-  hasErrorByKey,
-  hasEmptyValues,
-  triggerErrorByKey,
-} = $(useInputGroup(['username', 'password']))
+const { hasErrorByKey, hasEmptyValues, triggerErrorByKey, injectValueByKey } =
+  $(useInputGroup(['username', 'password']))
 
-const username = $computed({
-  get: () => getValueByKey('username'),
-  set: (v) => setValueByKey('username', v),
-})
-
-let password = $computed({
-  get: () => getValueByKey('password'),
-  set: (v) => setValueByKey('password', v),
-})
+const username = $(injectValueByKey('username'))
+let password = $(injectValueByKey('password'))
 
 let errorLabel = $ref<string | null>(null)
 

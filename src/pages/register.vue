@@ -14,52 +14,24 @@ const { t } = useI18n()
 
 const sessionStore = useSessionStore()
 
-const {
-  setValueByKey,
-  getValueByKey,
-  hasErrorByKey,
-  hasEmptyValues,
-  triggerErrorByKey,
-} = $(
-  useInputGroup([
-    'email',
-    'username',
-    'firstname',
-    'lastname',
-    'password',
-    'repeatedPassword',
-  ])
-)
+const { hasErrorByKey, hasEmptyValues, triggerErrorByKey, injectValueByKey } =
+  $(
+    useInputGroup([
+      'email',
+      'username',
+      'firstname',
+      'lastname',
+      'password',
+      'repeatedPassword',
+    ])
+  )
 
-const email = $computed({
-  get: () => getValueByKey('email'),
-  set: (v) => setValueByKey('email', v),
-})
-
-const username = $computed({
-  get: () => getValueByKey('username'),
-  set: (v) => setValueByKey('username', v),
-})
-
-const firstname = $computed({
-  get: () => getValueByKey('firstname'),
-  set: (v) => setValueByKey('firstname', v),
-})
-
-const lastname = $computed({
-  get: () => getValueByKey('lastname'),
-  set: (v) => setValueByKey('lastname', v),
-})
-
-let password = $computed({
-  get: () => getValueByKey('password'),
-  set: (v) => setValueByKey('password', v),
-})
-
-let repeatedPassword = $computed({
-  get: () => getValueByKey('repeatedPassword'),
-  set: (v) => setValueByKey('repeatedPassword', v),
-})
+const email = $(injectValueByKey('email'))
+const username = $(injectValueByKey('username'))
+const firstname = $(injectValueByKey('firstname'))
+const lastname = $(injectValueByKey('lastname'))
+let password = $(injectValueByKey('password'))
+let repeatedPassword = $(injectValueByKey('repeatedPassword'))
 
 let errorLabel = $ref<string | null>(null)
 
