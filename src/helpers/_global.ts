@@ -1,3 +1,3 @@
 export * from './is'
-export * from './forceNextTick'
+export * from './async'
 export * from './range'

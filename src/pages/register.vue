@@ -16,6 +16,15 @@ const { t } = useI18n()
 
 const sessionStore = useSessionStore()
 
+const errorLabels = $computed(() => ({
+  invalidEmail: t('register.invalid_email_error'),
+  passwordTooShort: t('register.password_too_short_error', {
+    length: import.meta.env.VITE_PASSWORD_MIN_LENGTH,
+  }),
+  passwordsNotEqual: t('register.passwords_not_equal_error'),
+  registrationFailed: t('register.registration_failed_error'),
+}))
+
 const {
   hasErrorByKey,
   hasEmptyValues,
@@ -42,7 +51,14 @@ let repeatedPassword = $(injectValueByKey('repeatedPassword'))
 
 const isDisabled = $computed(() => hasEmptyValues || hasErrors)
 
-let errorLabel = $ref<string | null>(null)
+let displayedErrorLabel = $ref<string | null>(null)
+
+const updateDisplayedErrorLabel = async (text: string | null) => {
+  await wait(200)
+  displayedErrorLabel = text
+}
+
+const clearDisplayedErrorLabel = () => updateDisplayedErrorLabel(null)
 
 const rejectPasswords = () => {
   password = repeatedPassword = ''
@@ -52,25 +68,29 @@ const rejectPasswords = () => {
 
 const validateEmail = () => {
   if (!isEmail(email)) {
-    errorLabel = t('register.invalid_email_error')
+    updateDisplayedErrorLabel(errorLabels.invalidEmail)
     triggerErrorByKey('email')
     return false
   }
 
-  errorLabel = null
+  if (displayedErrorLabel === errorLabels.invalidEmail) {
+    clearDisplayedErrorLabel()
+  }
+
   return true
 }
 
 const validatePassword = () => {
   if (password.length < import.meta.env.VITE_PASSWORD_MIN_LENGTH) {
-    errorLabel = t('register.password_too_short_error', {
-      length: import.meta.env.VITE_PASSWORD_MIN_LENGTH,
-    })
+    updateDisplayedErrorLabel(errorLabels.passwordTooShort)
     rejectPasswords()
     return false
   }
 
-  errorLabel = null
+  if (displayedErrorLabel === errorLabels.passwordTooShort) {
+    clearDisplayedErrorLabel()
+  }
+
   return true
 }
 
@@ -81,7 +101,7 @@ const register = async () => {
 
   if (repeatedPassword !== password) {
     rejectPasswords()
-    errorLabel = t('register.passwords_not_equal_error')
+    updateDisplayedErrorLabel(errorLabels.passwordsNotEqual)
     return
   }
 
@@ -94,7 +114,7 @@ const register = async () => {
   })
 
   if (!sessionStore.isAuth) {
-    errorLabel = t('register.register_failed_error')
+    updateDisplayedErrorLabel(errorLabels.registrationFailed)
   }
 }
 
@@ -107,8 +127,8 @@ useRedirectOnAuth()
 
     <div _flex="~ col" _items-center _text-center _gap3>
       <BaseFadeTransitionGroup>
-        <div v-if="errorLabel" key="errorLabel" _text-error>
-          {{ errorLabel }}
+        <div v-if="displayedErrorLabel" key="errorLabel" _text-error>
+          {{ displayedErrorLabel }}
         </div>
 
         <div key="email">
@@ -116,6 +136,7 @@ useRedirectOnAuth()
           <BaseInput
             v-model="email"
             :error="hasErrorByKey('email')"
+            autofocus
             @blur="validateEmail()"
           />
         </div>

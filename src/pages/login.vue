@@ -61,7 +61,7 @@ useRedirectOnAuth()
 
         <div key="username">
           <div>{{ t('login.username') }}</div>
-          <BaseInput v-model="username" />
+          <BaseInput v-model="username" autofocus />
         </div>
 
         <div key="password">

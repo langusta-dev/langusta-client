@@ -15,7 +15,19 @@ export const useSessionStore = defineStore('session', () => {
     () => !!jwt.value || localProfileStore.isLocalProfileEnabled
   )
 
+  const logOut = () => {
+    unsetJwt()
+
+    if (localProfileStore.isLocalProfileEnabled) {
+      localProfileStore.disableLocalProfile()
+    }
+  }
+
   const logIn = async (payload: LogInPayload) => {
+    if (isAuth) {
+      logOut()
+    }
+
     const { data } = await api.logIn(payload)
 
     if (data?.token) {
@@ -23,11 +35,11 @@ export const useSessionStore = defineStore('session', () => {
     }
   }
 
-  const logOut = () => {
-    unsetJwt()
-  }
-
   const register = async (payload: RegisterPayload) => {
+    if (isAuth) {
+      logOut()
+    }
+
     const { data } = await api.register(payload)
 
     if (data?.token) {

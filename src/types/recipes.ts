@@ -76,11 +76,12 @@ export interface Recipe {
   title: string
   description: string
   authorId: RecipeAuthorId
+  starCount: number
   createdAt: DateString
   updatedAt: DateString
   calorieCount: number
   mealType: RecipeMealType
-  ingredients: RecipeIngredient[] // TODO should we move this to RecipeStep instead?
-  preparationTime: RecipePreparationTime // TODO should we move this to RecipeStep instead?
+  ingredients: RecipeIngredient[]
+  preparationTime: RecipePreparationTime
   steps: RecipeStep[]
 }

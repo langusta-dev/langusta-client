@@ -6,3 +6,8 @@ const doubleRequestAnimationFrame = (callback: () => void) => {
 
 export const forceNextTick = () =>
   new Promise<void>(doubleRequestAnimationFrame)
+
+export const wait = (ms: number) =>
+  new Promise((resolve) => {
+    setTimeout(resolve, ms)
+  })
