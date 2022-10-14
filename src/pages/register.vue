@@ -40,30 +40,47 @@ const lastname = $(injectValueByKey('lastname'))
 let password = $(injectValueByKey('password'))
 let repeatedPassword = $(injectValueByKey('repeatedPassword'))
 
+const isDisabled = $computed(() => hasEmptyValues || hasErrors)
+
 let errorLabel = $ref<string | null>(null)
+
+const rejectPasswords = () => {
+  password = repeatedPassword = ''
+  triggerErrorByKey('password')
+  triggerErrorByKey('repeatedPassword')
+}
 
 const validateEmail = () => {
   if (!isEmail(email)) {
     errorLabel = t('register.invalid_email_error')
     triggerErrorByKey('email')
+    return false
   }
+
+  errorLabel = null
+  return true
+}
+
+const validatePassword = () => {
+  if (password.length < import.meta.env.VITE_PASSWORD_MIN_LENGTH) {
+    errorLabel = t('register.password_too_short_error', {
+      length: import.meta.env.VITE_PASSWORD_MIN_LENGTH,
+    })
+    rejectPasswords()
+    return false
+  }
+
+  errorLabel = null
+  return true
 }
 
 const register = async () => {
-  if (hasEmptyValues) {
-    return
-  }
-
-  validateEmail()
-
-  if (hasErrors) {
+  if (isDisabled || !validateEmail() || !validatePassword()) {
     return
   }
 
   if (repeatedPassword !== password) {
-    password = repeatedPassword = ''
-    triggerErrorByKey('password')
-    triggerErrorByKey('repeatedPassword')
+    rejectPasswords()
     errorLabel = t('register.passwords_not_equal_error')
     return
   }
@@ -124,6 +141,7 @@ useRedirectOnAuth()
             v-model="password"
             type="password"
             :error="hasErrorByKey('password')"
+            @blur="validatePassword()"
           />
         </div>
 
@@ -143,10 +161,7 @@ useRedirectOnAuth()
           _text-center
           _gap2
         >
-          <BaseButton
-            :disabled="hasEmptyValues || hasErrors"
-            @click="register()"
-          >
+          <BaseButton :disabled="isDisabled" @click="register()">
             {{ t('register.sign_up') }}
           </BaseButton>
         </div>

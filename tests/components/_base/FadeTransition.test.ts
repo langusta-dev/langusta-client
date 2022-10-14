@@ -7,6 +7,7 @@ describe('FadeTransition', () => {
     const wrapper = mount(FadeTransition, {
       slots: { default: '<div> abc </div>' },
     })
+
     expect(wrapper.html()).toContain('<div> abc </div>')
     expect(wrapper.html()).toMatchSnapshot()
   })

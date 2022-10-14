@@ -296,12 +296,17 @@ overrides:
           prev: export
           next: '*'
         - blankLine: always
-          prev: export
-          next: '*'
+          prev: '*'
+          next: export
 
         # blocks
         - blankLine: always
           prev:
+            - if
+            - for
+            - continue
+            - break
+            - return
             - multiline-const
             - multiline-let
             - block-like
