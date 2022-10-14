@@ -39,6 +39,7 @@ register:
   sign_up: Sign up
   has_account: Already have an account?
   log_in: Log in
+  invalid_email_error: Invalid email address
   passwords_not_equal_error: Passwords are not the same
   register_failed_error: Unknown error
 

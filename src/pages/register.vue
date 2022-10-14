@@ -10,21 +10,28 @@ import { useSessionStore } from '~/stores/session'
 import { useInputGroup } from '~/composables/input'
 import { useRedirectOnAuth } from '~/composables/redirect'
 
+import { isEmail } from '~/helpers/string'
+
 const { t } = useI18n()
 
 const sessionStore = useSessionStore()
 
-const { hasErrorByKey, hasEmptyValues, triggerErrorByKey, injectValueByKey } =
-  $(
-    useInputGroup([
-      'email',
-      'username',
-      'firstname',
-      'lastname',
-      'password',
-      'repeatedPassword',
-    ])
-  )
+const {
+  hasErrorByKey,
+  hasEmptyValues,
+  triggerErrorByKey,
+  injectValueByKey,
+  hasErrors,
+} = $(
+  useInputGroup([
+    'email',
+    'username',
+    'firstname',
+    'lastname',
+    'password',
+    'repeatedPassword',
+  ])
+)
 
 const email = $(injectValueByKey('email'))
 const username = $(injectValueByKey('username'))
@@ -35,8 +42,21 @@ let repeatedPassword = $(injectValueByKey('repeatedPassword'))
 
 let errorLabel = $ref<string | null>(null)
 
+const validateEmail = () => {
+  if (!isEmail(email)) {
+    errorLabel = t('register.invalid_email_error')
+    triggerErrorByKey('email')
+  }
+}
+
 const register = async () => {
   if (hasEmptyValues) {
+    return
+  }
+
+  validateEmail()
+
+  if (hasErrors) {
     return
   }
 
@@ -76,7 +96,11 @@ useRedirectOnAuth()
 
         <div key="email">
           <div>{{ t('register.email') }}</div>
-          <BaseInput v-model="email" />
+          <BaseInput
+            v-model="email"
+            :error="hasErrorByKey('email')"
+            @blur="validateEmail()"
+          />
         </div>
 
         <div key="username">
@@ -119,7 +143,10 @@ useRedirectOnAuth()
           _text-center
           _gap2
         >
-          <BaseButton :disabled="hasEmptyValues" @click="register()">
+          <BaseButton
+            :disabled="hasEmptyValues || hasErrors"
+            @click="register()"
+          >
             {{ t('register.sign_up') }}
           </BaseButton>
         </div>
