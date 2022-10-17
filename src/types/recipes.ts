@@ -3,8 +3,6 @@ import type { Uuid } from './uuid'
 
 export type RecipeId = Uuid
 
-export type RecipeAuthorId = Uuid
-
 export enum RecipeMealType {
   BREAKFAST = 'BREAKFAST',
   LUNCH = 'LUNCH',
@@ -75,8 +73,10 @@ export interface Recipe {
   id: RecipeId
   title: string
   description: string
-  authorId: RecipeAuthorId
-  starCount: number
+  author: string
+  externalSourceUrl: string
+  likeCount: number
+  rating: number
   createdAt: DateString
   updatedAt: DateString
   calorieCount: number
