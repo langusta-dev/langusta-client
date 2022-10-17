@@ -9,16 +9,15 @@ import {
 } from 'vue-router-mock'
 
 const router = createRouterMock()
-const pinia = createTestingPinia()
+const i18n = createI18n({ legacy: false, locale: 'en', messages: {} })
 
-config.global.plugins = [
-  router,
-  pinia,
-  createI18n({ legacy: false, locale: 'en', messages: {} }),
-]
 config.plugins.VueWrapper.install(VueRouterMock)
 
 beforeEach(() => {
   injectRouterMock(router)
+
+  const pinia = createTestingPinia()
+
   setActivePinia(pinia)
+  config.global.plugins = [router, pinia, i18n]
 })
