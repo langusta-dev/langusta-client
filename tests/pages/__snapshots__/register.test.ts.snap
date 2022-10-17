@@ -1,0 +1,32 @@
+// Vitest Snapshot v1
+
+exports[`register page > should render 1`] = `
+"<div _flex=\\"~ col\\" _items-center=\\"\\">
+  <div _h=\\"[3%]\\"></div>
+  <div _flex=\\"~ col\\" _items-center=\\"\\" _text-center=\\"\\" _gap3=\\"\\">
+    <transition-group-stub enterfromclass=\\"op0\\" leavetoclass=\\"op0\\" moveclass=\\"duration-300\\" enteractiveclass=\\"pointer-events-none duration-300\\" leaveactiveclass=\\"absolute pointer-events-none duration-300\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
+      <!--v-if-->
+      <div>
+        <div>register.email</div><input placeholder=\\"\\" type=\\"text\\" autofocus=\\"\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div>
+        <div>register.username</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div>
+        <div>register.firstname</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div>
+        <div>register.lastname</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div>
+        <div>register.password</div><input placeholder=\\"\\" type=\\"password\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div>
+        <div>register.repeat_password</div><input placeholder=\\"\\" type=\\"password\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+      </div>
+      <div _flex=\\"~ col\\" _items-center=\\"\\" _text-center=\\"\\" _gap2=\\"\\"><button class=\\"bg-accent-interactive p-x4 p-y.5\\" disabled=\\"\\" _rounded=\\"\\" _inline-block=\\"\\" _fw600=\\"\\" _text-accent-interactive-contrast=\\"\\" _transition-colors=\\"\\" _cursor-pointer=\\"\\" _select-none=\\"\\" _disabled:pointer-events-none=\\"\\">register.sign_up</button></div>
+      <div>register.has_account <a href=\\"/login\\" _inline-block=\\"\\" _underline=\\"\\" _fw500=\\"\\" _text-primary-contrast-interactive=\\"\\" _transition-colors=\\"\\" _cursor-pointer=\\"\\" _select-none=\\"\\">register.log_in</a></div>
+    </transition-group-stub>
+  </div>
+</div>"
+`;

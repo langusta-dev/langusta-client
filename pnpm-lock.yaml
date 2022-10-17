@@ -5,6 +5,7 @@ specifiers:
   '@intlify/vite-plugin-vue-i18n': ^6.0.3
   '@nabla/vite-plugin-eslint': ^1.4.1
   '@nuxt/devalue': ^2.0.0
+  '@pinia/testing': ^0.0.14
   '@playwright/test': ^1.26.1
   '@types/node': ^18.7.23
   '@typescript-eslint/eslint-plugin': ^5.38.1
@@ -51,7 +52,7 @@ specifiers:
   vite: ^3.1.4
   vite-plugin-inspect: ^0.7.4
   vite-plugin-pages: 0.26.0
-  vite-plugin-pwa: ^0.12.8
+  vite-plugin-pwa: ^0.13.1
   vite-plugin-vue-layouts: ^0.7.0
   vite-ssg: ^0.20.2
   vite-ssg-sitemap: ^0.4.3
@@ -80,6 +81,7 @@ devDependencies:
   '@intlify/vite-plugin-vue-i18n': 6.0.3_vite@3.1.4+vue-i18n@9.2.2
   '@nabla/vite-plugin-eslint': 1.4.1_eslint@8.24.0+vite@3.1.4
   '@nuxt/devalue': 2.0.0
+  '@pinia/testing': 0.0.14_pinia@2.0.22+vue@3.2.40
   '@playwright/test': 1.26.1
   '@types/node': 18.7.23
   '@typescript-eslint/eslint-plugin': 5.38.1_c7qepppml3d4ahu5cnfwqe6ltq
@@ -120,7 +122,7 @@ devDependencies:
   vite: 3.1.4_sass@1.55.0
   vite-plugin-inspect: 0.7.4_vite@3.1.4
   vite-plugin-pages: 0.26.0_vite@3.1.4
-  vite-plugin-pwa: 0.12.8_vite@3.1.4
+  vite-plugin-pwa: 0.13.1_vite@3.1.4
   vite-plugin-vue-layouts: 0.7.0_rqa7paltdakk2bevhdd6jag4cm
   vite-ssg: 0.20.2_anhuwci7wtosqobeegun7dnn2e
   vite-ssg-sitemap: 0.4.3
@@ -1564,6 +1566,18 @@ packages:
 
   /@nuxt/devalue/2.0.0:
     resolution: {integrity: sha512-YBI/6o2EBz02tdEJRBK8xkt3zvOFOWlLBf7WKYGBsSYSRtjjgrqPe2skp6VLLmKx5WbHHDNcW+6oACaurxGzeA==}
+    dev: true
+
+  /@pinia/testing/0.0.14_pinia@2.0.22+vue@3.2.40:
+    resolution: {integrity: sha512-ZmZwVNd/NnKYLIfjfuKl0zlJ3UdiXFpsHzSlL6wCeezSlyrqGMxsIQKv0J6fleu38gyCNTPBEipfxrt8V4+VIg==}
+    peerDependencies:
+      pinia: '>=2.0.19'
+    dependencies:
+      pinia: 2.0.22_bfjwoga25wxjazzogo7o372nwq
+      vue-demi: 0.13.11_vue@3.2.40
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
     dev: true
 
   /@pkgr/utils/2.3.1:
@@ -5300,7 +5314,6 @@ packages:
       typescript: 4.8.4
       vue: 3.2.40
       vue-demi: 0.13.11_vue@3.2.40
-    dev: false
 
   /pkg-types/0.3.5:
     resolution: {integrity: sha512-VkxCBFVgQhNHYk9subx+HOhZ4jzynH11ah63LZsprTKwPCWG9pfWBlkElWFbvkP9BVR0dP1jS9xPdhaHQNK74Q==}
@@ -6362,10 +6375,10 @@ packages:
       - supports-color
     dev: true
 
-  /vite-plugin-pwa/0.12.8_vite@3.1.4:
-    resolution: {integrity: sha512-pSiFHmnJGMQJJL8aJzQ8SaraZBSBPMGvGUkCNzheIq9UQCEk/eP3UmANNmS9eupuhIpTK8AdxTOHcaMcAqAbCA==}
+  /vite-plugin-pwa/0.13.1_vite@3.1.4:
+    resolution: {integrity: sha512-NR3dIa+o2hzlzo4lF4Gu0cYvoMjSw2DdRc6Epw1yjmCqWaGuN86WK9JqZie4arNlE1ZuWT3CLiMdiX5wcmmUmg==}
     peerDependencies:
-      vite: ^2.0.0 || ^3.0.0-0
+      vite: ^3.1.0
     dependencies:
       debug: 4.3.4
       fast-glob: 3.2.12
