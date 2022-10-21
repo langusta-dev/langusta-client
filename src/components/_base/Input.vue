@@ -8,7 +8,7 @@ interface Props {
   type?: InputType;
   placeholder?: string;
   error?: boolean;
-  autofocus?: boolean; // TODO basic HTML solution is broken
+  autofocus?: boolean;
 }
 
 interface Emits {
@@ -24,6 +24,8 @@ const {
 } = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
+
+const el = ref<HTMLInputElement>();
 
 const STATIC_CLASSES = [
   'p-(x2 y1)',
@@ -46,15 +48,21 @@ const classes = computed(() => [
 const handleInput = (e: Event) => {
   emit('update:modelValue', (e as InputEvent).target.value);
 };
+
+onMounted(() => {
+  if (autofocus) {
+    el.value?.focus();
+  }
+});
 </script>
 
 <template>
   <input
     v-if="type !== 'textarea'"
+    ref="el"
     :value="modelValue"
     :placeholder="placeholder"
     :type="type"
-    :autofocus="autofocus"
     :class="classes"
     autocomplete="false"
     _text-center
@@ -62,9 +70,9 @@ const handleInput = (e: Event) => {
   />
   <textarea
     v-else
+    ref="el"
     :value="modelValue"
     :placeholder="placeholder"
-    :autofocus="autofocus"
     :class="classes"
     _resize-none
     _overflow-hidden
