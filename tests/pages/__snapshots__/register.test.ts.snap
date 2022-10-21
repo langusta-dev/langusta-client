@@ -7,7 +7,7 @@ exports[`register page > should render 1`] = `
     <transition-group-stub enterfromclass=\\"op0\\" leavetoclass=\\"op0\\" moveclass=\\"duration-300\\" enteractiveclass=\\"pointer-events-none duration-300\\" leaveactiveclass=\\"absolute pointer-events-none duration-300\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
       <!--v-if-->
       <div>
-        <div>register.email</div><input placeholder=\\"\\" type=\\"text\\" autofocus=\\"\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
+        <div>register.email</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
       </div>
       <div>
         <div>register.username</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-all border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">

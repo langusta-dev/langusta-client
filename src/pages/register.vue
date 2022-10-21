@@ -60,13 +60,11 @@ const updateDisplayedErrorLabel = async (text: string | null) => {
 
 const clearDisplayedErrorLabel = () => updateDisplayedErrorLabel(null);
 
-const rejectPasswords = () => {
-  password = repeatedPassword = '';
-  triggerErrorByKey('password');
-  triggerErrorByKey('repeatedPassword');
-};
-
 const validateEmail = () => {
+  if (!email) {
+    return true;
+  }
+
   if (!isEmail(email)) {
     updateDisplayedErrorLabel(errorLabels.invalidEmail);
     triggerErrorByKey('email');
@@ -81,9 +79,14 @@ const validateEmail = () => {
 };
 
 const validatePassword = () => {
+  if (!password) {
+    return true;
+  }
+
   if (password.length < import.meta.env.VITE_PASSWORD_MIN_LENGTH) {
+    password = '';
+    triggerErrorByKey('password');
     updateDisplayedErrorLabel(errorLabels.passwordTooShort);
-    rejectPasswords();
     return false;
   }
 
@@ -100,7 +103,9 @@ const register = async () => {
   }
 
   if (repeatedPassword !== password) {
-    rejectPasswords();
+    password = repeatedPassword = '';
+    triggerErrorByKey('password');
+    triggerErrorByKey('repeatedPassword');
     updateDisplayedErrorLabel(errorLabels.passwordsNotEqual);
     return;
   }
