@@ -98,7 +98,7 @@ export default defineConfig({
           },
 
           alt: {
-            DEFAULT: '#999',
+            DEFAULT: '#ddd',
 
             interactive: {
               DEFAULT: '~',
@@ -132,5 +132,5 @@ export default defineConfig({
 
   transformers: [transformerDirectives(), transformerVariantGroup()],
 
-  include: ['**/*.vue', '**/*.scss'],
+  include: ['**/*.vue', '**/*.scss', '**/components/**/*.ts'],
 });

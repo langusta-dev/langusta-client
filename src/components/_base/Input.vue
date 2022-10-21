@@ -1,4 +1,7 @@
 <script setup lang="ts">
+import { useInputClasses } from './input/useInputClasses';
+import { useTextarea } from './input/useTextarea';
+
 type InputType = 'number' | 'text' | 'password' | 'textarea';
 
 type InputEvent = Event & { target: { value: string } };
@@ -25,25 +28,13 @@ const {
 
 const emit = defineEmits<Emits>();
 
-const el = ref<HTMLInputElement>();
+const el = ref<HTMLElement>();
 
-const STATIC_CLASSES = [
-  'p-(x2 y1)',
-  'w72',
-  'bg-primary',
-  'rounded',
-  'placeholder:(text-sm italic text-primary-contrast/75)',
-  'border-1px',
-  'outline-(~ 2px offset-0 transparent) hover:outline-accent !focus:outline-accent-focus',
-  'hover:outline-accent',
-  '!focus:outline-accent-focus',
-  'transition-all',
-];
+const { classes } = useInputClasses($$(error));
 
-const classes = computed(() => [
-  ...STATIC_CLASSES,
-  error ? 'border-error' : 'border-primary-contrast/30',
-]);
+if (type === 'textarea') {
+  useTextarea(el);
+}
 
 const handleInput = (e: Event) => {
   emit('update:modelValue', (e as InputEvent).target.value);

@@ -74,9 +74,9 @@ export interface Recipe {
   title: string;
   description: string;
   author: string;
-  externalSourceUrl: string;
-  likeCount: number;
-  rating: number;
+  externalSourceUrl?: string;
+  likeCount?: number;
+  rating?: number;
   createdAt: DateString;
   updatedAt: DateString;
   calorieCount: number;
