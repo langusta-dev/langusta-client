@@ -8,36 +8,36 @@ meta:
 </route>
 
 <script setup lang="ts">
-import Option from '~/components/settings/Option.vue'
+import Option from '~/components/settings/Option.vue';
 
-import { useLocalProfileStore } from '~/stores/localProfile'
-import { useSessionStore } from '~/stores/session'
+import { useLocalProfileStore } from '~/stores/localProfile';
+import { useSessionStore } from '~/stores/session';
 
-import { isDark, toggleDark } from '~/composables/dark'
+import { isDark, toggleDark } from '~/composables/dark';
 
-const router = useRouter()
-const { t } = useI18n()
+const router = useRouter();
+const { t } = useI18n();
 
-const localProfileStore = useLocalProfileStore()
-const sessionStore = useSessionStore()
+const localProfileStore = useLocalProfileStore();
+const sessionStore = useSessionStore();
 
 const logOutLabel = localProfileStore.isLocalProfileEnabled
   ? t('settings.log_in')
-  : t('settings.log_out')
+  : t('settings.log_out');
 
 const logOutIcon = localProfileStore.isLocalProfileEnabled
   ? 'icon-ion:log-in-outline'
-  : 'icon-ion:log-out-outline'
+  : 'icon-ion:log-out-outline';
 
 const logOut = () => {
   if (localProfileStore.isLocalProfileEnabled) {
-    localProfileStore.disableLocalProfile()
+    localProfileStore.disableLocalProfile();
   } else {
-    sessionStore.logOut()
+    sessionStore.logOut();
   }
 
-  router.push('/login')
-}
+  router.push('/login');
+};
 </script>
 
 <template>

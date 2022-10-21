@@ -1,29 +1,29 @@
-import { useSessionStore } from '~/stores/session'
+import { useSessionStore } from '~/stores/session';
 
-import { jwt } from '~/composables/jwt'
+import { jwt } from '~/composables/jwt';
 
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
 export const install: InstallModule = ({ isClient, router }) => {
   if (!isClient) {
-    return
+    return;
   }
 
   router.beforeEach((to) => {
     if (to.meta.auth) {
-      const sessionStore = useSessionStore()
+      const sessionStore = useSessionStore();
 
       if (!sessionStore.isAuth) {
-        return '/login'
+        return '/login';
       }
     }
 
-    return true
-  })
+    return true;
+  });
 
   watch(jwt, (v) => {
     if (!v) {
-      router.push('/login')
+      router.push('/login');
     }
-  })
-}
+  });
+};

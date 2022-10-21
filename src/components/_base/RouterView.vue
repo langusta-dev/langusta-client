@@ -1,7 +1,7 @@
 <script setup lang="ts">
-const { lazy = false } = defineProps<{ lazy?: boolean }>()
+const { lazy = false } = defineProps<{ lazy?: boolean }>();
 
-const route = useRoute()
+const route = useRoute();
 </script>
 
 <template>

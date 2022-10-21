@@ -1,44 +1,44 @@
 const useInput = () => {
-  const value = $ref('')
+  const value = $ref('');
 
-  let hasError = $ref(false)
+  let hasError = $ref(false);
 
   const triggerError = () => {
-    hasError = true
+    hasError = true;
     watchOnce($$(value), () => {
-      hasError = false
-    })
-  }
+      hasError = false;
+    });
+  };
 
-  return $$({ value, hasError, triggerError })
-}
+  return $$({ value, hasError, triggerError });
+};
 
 export const useInputGroup = <T extends string>(inputKeys: T[]) => {
   const inputsData = $ref(
     Object.fromEntries(inputKeys.map((key) => [key, reactive(useInput())]))
-  )
+  );
 
   const setValueByKey = (key: T, value: string) => {
-    inputsData[key].value = value
-  }
+    inputsData[key].value = value;
+  };
 
-  const getValueByKey = (key: T) => inputsData[key].value
+  const getValueByKey = (key: T) => inputsData[key].value;
 
-  const hasErrorByKey = (key: T) => inputsData[key].hasError
+  const hasErrorByKey = (key: T) => inputsData[key].hasError;
 
   const triggerErrorByKey = (key: T) => {
-    inputsData[key].triggerError()
-  }
+    inputsData[key].triggerError();
+  };
 
-  const hasEmptyValues = computed(() => !inputKeys.every(getValueByKey))
+  const hasEmptyValues = computed(() => !inputKeys.every(getValueByKey));
 
-  const hasErrors = computed(() => inputKeys.some(hasErrorByKey))
+  const hasErrors = computed(() => inputKeys.some(hasErrorByKey));
 
   const injectValueByKey = (key: T) =>
     computed({
       get: () => getValueByKey(key),
       set: (v) => setValueByKey(key, v),
-    })
+    });
 
   return $$({
     hasErrorByKey,
@@ -46,5 +46,5 @@ export const useInputGroup = <T extends string>(inputKeys: T[]) => {
     hasEmptyValues,
     hasErrors,
     injectValueByKey,
-  })
-}
+  });
+};

@@ -1,5 +1,5 @@
 export const useWrapper = () => {
-  const wrapperEl = $ref<HTMLDivElement>()
+  const wrapperEl = $ref<HTMLDivElement>();
 
   const {
     y: wrapperScrollTopPx,
@@ -7,21 +7,21 @@ export const useWrapper = () => {
       top: wrapperScrollArrivedTop,
       bottom: wrapperScrollArrivedBottom,
     },
-  } = $(useScroll($$(wrapperEl)))
+  } = $(useScroll($$(wrapperEl)));
 
-  let wrapperHeightPx = $ref(0)
-  let wrapperScrollHeightPx = $ref(0)
+  let wrapperHeightPx = $ref(0);
+  let wrapperScrollHeightPx = $ref(0);
 
   const updateWrapperElHeights = () => {
     if (!wrapperEl) {
-      return
+      return;
     }
 
-    wrapperHeightPx = wrapperEl.offsetHeight
-    wrapperScrollHeightPx = wrapperEl.scrollHeight
-  }
+    wrapperHeightPx = wrapperEl.offsetHeight;
+    wrapperScrollHeightPx = wrapperEl.scrollHeight;
+  };
 
-  useResizeObserver($$(wrapperEl), updateWrapperElHeights)
+  useResizeObserver($$(wrapperEl), updateWrapperElHeights);
 
   useMutationObserver(
     $$(wrapperEl),
@@ -30,15 +30,15 @@ export const useWrapper = () => {
         useResizeObserver(
           wrapperEl.children[i] as HTMLElement,
           updateWrapperElHeights
-        )
+        );
       }
     },
     { childList: true }
-  )
+  );
 
   const isWrapperElReady = $computed(
     () => !!(wrapperHeightPx && wrapperScrollHeightPx)
-  )
+  );
 
   return $$({
     wrapperEl,
@@ -48,5 +48,5 @@ export const useWrapper = () => {
     wrapperScrollArrivedTop,
     wrapperScrollArrivedBottom,
     isWrapperElReady,
-  })
-}
+  });
+};

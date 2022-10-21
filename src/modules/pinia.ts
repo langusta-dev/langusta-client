@@ -1,15 +1,15 @@
-import { createPinia } from 'pinia'
+import { createPinia } from 'pinia';
 
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
 export const install: InstallModule = ({ isClient, initialState, app }) => {
-  const pinia = createPinia()
+  const pinia = createPinia();
 
-  app.use(pinia)
+  app.use(pinia);
 
   if (isClient) {
-    pinia.state.value = initialState.pinia || {}
+    pinia.state.value = initialState.pinia || {};
   } else {
-    initialState.pinia = pinia.state.value
+    initialState.pinia = pinia.state.value;
   }
-}
+};

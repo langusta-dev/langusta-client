@@ -1,54 +1,54 @@
 <script setup lang="ts">
-import { addConfirmListener } from '~/composables/confirm'
-import { hideOverlay, showOverlay } from '~/composables/overlay'
+import { addConfirmListener } from '~/composables/confirm';
+import { hideOverlay, showOverlay } from '~/composables/overlay';
 
-import type { ConfirmPayload } from '~/types/confirm'
+import type { ConfirmPayload } from '~/types/confirm';
 
-type PayloadId = number
+type PayloadId = number;
 
-const { t } = useI18n()
+const { t } = useI18n();
 
 const defaultPayload = $computed<ConfirmPayload>(() => ({
   msg: t('confirm.default_msg'),
   confirmMsg: t('confirm.default_confirm_msg'),
   cancelMsg: t('confirm.default_cancel_msg'),
   cb: null,
-}))
+}));
 
-let totalPayloadCount = $ref(0)
+let totalPayloadCount = $ref(0);
 
-const payloadQueue = $ref<(ConfirmPayload & { id: PayloadId })[]>([])
+const payloadQueue = $ref<(ConfirmPayload & { id: PayloadId })[]>([]);
 
 const unsubscribe = addConfirmListener((payload) => {
   payloadQueue.push({
     ...defaultPayload,
     ...payload,
     id: totalPayloadCount++,
-  })
+  });
 
-  showOverlay()
-})
+  showOverlay();
+});
 
 const dropPayload = (id: PayloadId) => {
-  const confirmIndex = payloadQueue.findIndex((payload) => payload.id === id)
+  const confirmIndex = payloadQueue.findIndex((payload) => payload.id === id);
 
   if (confirmIndex === -1) {
-    return
+    return;
   }
 
-  payloadQueue.splice(confirmIndex, 1)
-  hideOverlay()
-}
+  payloadQueue.splice(confirmIndex, 1);
+  hideOverlay();
+};
 
 const executePayloadCb = (id: PayloadId, cb: (() => void) | null) => {
   if (cb) {
-    cb()
+    cb();
   }
 
-  dropPayload(id)
-}
+  dropPayload(id);
+};
 
-onBeforeUnmount(unsubscribe)
+onBeforeUnmount(unsubscribe);
 </script>
 
 <template>

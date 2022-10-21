@@ -1,3 +1,3 @@
-export type Nullish = null | undefined
+export type Nullish = null | undefined;
 
-export type DateString = string
+export type DateString = string;

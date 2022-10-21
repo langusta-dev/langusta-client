@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { clickable = false } = defineProps<{ clickable?: boolean }>()
+const { clickable = false } = defineProps<{ clickable?: boolean }>();
 </script>
 
 <template>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { isOverlayVisible } from '~/composables/overlay'
+import { isOverlayVisible } from '~/composables/overlay';
 </script>
 
 <template>

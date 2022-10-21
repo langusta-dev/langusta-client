@@ -4,10 +4,10 @@ meta:
 </route>
 
 <script setup lang="ts">
-const { all } = defineProps<{ all: string[] }>()
+const { all } = defineProps<{ all: string[] }>();
 
-const router = useRouter()
-const { t } = useI18n()
+const router = useRouter();
+const { t } = useI18n();
 </script>
 
 <template>

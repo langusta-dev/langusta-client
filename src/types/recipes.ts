@@ -1,7 +1,7 @@
-import type { DateString } from './basic'
-import type { Uuid } from './uuid'
+import type { DateString } from './basic';
+import type { Uuid } from './uuid';
 
-export type RecipeId = Uuid
+export type RecipeId = Uuid;
 
 export enum RecipeMealType {
   BREAKFAST = 'BREAKFAST',
@@ -51,8 +51,8 @@ export enum RecipeIngredientQuantityUnit {
 }
 
 export interface RecipeIngredient {
-  quantity: number
-  quantityUnit: RecipeIngredientQuantityUnit
+  quantity: number;
+  quantityUnit: RecipeIngredientQuantityUnit;
 }
 
 export enum RecipePreparationTimeUnit {
@@ -61,27 +61,27 @@ export enum RecipePreparationTimeUnit {
 }
 
 export interface RecipePreparationTime {
-  value: number
-  unit: RecipePreparationTimeUnit
+  value: number;
+  unit: RecipePreparationTimeUnit;
 }
 
 export interface RecipeStep {
-  description: string
+  description: string;
 }
 
 export interface Recipe {
-  id: RecipeId
-  title: string
-  description: string
-  author: string
-  externalSourceUrl: string
-  likeCount: number
-  rating: number
-  createdAt: DateString
-  updatedAt: DateString
-  calorieCount: number
-  mealType: RecipeMealType
-  ingredients: RecipeIngredient[]
-  preparationTime: RecipePreparationTime
-  steps: RecipeStep[]
+  id: RecipeId;
+  title: string;
+  description: string;
+  author: string;
+  externalSourceUrl: string;
+  likeCount: number;
+  rating: number;
+  createdAt: DateString;
+  updatedAt: DateString;
+  calorieCount: number;
+  mealType: RecipeMealType;
+  ingredients: RecipeIngredient[];
+  preparationTime: RecipePreparationTime;
+  steps: RecipeStep[];
 }

@@ -1,4 +1,4 @@
-import { devices, type PlaywrightTestConfig } from '@playwright/test'
+import { devices, type PlaywrightTestConfig } from '@playwright/test';
 
 const config: PlaywrightTestConfig = {
   testDir: './tests-e2e',
@@ -47,6 +47,6 @@ const config: PlaywrightTestConfig = {
     command: 'pnpm preview',
     port: 4444,
   },
-}
+};
 
-export default config
+export default config;

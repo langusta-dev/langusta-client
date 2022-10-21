@@ -4,13 +4,13 @@ meta:
 </route>
 
 <script setup lang="ts">
-import { useInputGroup } from '~/composables/input'
+import { useInputGroup } from '~/composables/input';
 
 const { injectValueByKey } = $(
   useInputGroup(['title', 'description', 'calorieCount', 'preparationTime'])
-)
+);
 
-const description = injectValueByKey('description')
+const description = injectValueByKey('description');
 </script>
 
 <template>

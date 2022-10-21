@@ -1,11 +1,11 @@
 <script setup lang="ts">
-const { modelValue } = defineProps<{ modelValue: boolean }>()
+const { modelValue } = defineProps<{ modelValue: boolean }>();
 
-const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void }>()
+const emit = defineEmits<{ (e: 'update:modelValue', v: boolean): void }>();
 
 const toggle = () => {
-  emit('update:modelValue', !modelValue)
-}
+  emit('update:modelValue', !modelValue);
+};
 </script>
 
 <template>

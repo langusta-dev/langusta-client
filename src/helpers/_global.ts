@@ -1,3 +1,3 @@
-export * from './is'
-export * from './async'
-export * from './range'
+export * from './is';
+export * from './async';
+export * from './range';

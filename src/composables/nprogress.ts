@@ -1,21 +1,23 @@
-import { useNProgress } from '@vueuse/integrations/useNProgress'
+import { useNProgress } from '@vueuse/integrations/useNProgress';
 
-import { useActivator } from './useActivator'
+import { useActivator } from './useActivator';
 
-const { start, done, isLoading } = $(useNProgress(null, { showSpinner: false }))
+const { start, done, isLoading } = $(
+  useNProgress(null, { showSpinner: false })
+);
 
 const { activate: startNProgress, deactivate: stopNProgress } = useActivator({
   onActivation: () => {
     if (!isLoading) {
-      start()
+      start();
     }
   },
   onDeactivation: () => {
     if (isLoading) {
-      done()
+      done();
     }
   },
   debounce: 1,
-})
+});
 
-export { startNProgress, stopNProgress }
+export { startNProgress, stopNProgress };

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TheMobileNav from '~/components/&layouts/_default/TheMobileNav.vue'
-import TheStandardNav from '~/components/&layouts/_default/TheStandardNav.vue'
+import TheMobileNav from '~/components/&layouts/_default/TheMobileNav.vue';
+import TheStandardNav from '~/components/&layouts/_default/TheStandardNav.vue';
 </script>
 
 <template>

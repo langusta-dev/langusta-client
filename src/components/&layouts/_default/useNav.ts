@@ -1,7 +1,7 @@
-import type { NavigableRoute } from '~/types/nav'
+import type { NavigableRoute } from '~/types/nav';
 
 export const useNav = () => {
-  const router = useRouter()
+  const router = useRouter();
 
   const navigableRoutes = computed<NavigableRoute[]>(() =>
     router
@@ -16,7 +16,7 @@ export const useNav = () => {
           )
       )
       .sort((a, b) => a.meta.navOrder - b.meta.navOrder)
-  )
+  );
 
-  return { navigableRoutes }
-}
+  return { navigableRoutes };
+};

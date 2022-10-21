@@ -1,17 +1,17 @@
-import App from './App.vue'
+import App from './App.vue';
 
-import devalue from '@nuxt/devalue'
-import { setupLayouts } from 'virtual:generated-layouts'
-import generatedRoutes from 'virtual:generated-pages'
-import { ViteSSG } from 'vite-ssg'
+import devalue from '@nuxt/devalue';
+import { setupLayouts } from 'virtual:generated-layouts';
+import generatedRoutes from 'virtual:generated-pages';
+import { ViteSSG } from 'vite-ssg';
 
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
-import '@unocss/reset/tailwind.css'
-import './styles/main.scss'
-import 'uno.css'
+import '@unocss/reset/tailwind.css';
+import './styles/main.scss';
+import 'uno.css';
 
-const routes = setupLayouts(generatedRoutes)
+const routes = setupLayouts(generatedRoutes);
 
 export const createApp = ViteSSG(
   App,
@@ -23,8 +23,8 @@ export const createApp = ViteSSG(
         eager: true,
       })
     )) {
-      module.install(ctx)
+      module.install(ctx);
     }
   },
   { transformState: (state) => (import.meta.env.SSR ? devalue(state) : state) }
-)
+);

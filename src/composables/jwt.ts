@@ -1,11 +1,11 @@
-const jwt = useSessionStorage<string | null>('token', null)
+const jwt = useSessionStorage<string | null>('token', null);
 
 const setJwt = (newJwt: string) => {
-  jwt.value = newJwt
-}
+  jwt.value = newJwt;
+};
 
 const unsetJwt = () => {
-  jwt.value = null
-}
+  jwt.value = null;
+};
 
-export { jwt, setJwt, unsetJwt }
+export { jwt, setJwt, unsetJwt };

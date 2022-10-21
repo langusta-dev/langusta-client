@@ -5,48 +5,48 @@ meta:
 </route>
 
 <script setup lang="ts">
-import { useLocalProfileStore } from '~/stores/localProfile'
-import { useSessionStore } from '~/stores/session'
+import { useLocalProfileStore } from '~/stores/localProfile';
+import { useSessionStore } from '~/stores/session';
 
-import { showConfirm } from '~/composables/confirm'
-import { useInputGroup } from '~/composables/input'
-import { useRedirectOnAuth } from '~/composables/redirect'
+import { showConfirm } from '~/composables/confirm';
+import { useInputGroup } from '~/composables/input';
+import { useRedirectOnAuth } from '~/composables/redirect';
 
-const { t } = useI18n()
+const { t } = useI18n();
 
-const localProfileStore = useLocalProfileStore()
-const sessionStore = useSessionStore()
+const localProfileStore = useLocalProfileStore();
+const sessionStore = useSessionStore();
 
 const { hasErrorByKey, hasEmptyValues, triggerErrorByKey, injectValueByKey } =
-  $(useInputGroup(['username', 'password']))
+  $(useInputGroup(['username', 'password']));
 
-const username = $(injectValueByKey('username'))
-let password = $(injectValueByKey('password'))
+const username = $(injectValueByKey('username'));
+let password = $(injectValueByKey('password'));
 
-let errorLabel = $ref<string | null>(null)
+let errorLabel = $ref<string | null>(null);
 
 const logIn = async () => {
   if (hasEmptyValues) {
-    return
+    return;
   }
 
-  await sessionStore.logIn({ username, password })
+  await sessionStore.logIn({ username, password });
 
   if (!sessionStore.isAuth) {
-    errorLabel = t('login.login_failed_error')
-    password = ''
-    triggerErrorByKey('password')
+    errorLabel = t('login.login_failed_error');
+    password = '';
+    triggerErrorByKey('password');
   }
-}
+};
 
 const enableLocalProfile = () => {
   showConfirm({
     msg: t('login.local_profile_confirm'),
     cb: localProfileStore.enableLocalProfile,
-  })
-}
+  });
+};
 
-useRedirectOnAuth()
+useRedirectOnAuth();
 </script>
 
 <template>

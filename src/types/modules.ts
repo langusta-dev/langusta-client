@@ -1,3 +1,3 @@
-import type { ViteSSGContext } from 'vite-ssg'
+import type { ViteSSGContext } from 'vite-ssg';
 
-export type InstallModule = (ctx: ViteSSGContext) => void
+export type InstallModule = (ctx: ViteSSGContext) => void;

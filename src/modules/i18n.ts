@@ -1,12 +1,12 @@
-import { createI18n } from 'vue-i18n'
+import { createI18n } from 'vue-i18n';
 
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
 const messages = Object.fromEntries(
   Object.entries(
     import.meta.glob<{ default: any }>('../../locales/*.yaml', { eager: true })
   ).map(([path, module]) => [path.slice(14, -5), module.default])
-)
+);
 
 export const install: InstallModule = ({ app }) => {
   const i18n = createI18n({
@@ -14,7 +14,7 @@ export const install: InstallModule = ({ app }) => {
     locale: 'en',
     fallbackLocale: 'en',
     messages,
-  })
+  });
 
-  app.use(i18n)
-}
+  app.use(i18n);
+};

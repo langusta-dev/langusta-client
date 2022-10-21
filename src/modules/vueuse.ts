@@ -1,5 +1,5 @@
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
 export const install: InstallModule = () => {
-  useDark()
-}
+  useDark();
+};

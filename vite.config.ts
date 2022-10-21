@@ -1,39 +1,39 @@
-import VueI18n from '@intlify/vite-plugin-vue-i18n'
-import Eslint from '@nabla/vite-plugin-eslint'
-import Vue from '@vitejs/plugin-vue'
-import Unocss from 'unocss/vite'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
-import { defineConfig } from 'vite'
-import Inspect from 'vite-plugin-inspect'
-import Pages, { type ImportModeResolver } from 'vite-plugin-pages'
-import { VitePWA } from 'vite-plugin-pwa'
-import Layouts from 'vite-plugin-vue-layouts'
-import generateSitemap from 'vite-ssg-sitemap'
+import VueI18n from '@intlify/vite-plugin-vue-i18n';
+import Eslint from '@nabla/vite-plugin-eslint';
+import Vue from '@vitejs/plugin-vue';
+import Unocss from 'unocss/vite';
+import AutoImport from 'unplugin-auto-import/vite';
+import Components from 'unplugin-vue-components/vite';
+import { defineConfig } from 'vite';
+import Inspect from 'vite-plugin-inspect';
+import Pages, { type ImportModeResolver } from 'vite-plugin-pages';
+import { VitePWA } from 'vite-plugin-pwa';
+import Layouts from 'vite-plugin-vue-layouts';
+import generateSitemap from 'vite-ssg-sitemap';
 
-import * as globalHelpers from './src/helpers/_global'
+import * as globalHelpers from './src/helpers/_global';
 
-import type { ComponentResolver } from 'unplugin-vue-components/types'
+import type { ComponentResolver } from 'unplugin-vue-components/types';
 
 const GlobalHelpersImport = (options: { importPath: string }) => ({
   [options.importPath]: Object.keys(globalHelpers),
-})
+});
 
 const BaseComponentsResolver = (options: {
-  importDir: string
-  prefix?: string
+  importDir: string;
+  prefix?: string;
 }): ComponentResolver => {
-  options.importDir = options.importDir.replace(/\/$/, '')
+  options.importDir = options.importDir.replace(/\/$/, '');
 
   const pascalCasePrefix = (options.prefix || '')
     .replace(/\w+/g, (match) => match[0].toUpperCase() + match.slice(1))
-    .replace(/-|\s/g, '')
+    .replace(/-|\s/g, '');
 
   return (name: string) =>
     name.startsWith(pascalCasePrefix)
       ? `${options.importDir}/${name.slice(pascalCasePrefix.length)}.vue`
-      : null
-}
+      : null;
+};
 
 const PagesImportModeResolver =
   (): ImportModeResolver =>
@@ -41,14 +41,14 @@ const PagesImportModeResolver =
     // top level index.vue: `sync`, others: `async`
     for (const { baseRoute, dir } of dirs) {
       if (baseRoute === '' && filepath.startsWith(`/${dir}/index`)) {
-        return 'sync'
+        return 'sync';
       }
     }
 
-    return 'async'
-  }
+    return 'async';
+  };
 
-const cwd = process.cwd()
+const cwd = process.cwd();
 
 export default defineConfig(({ mode }) => ({
   resolve: {
@@ -155,4 +155,4 @@ export default defineConfig(({ mode }) => ({
       all: true,
     },
   },
-}))
+}));

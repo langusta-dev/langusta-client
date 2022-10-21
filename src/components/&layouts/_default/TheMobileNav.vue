@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { useNav } from './useNav'
+import { useNav } from './useNav';
 
-const { t } = useI18n()
-const route = useRoute()
-const router = useRouter()
-const { navigableRoutes } = useNav()
+const { t } = useI18n();
+const route = useRoute();
+const router = useRouter();
+const { navigableRoutes } = useNav();
 </script>
 
 <template>

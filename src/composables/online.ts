@@ -1,1 +1,1 @@
-export const isOnline = useOnline()
+export const isOnline = useOnline();

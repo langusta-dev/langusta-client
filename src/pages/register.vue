@@ -5,16 +5,16 @@ meta:
 </route>
 
 <script setup lang="ts">
-import { useSessionStore } from '~/stores/session'
+import { useSessionStore } from '~/stores/session';
 
-import { useInputGroup } from '~/composables/input'
-import { useRedirectOnAuth } from '~/composables/redirect'
+import { useInputGroup } from '~/composables/input';
+import { useRedirectOnAuth } from '~/composables/redirect';
 
-import { isEmail } from '~/helpers/string'
+import { isEmail } from '~/helpers/string';
 
-const { t } = useI18n()
+const { t } = useI18n();
 
-const sessionStore = useSessionStore()
+const sessionStore = useSessionStore();
 
 const errorLabels = $computed(() => ({
   invalidEmail: t('register.invalid_email_error'),
@@ -23,7 +23,7 @@ const errorLabels = $computed(() => ({
   }),
   passwordsNotEqual: t('register.passwords_not_equal_error'),
   registrationFailed: t('register.registration_failed_error'),
-}))
+}));
 
 const {
   hasErrorByKey,
@@ -40,69 +40,69 @@ const {
     'password',
     'repeatedPassword',
   ])
-)
+);
 
-const email = $(injectValueByKey('email'))
-const username = $(injectValueByKey('username'))
-const firstname = $(injectValueByKey('firstname'))
-const lastname = $(injectValueByKey('lastname'))
-let password = $(injectValueByKey('password'))
-let repeatedPassword = $(injectValueByKey('repeatedPassword'))
+const email = $(injectValueByKey('email'));
+const username = $(injectValueByKey('username'));
+const firstname = $(injectValueByKey('firstname'));
+const lastname = $(injectValueByKey('lastname'));
+let password = $(injectValueByKey('password'));
+let repeatedPassword = $(injectValueByKey('repeatedPassword'));
 
-const isDisabled = $computed(() => hasEmptyValues || hasErrors)
+const isDisabled = $computed(() => hasEmptyValues || hasErrors);
 
-let displayedErrorLabel = $ref<string | null>(null)
+let displayedErrorLabel = $ref<string | null>(null);
 
 const updateDisplayedErrorLabel = async (text: string | null) => {
-  await wait(200)
-  displayedErrorLabel = text
-}
+  await wait(200);
+  displayedErrorLabel = text;
+};
 
-const clearDisplayedErrorLabel = () => updateDisplayedErrorLabel(null)
+const clearDisplayedErrorLabel = () => updateDisplayedErrorLabel(null);
 
 const rejectPasswords = () => {
-  password = repeatedPassword = ''
-  triggerErrorByKey('password')
-  triggerErrorByKey('repeatedPassword')
-}
+  password = repeatedPassword = '';
+  triggerErrorByKey('password');
+  triggerErrorByKey('repeatedPassword');
+};
 
 const validateEmail = () => {
   if (!isEmail(email)) {
-    updateDisplayedErrorLabel(errorLabels.invalidEmail)
-    triggerErrorByKey('email')
-    return false
+    updateDisplayedErrorLabel(errorLabels.invalidEmail);
+    triggerErrorByKey('email');
+    return false;
   }
 
   if (displayedErrorLabel === errorLabels.invalidEmail) {
-    clearDisplayedErrorLabel()
+    clearDisplayedErrorLabel();
   }
 
-  return true
-}
+  return true;
+};
 
 const validatePassword = () => {
   if (password.length < import.meta.env.VITE_PASSWORD_MIN_LENGTH) {
-    updateDisplayedErrorLabel(errorLabels.passwordTooShort)
-    rejectPasswords()
-    return false
+    updateDisplayedErrorLabel(errorLabels.passwordTooShort);
+    rejectPasswords();
+    return false;
   }
 
   if (displayedErrorLabel === errorLabels.passwordTooShort) {
-    clearDisplayedErrorLabel()
+    clearDisplayedErrorLabel();
   }
 
-  return true
-}
+  return true;
+};
 
 const register = async () => {
   if (isDisabled || !validateEmail() || !validatePassword()) {
-    return
+    return;
   }
 
   if (repeatedPassword !== password) {
-    rejectPasswords()
-    updateDisplayedErrorLabel(errorLabels.passwordsNotEqual)
-    return
+    rejectPasswords();
+    updateDisplayedErrorLabel(errorLabels.passwordsNotEqual);
+    return;
   }
 
   await sessionStore.register({
@@ -111,14 +111,14 @@ const register = async () => {
     firstname,
     lastname,
     password,
-  })
+  });
 
   if (!sessionStore.isAuth) {
-    updateDisplayedErrorLabel(errorLabels.registrationFailed)
+    updateDisplayedErrorLabel(errorLabels.registrationFailed);
   }
-}
+};
 
-useRedirectOnAuth()
+useRedirectOnAuth();
 </script>
 
 <template>

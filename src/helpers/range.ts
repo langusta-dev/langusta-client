@@ -3,7 +3,7 @@ export const range = (
   end: number | null | undefined = null,
   step = 1
 ): number[] => {
-  const isEndNullish = isNullish(end)
+  const isEndNullish = isNullish(end);
 
   return Array.from(
     {
@@ -12,5 +12,5 @@ export const range = (
       ),
     },
     (_, i) => i * step + (isEndNullish ? 0 : startOrEnd)
-  )
-}
+  );
+};

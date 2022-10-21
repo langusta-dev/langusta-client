@@ -1,1 +1,1 @@
-export type LocaleKey = string
+export type LocaleKey = string;

@@ -4,10 +4,10 @@ const {
   sm,
   disabled = false,
 } = defineProps<{
-  alt?: boolean
-  sm?: boolean
-  disabled?: boolean
-}>()
+  alt?: boolean;
+  sm?: boolean;
+  disabled?: boolean;
+}>();
 </script>
 
 <template>

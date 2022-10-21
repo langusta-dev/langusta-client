@@ -1,18 +1,18 @@
 <script setup lang="ts">
-type InputType = 'number' | 'text' | 'password' | 'textarea'
+type InputType = 'number' | 'text' | 'password' | 'textarea';
 
-type InputEvent = Event & { target: { value: string } }
+type InputEvent = Event & { target: { value: string } };
 
 interface Props {
-  modelValue: string
-  type?: InputType
-  placeholder?: string
-  error?: boolean
-  autofocus?: boolean // TODO basic HTML solution is broken
+  modelValue: string;
+  type?: InputType;
+  placeholder?: string;
+  error?: boolean;
+  autofocus?: boolean; // TODO basic HTML solution is broken
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: string): void
+  (e: 'update:modelValue', value: string): void;
 }
 
 const {
@@ -21,9 +21,9 @@ const {
   modelValue = '',
   error = false,
   autofocus = false,
-} = defineProps<Props>()
+} = defineProps<Props>();
 
-const emit = defineEmits<Emits>()
+const emit = defineEmits<Emits>();
 
 const STATIC_CLASSES = [
   'p-(x2 y1)',
@@ -36,16 +36,16 @@ const STATIC_CLASSES = [
   'hover:outline-accent',
   '!focus:outline-accent-focus',
   'transition-all',
-]
+];
 
 const classes = computed(() => [
   ...STATIC_CLASSES,
   error ? 'border-error' : 'border-primary-contrast/30',
-])
+]);
 
 const handleInput = (e: Event) => {
-  emit('update:modelValue', (e as InputEvent).target.value)
-}
+  emit('update:modelValue', (e as InputEvent).target.value);
+};
 </script>
 
 <template>

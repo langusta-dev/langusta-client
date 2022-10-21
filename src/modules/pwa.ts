@@ -1,12 +1,12 @@
-import type { InstallModule } from '~/types/modules'
+import type { InstallModule } from '~/types/modules';
 
 export const install: InstallModule = async ({ isClient, router }) => {
   if (!isClient) {
-    return
+    return;
   }
 
-  await router.isReady()
+  await router.isReady();
 
-  const { registerSW } = await import('virtual:pwa-register')
-  registerSW({ immediate: true })
-}
+  const { registerSW } = await import('virtual:pwa-register');
+  registerSW({ immediate: true });
+};

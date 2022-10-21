@@ -1,27 +1,27 @@
 <script setup lang="ts">
 interface Props {
-  to?: string
-  external?: boolean
-  replace?: boolean
+  to?: string;
+  external?: boolean;
+  replace?: boolean;
 }
 
-const { to, external = false, replace = false } = defineProps<Props>()
+const { to, external = false, replace = false } = defineProps<Props>();
 
-const router = useRouter()
+const router = useRouter();
 
 const handleClick = () => {
   if (!to) {
-    return
+    return;
   }
 
   if (external) {
-    window.open(to, '_blank')?.focus()
+    window.open(to, '_blank')?.focus();
   } else if (replace) {
-    router.replace(to)
+    router.replace(to);
   } else {
-    router.push(to)
+    router.push(to);
   }
-}
+};
 </script>
 
 <template>

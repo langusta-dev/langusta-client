@@ -7,8 +7,8 @@ import {
   presetWebFonts,
   transformerDirectives,
   transformerVariantGroup,
-} from 'unocss'
-import { presetBetterNestedColors } from 'unocss-preset-better-nested-colors'
+} from 'unocss';
+import { presetBetterNestedColors } from 'unocss-preset-better-nested-colors';
 
 export default defineConfig({
   safelist: [
@@ -133,4 +133,4 @@ export default defineConfig({
   transformers: [transformerDirectives(), transformerVariantGroup()],
 
   include: ['**/*.vue', '**/*.scss'],
-})
+});

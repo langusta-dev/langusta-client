@@ -1,21 +1,21 @@
 <script setup lang="ts">
-import { useContainer } from './scroll/useContainer'
-import { useModelValue } from './scroll/useModelValue'
-import { useMouseScroll } from './scroll/useMouseScroll'
-import { useTrackScroll } from './scroll/useTrackScroll'
-import { useWrapper } from './scroll/useWrapper'
+import { useContainer } from './scroll/useContainer';
+import { useModelValue } from './scroll/useModelValue';
+import { useMouseScroll } from './scroll/useMouseScroll';
+import { useTrackScroll } from './scroll/useTrackScroll';
+import { useWrapper } from './scroll/useWrapper';
 
-const { modelValue } = defineProps<{ modelValue?: number }>()
+const { modelValue } = defineProps<{ modelValue?: number }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: number): void
-}>()
+  (e: 'update:modelValue', value: number): void;
+}>();
 
-const scrollEl = $ref<HTMLDivElement>()
+const scrollEl = $ref<HTMLDivElement>();
 
 const { containerEl, containerStyle, wrapperStyle } = useContainer(
   $$({ scrollEl })
-)
+);
 
 const {
   wrapperEl,
@@ -25,7 +25,7 @@ const {
   wrapperScrollArrivedTop,
   wrapperScrollArrivedBottom,
   isWrapperElReady,
-} = $(useWrapper())
+} = $(useWrapper());
 
 const { startMouseScroll, isMouseScrollActive } = useMouseScroll(
   $$({
@@ -34,15 +34,15 @@ const { startMouseScroll, isMouseScrollActive } = useMouseScroll(
     wrapperScrollTopPx,
     isWrapperElReady,
   })
-)
+);
 
-useModelValue($$({ modelValue, wrapperScrollTopPx, wrapperEl }), emit)
+useModelValue($$({ modelValue, wrapperScrollTopPx, wrapperEl }), emit);
 
 const scrollHandleHeightPercent = $computed(() =>
   isWrapperElReady
     ? Math.min(100, (wrapperHeightPx / wrapperScrollHeightPx) * 100)
     : 100
-)
+);
 
 const wrapperScrollTopPercent = $computed(() =>
   isWrapperElReady
@@ -51,7 +51,7 @@ const wrapperScrollTopPercent = $computed(() =>
         (wrapperScrollTopPx / wrapperScrollHeightPx) * 100
       )
     : 0
-)
+);
 
 const { startTrackScroll, isTrackScrollActive } = useTrackScroll(
   $$({
@@ -63,16 +63,16 @@ const { startTrackScroll, isTrackScrollActive } = useTrackScroll(
     wrapperScrollArrivedTop,
     wrapperScrollArrivedBottom,
   })
-)
+);
 
-const showScroll = $computed(() => scrollHandleHeightPercent !== 100)
+const showScroll = $computed(() => scrollHandleHeightPercent !== 100);
 
-const scrollHandleHeight = $computed(() => `${scrollHandleHeightPercent}%`)
-const scrollHandleTop = $computed(() => `${wrapperScrollTopPercent}%`)
+const scrollHandleHeight = $computed(() => `${scrollHandleHeightPercent}%`);
+const scrollHandleTop = $computed(() => `${wrapperScrollTopPercent}%`);
 const scrollHandleStyle = $computed(() => ({
   height: scrollHandleHeight,
   top: scrollHandleTop,
-}))
+}));
 </script>
 
 <template>

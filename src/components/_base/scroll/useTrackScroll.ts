@@ -1,13 +1,13 @@
-import type { Ref } from 'vue'
+import type { Ref } from 'vue';
 
 interface Options {
-  wrapperEl: Ref<HTMLDivElement>
-  isWrapperElReady: Ref<boolean>
-  wrapperHeightPx: Ref<number>
-  scrollHandleHeightPercent: Ref<number>
-  wrapperScrollTopPercent: Ref<number>
-  wrapperScrollArrivedTop: Ref<boolean>
-  wrapperScrollArrivedBottom: Ref<boolean>
+  wrapperEl: Ref<HTMLDivElement>;
+  isWrapperElReady: Ref<boolean>;
+  wrapperHeightPx: Ref<number>;
+  scrollHandleHeightPercent: Ref<number>;
+  wrapperScrollTopPercent: Ref<number>;
+  wrapperScrollArrivedTop: Ref<boolean>;
+  wrapperScrollArrivedBottom: Ref<boolean>;
 }
 
 export const useTrackScroll = (options: Options) => {
@@ -19,53 +19,53 @@ export const useTrackScroll = (options: Options) => {
     wrapperScrollTopPercent,
     wrapperScrollArrivedTop,
     wrapperScrollArrivedBottom,
-  } = $(options)
+  } = $(options);
 
   const checkIfMouseClickAboveHandle = (clickY: number) =>
     clickY <
     ((scrollHandleHeightPercent / 2 + wrapperScrollTopPercent) / 100) *
-      wrapperHeightPx
+      wrapperHeightPx;
 
-  let scrollInterval = $ref<NodeJS.Timer | null>(null)
+  let scrollInterval = $ref<NodeJS.Timer | null>(null);
 
-  const isTrackScrollActive = $computed(() => scrollInterval !== null)
+  const isTrackScrollActive = $computed(() => scrollInterval !== null);
 
   const endTrackScroll = () => {
     if (scrollInterval) {
-      clearInterval(scrollInterval)
-      scrollInterval = null
+      clearInterval(scrollInterval);
+      scrollInterval = null;
     }
 
-    window.removeEventListener('mouseup', endTrackScroll)
-  }
+    window.removeEventListener('mouseup', endTrackScroll);
+  };
 
   const startTrackScroll = ({ offsetY }: MouseEvent) => {
     if (!isWrapperElReady || isTrackScrollActive) {
-      return
+      return;
     }
 
-    const mouseClickAboveHandle = checkIfMouseClickAboveHandle(offsetY)
+    const mouseClickAboveHandle = checkIfMouseClickAboveHandle(offsetY);
 
     scrollInterval = setInterval(() => {
-      const nowWouldAboveHandle = checkIfMouseClickAboveHandle(offsetY)
+      const nowWouldAboveHandle = checkIfMouseClickAboveHandle(offsetY);
 
       if (
         mouseClickAboveHandle !== nowWouldAboveHandle ||
         (mouseClickAboveHandle && wrapperScrollArrivedTop) ||
         (!mouseClickAboveHandle && wrapperScrollArrivedBottom)
       ) {
-        endTrackScroll()
-        return
+        endTrackScroll();
+        return;
       }
 
-      const top = (mouseClickAboveHandle ? -5 : 5) + wrapperEl.scrollTop
-      wrapperEl.scroll({ top })
-    }, 10)
+      const top = (mouseClickAboveHandle ? -5 : 5) + wrapperEl.scrollTop;
+      wrapperEl.scroll({ top });
+    }, 10);
 
-    window.addEventListener('mouseup', endTrackScroll)
-  }
+    window.addEventListener('mouseup', endTrackScroll);
+  };
 
-  onUnmounted(endTrackScroll)
+  onUnmounted(endTrackScroll);
 
-  return $$({ startTrackScroll, isTrackScrollActive })
-}
+  return $$({ startTrackScroll, isTrackScrollActive });
+};
