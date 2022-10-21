@@ -25,6 +25,7 @@ const unsubscribe = addConfirmListener((payload) => {
     ...payload,
     id: totalPayloadCount++,
   })
+
   showOverlay()
 })
 
