@@ -8,7 +8,6 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseButton: typeof import('~/components/_base/Button.vue')['default']
-    BaseCSelect: typeof import('~/components/_base/CSelect.vue')['default']
     BaseFadeTransition: typeof import('~/components/_base/FadeTransition.vue')['default']
     BaseFadeTransitionGroup: typeof import('~/components/_base/FadeTransitionGroup.vue')['default']
     BaseInput: typeof import('~/components/_base/Input.vue')['default']
