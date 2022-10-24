@@ -1,4 +1,4 @@
-import type { Nullish } from '~/types/basic';
+import type { Nullish, Primitive } from '~/types/basic';
 
 export const isArray = (value: unknown): value is unknown[] =>
   Array.isArray(value);
@@ -19,8 +19,12 @@ export const isNum = (value: unknown): value is number =>
 export const isNumeric = (value: unknown) =>
   isNum(value) || Number(String(value)) === Number(value);
 
-export const isObj = (value: unknown): value is Record<string, unknown> =>
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isObj = (value: unknown): value is Record<string, any> =>
   !!value && typeof value === 'object' && !isArray(value);
+
+export const isPrimitive = (value: unknown): value is Primitive =>
+  typeof value !== 'object' || value === null;
 
 export const isStr = (value: unknown): value is string =>
   typeof value === 'string';

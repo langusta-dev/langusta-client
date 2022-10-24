@@ -5,6 +5,11 @@ index:
 
 recipes:
   title: Recipes
+  new:
+    title: Name
+    description: Description
+    calorie_count: Calories
+    preparation_time: Preparation time
 
 calendar:
   title: Calendar
@@ -50,3 +55,7 @@ confirm:
   default_msg: Are you sure?
   default_confirm_msg: Confirm
   default_cancel_msg: Cancel
+
+time:
+  minutes: Minutes
+  hours: Hours

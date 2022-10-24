@@ -28,7 +28,7 @@ const {
 
 const emit = defineEmits<Emits>();
 
-const el = ref<HTMLElement>();
+const el = ref<HTMLInputElement>();
 
 const { classes } = useInputClasses($$(error));
 

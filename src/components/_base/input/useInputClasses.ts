@@ -2,7 +2,7 @@ import type { Ref } from 'vue';
 
 const STATIC_CLASSES = [
   'p-(x2 y1)',
-  'w72',
+  'w72 max-w-full',
   'bg-primary',
   'rounded',
   'placeholder:(text-sm italic text-primary-contrast/75)',
@@ -10,7 +10,7 @@ const STATIC_CLASSES = [
   'outline-(~ 2px offset-0 transparent) hover:outline-accent !focus:outline-accent-focus',
   'hover:outline-accent',
   '!focus:outline-accent-focus',
-  'transition-colors',
+  'transition-(colors property-[outline])',
 ];
 
 export const useInputClasses = (hasError: Ref<boolean>) => {
