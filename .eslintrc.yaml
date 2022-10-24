@@ -271,6 +271,19 @@ overrides:
     parserOptions:
       project: 'tsconfig.json'
     rules:
+      'lines-around-comment':
+        - warn
+        - beforeBlockComment: true
+          beforeLineComment: true
+          allowArrayStart: true
+          allowArrayEnd: true
+          allowBlockStart: true
+          allowBlockEnd: true
+          allowClassStart: true
+          allowClassEnd: true
+          allowObjectStart: true
+          allowObjectEnd: true
+
       '@typescript-eslint/consistent-type-exports':
         - warn
         - fixMixedExportsWithInlineTypeSpecifier: true
