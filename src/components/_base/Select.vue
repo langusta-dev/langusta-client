@@ -2,7 +2,7 @@
 import VSelect from 'vue-select';
 import 'vue-select/dist/vue-select.css';
 
-import { colors } from '~/../unocss.config';
+import colors from '~/../unocss.colors';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type Option = string | number | Record<string, any>;
