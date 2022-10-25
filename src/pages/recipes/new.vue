@@ -4,6 +4,7 @@ meta:
 </route>
 
 <script setup lang="ts">
+import { useMealType } from '~/components/recipes/new/useMealType';
 import { usePreparationTimeUnit } from '~/components/recipes/new/usePreparationTimeUnit';
 
 import { useInputGroup } from '~/composables/input';
@@ -19,11 +20,13 @@ const description = injectValueByKey('description');
 const calorieCount = injectValueByKey('calorieCount');
 const preparationTime = injectValueByKey('preparationTime');
 
+const { MEAL_TYPE_OPTION_REDUCER, mealTypeOptions, mealType } = useMealType();
+
 const {
   PREPARATION_TIME_UNIT_OPTION_REDUCER,
   preparationTimeUnitOptions,
   preparationTimeUnit,
-} = $(usePreparationTimeUnit());
+} = usePreparationTimeUnit();
 </script>
 
 <template>
@@ -32,6 +35,16 @@ const {
       <div>
         <div>{{ t('recipes.new.title') }}</div>
         <BaseInput v-model="title" />
+      </div>
+
+      <div>
+        <div>{{ t('recipes.new.meal_type') }}</div>
+        <BaseSelect
+          v-model="mealType"
+          :options="mealTypeOptions"
+          :reduce="MEAL_TYPE_OPTION_REDUCER"
+          label="label"
+        />
       </div>
 
       <div>

@@ -14,8 +14,14 @@ export const usePreparationTimeUnit = () => {
 
   const preparationTimeUnitOptions = $computed<PreparationTimeUnitOption[]>(
     () => [
-      { value: RecipePreparationTimeUnit.MINUTE, label: t('time.minutes') },
-      { value: RecipePreparationTimeUnit.HOUR, label: t('time.hours') },
+      {
+        value: RecipePreparationTimeUnit.MINUTE,
+        label: t('recipe.preparation_time.unit.minutes'),
+      },
+      {
+        value: RecipePreparationTimeUnit.HOUR,
+        label: t('recipe.preparation_time.unit.hours'),
+      },
     ]
   );
 

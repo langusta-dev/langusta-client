@@ -65,6 +65,7 @@ onMounted(() => {
     :value="modelValue"
     :placeholder="placeholder"
     :class="classes"
+    _min-h-15
     _resize-none
     _overflow-hidden
     @input="(e) => handleInput(e)"

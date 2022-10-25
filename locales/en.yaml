@@ -7,6 +7,7 @@ recipes:
   title: Recipes
   new:
     title: Name
+    meal_type: Meal
     description: Description
     calorie_count: Calories
     preparation_time: Preparation time
@@ -56,6 +57,14 @@ confirm:
   default_confirm_msg: Confirm
   default_cancel_msg: Cancel
 
-time:
-  minutes: Minutes
-  hours: Hours
+recipe:
+  meal_type:
+    breakfast: Breakfast
+    lunch: Lunch
+    dinner: Dinner
+    appetizer: Appetizer
+    dessert: Dessert
+  preparation_time:
+    unit:
+      minutes: Minutes
+      hours: Hours
