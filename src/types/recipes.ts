@@ -51,6 +51,7 @@ export enum RecipeIngredientQuantityUnit {
 }
 
 export interface RecipeIngredient {
+  name: string;
   quantity: number;
   quantityUnit: RecipeIngredientQuantityUnit;
 }

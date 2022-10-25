@@ -4,6 +4,8 @@ meta:
 </route>
 
 <script setup lang="ts">
+import TheIngredientList from '~/components/recipes/new/TheIngredientList.vue';
+
 import { useMealType } from '~/components/recipes/new/useMealType';
 import { usePreparationTimeUnit } from '~/components/recipes/new/usePreparationTimeUnit';
 
@@ -72,6 +74,12 @@ const {
             label="label"
           />
         </div>
+      </div>
+
+      <div _h=".5" _bg="primary-contrast/30" />
+
+      <div>
+        <TheIngredientList />
       </div>
     </div>
   </div>

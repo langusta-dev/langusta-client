@@ -11,6 +11,11 @@ recipes:
     description: Description
     calorie_count: Calories
     preparation_time: Preparation time
+    ingredients: Ingredients
+    add_ingredient: Add ingredient
+    ingredient:
+      name: Name
+      quantity: Quantity
 
 calendar:
   title: Calendar
@@ -68,3 +73,12 @@ recipe:
     unit:
       minutes: Minutes
       hours: Hours
+  quantity:
+    unit:
+      g: grams
+      kg: kilograms
+      ml: milliliters
+      l: liters
+      glass: glasses
+      spoon: spoons
+      teaspoon: teaspoons
