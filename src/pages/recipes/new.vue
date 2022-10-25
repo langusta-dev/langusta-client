@@ -56,7 +56,7 @@ const {
 
       <div>
         <div>{{ t('recipes.new.calorie_count') }}</div>
-        <BaseInput v-model="calorieCount" />
+        <BaseInput v-model="calorieCount" numeric />
       </div>
 
       <div>
@@ -64,7 +64,7 @@ const {
 
         <div _flex _children="!w0 grow" _gap2>
           <div>
-            <BaseInput v-model="preparationTime" />
+            <BaseInput v-model="preparationTime" numeric />
           </div>
 
           <BaseSelect

@@ -4,14 +4,13 @@ import { useTextarea } from './input/useTextarea';
 
 type InputType = 'number' | 'text' | 'password' | 'textarea';
 
-type InputEvent = Event & { target: { value: string } };
-
 interface Props {
   modelValue: string;
   type?: InputType;
   placeholder?: string;
   error?: boolean;
   autofocus?: boolean;
+  numeric?: boolean;
 }
 
 interface Emits {
@@ -24,25 +23,34 @@ const {
   modelValue = '',
   error = false,
   autofocus = false,
+  numeric = false,
 } = defineProps<Props>();
 
 const emit = defineEmits<Emits>();
 
-const el = ref<HTMLInputElement>();
+const el = $ref<HTMLInputElement>();
+
+const value = computed({
+  get: () => modelValue,
+  set: (v) => {
+    if (el && numeric && !/^\d*$/.test(v)) {
+      el.value = modelValue;
+      return;
+    }
+
+    emit('update:modelValue', v);
+  },
+});
 
 const { classes } = useInputClasses($$(error));
 
 if (type === 'textarea') {
-  useTextarea(el);
+  useTextarea($$(el));
 }
-
-const handleInput = (e: Event) => {
-  emit('update:modelValue', (e as InputEvent).target.value);
-};
 
 onMounted(() => {
   if (autofocus) {
-    el.value?.focus();
+    el?.focus();
   }
 });
 </script>
@@ -51,23 +59,21 @@ onMounted(() => {
   <input
     v-if="type !== 'textarea'"
     ref="el"
-    :value="modelValue"
+    v-model="value"
     :placeholder="placeholder"
     :type="type"
     :class="classes"
     autocomplete="false"
     _text-center
-    @input="(e) => handleInput(e)"
   />
   <textarea
     v-else
     ref="el"
-    :value="modelValue"
+    v-model="value"
     :placeholder="placeholder"
     :class="classes"
     _min-h-15
     _resize-none
     _overflow-hidden
-    @input="(e) => handleInput(e)"
   />
 </template>

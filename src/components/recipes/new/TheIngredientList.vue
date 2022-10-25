@@ -76,6 +76,7 @@ onMounted(addIngredient);
             <BaseInput
               v-model="item.quantity"
               :placeholder="t('recipes.new.ingredient.quantity')"
+              numeric
             />
 
             <BaseSelect
