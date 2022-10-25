@@ -122,4 +122,16 @@ const emit = defineEmits<{
     @apply outline-accent-focus;
   }
 }
+
+// eslint-disable-next-line vue-scoped-css/no-unused-selector, vue-scoped-css/require-selector-used-inside
+.dark {
+  .base-select {
+    --vs-colors--primary: v-bind('colors.primary[":dark"]');
+    --vs-colors--contrast: v-bind('colors.primary.contrast[":dark"]');
+
+    --vs-border-color: rgba(250, 250, 250, 0.3);
+
+    --vs-controls-color: rgba(250, 250, 250, 0.6);
+  }
+}
 </style>
