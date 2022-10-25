@@ -76,7 +76,7 @@ const {
         </div>
       </div>
 
-      <div _h=".5" _bg="primary-contrast/30" />
+      <BaseHr />
 
       <div>
         <TheIngredientList />
