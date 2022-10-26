@@ -5,6 +5,7 @@ meta:
 
 <script setup lang="ts">
 import TheIngredientList from '~/components/recipes/new/TheIngredientList.vue';
+import TheStepList from '~/components/recipes/new/TheStepList.vue';
 
 import { useMealType } from '~/components/recipes/new/useMealType';
 import { usePreparationTimeUnit } from '~/components/recipes/new/usePreparationTimeUnit';
@@ -81,6 +82,12 @@ const {
 
         <div>
           <TheIngredientList />
+        </div>
+
+        <BaseHr />
+
+        <div>
+          <TheStepList />
         </div>
       </div>
     </BaseScroll>

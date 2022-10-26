@@ -16,6 +16,10 @@ recipes:
     ingredient:
       name: Name
       quantity: Quantity
+    steps: Preparation steps
+    add_step: Add step
+    step:
+      description: What to do?
 
 calendar:
   title: Calendar
