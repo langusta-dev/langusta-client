@@ -4,7 +4,7 @@ exports[`register page > should render 1`] = `
 "<div _flex=\\"~ col\\" _items-center=\\"\\">
   <div _h=\\"[3%]\\"></div>
   <div _flex=\\"~ col\\" _items-center=\\"\\" _text-center=\\"\\" _gap3=\\"\\">
-    <transition-group-stub enterfromclass=\\"op0\\" leavetoclass=\\"op0\\" moveclass=\\"duration-300 z-1\\" enteractiveclass=\\"pointer-events-none duration-300\\" leaveactiveclass=\\"absolute pointer-events-none duration-300 transform-translate-y-[100%]\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
+    <transition-group-stub enterfromclass=\\"op0\\" leavetoclass=\\"op0\\" moveclass=\\"duration-300 z-1\\" enteractiveclass=\\"pointer-events-none duration-300\\" leaveactiveclass=\\"absolute pointer-events-none duration-300\\" appear=\\"false\\" persisted=\\"false\\" css=\\"true\\">
       <!--v-if-->
       <div>
         <div>register.email</div><input placeholder=\\"\\" type=\\"text\\" class=\\"p-x2 p-y1 w72 max-w-full bg-primary rounded placeholder:text-sm placeholder:italic placeholder:text-primary-contrast/75 border-1px outline outline-2px outline-offset-0 outline-transparent hover:outline-accent !focus:outline-accent-focus hover:outline-accent !focus:outline-accent-focus transition-colors transition-property-[outline] border-primary-contrast/30\\" autocomplete=\\"false\\" _text-center=\\"\\">
