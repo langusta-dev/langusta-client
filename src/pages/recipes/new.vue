@@ -34,7 +34,7 @@ const {
 <template>
   <div _flex="~ col" _items-center>
     <BaseScroll>
-      <div _flex="~ col" _gap4 _mt4>
+      <div _flex="~ col" _gap4 _my4>
         <div>
           <div>{{ t('recipes.new.title') }}</div>
           <BaseInput v-model="title" />
