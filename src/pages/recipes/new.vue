@@ -33,54 +33,56 @@ const {
 
 <template>
   <div _flex="~ col" _items-center>
-    <div _flex="~ col" _gap4 _mt4>
-      <div>
-        <div>{{ t('recipes.new.title') }}</div>
-        <BaseInput v-model="title" />
-      </div>
+    <BaseScroll>
+      <div _flex="~ col" _gap4 _mt4>
+        <div>
+          <div>{{ t('recipes.new.title') }}</div>
+          <BaseInput v-model="title" />
+        </div>
 
-      <div>
-        <div>{{ t('recipes.new.meal_type') }}</div>
-        <BaseSelect
-          v-model="mealType"
-          :options="mealTypeOptions"
-          :reduce="MEAL_TYPE_OPTION_REDUCER"
-          label="label"
-        />
-      </div>
-
-      <div>
-        <div>{{ t('recipes.new.description') }}</div>
-        <BaseInput v-model="description" type="textarea" />
-      </div>
-
-      <div>
-        <div>{{ t('recipes.new.calorie_count') }}</div>
-        <BaseInput v-model="calorieCount" numeric />
-      </div>
-
-      <div>
-        <div>{{ t('recipes.new.preparation_time') }}</div>
-
-        <div _flex _children="!w0 grow" _gap2>
-          <div>
-            <BaseInput v-model="preparationTime" numeric />
-          </div>
-
+        <div>
+          <div>{{ t('recipes.new.meal_type') }}</div>
           <BaseSelect
-            v-model="preparationTimeUnit"
-            :options="preparationTimeUnitOptions"
-            :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
+            v-model="mealType"
+            :options="mealTypeOptions"
+            :reduce="MEAL_TYPE_OPTION_REDUCER"
             label="label"
           />
         </div>
-      </div>
 
-      <BaseHr />
+        <div>
+          <div>{{ t('recipes.new.description') }}</div>
+          <BaseInput v-model="description" type="textarea" />
+        </div>
 
-      <div>
-        <TheIngredientList />
+        <div>
+          <div>{{ t('recipes.new.calorie_count') }}</div>
+          <BaseInput v-model="calorieCount" numeric />
+        </div>
+
+        <div>
+          <div>{{ t('recipes.new.preparation_time') }}</div>
+
+          <div _flex _children="!w0 grow" _gap2>
+            <div>
+              <BaseInput v-model="preparationTime" numeric />
+            </div>
+
+            <BaseSelect
+              v-model="preparationTimeUnit"
+              :options="preparationTimeUnitOptions"
+              :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
+              label="label"
+            />
+          </div>
+        </div>
+
+        <BaseHr />
+
+        <div>
+          <TheIngredientList />
+        </div>
       </div>
-    </div>
+    </BaseScroll>
   </div>
 </template>

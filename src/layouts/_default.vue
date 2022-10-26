@@ -5,7 +5,7 @@ import TheStandardNav from '~/components/&layouts/_default/TheStandardNav.vue';
 
 <template>
   <div _flex="~ col md:row">
-    <main _grow _p="x4">
+    <main _grow>
       <BaseRouterView />
     </main>
 

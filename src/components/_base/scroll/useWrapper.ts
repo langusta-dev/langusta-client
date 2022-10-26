@@ -23,18 +23,17 @@ export const useWrapper = () => {
 
   useResizeObserver($$(wrapperEl), updateWrapperElHeights);
 
-  useMutationObserver(
-    $$(wrapperEl),
-    () => {
-      for (const i of range(wrapperEl.children.length)) {
-        useResizeObserver(
-          wrapperEl.children[i] as HTMLElement,
-          updateWrapperElHeights
-        );
-      }
-    },
-    { childList: true }
-  );
+  const observeWrapperChildren = () => {
+    for (const child of wrapperEl.children) {
+      useResizeObserver(child as HTMLElement, updateWrapperElHeights);
+    }
+  };
+
+  useMutationObserver($$(wrapperEl), observeWrapperChildren, {
+    childList: true,
+  });
+
+  onMounted(observeWrapperChildren);
 
   const isWrapperElReady = $computed(
     () => !!(wrapperHeightPx && wrapperScrollHeightPx)

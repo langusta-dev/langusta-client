@@ -14,6 +14,7 @@ declare module '@vue/runtime-core' {
     BaseInput: typeof import('~/components/_base/Input.vue')['default']
     BaseLink: typeof import('~/components/_base/Link.vue')['default']
     BaseRouterView: typeof import('~/components/_base/RouterView.vue')['default']
+    BaseScroll: typeof import('~/components/_base/Scroll.vue')['default']
     BaseSelect: typeof import('~/components/_base/Select.vue')['default']
     BaseToggler: typeof import('~/components/_base/Toggler.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
