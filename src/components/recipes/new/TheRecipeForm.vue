@@ -9,6 +9,7 @@ import TheStepList from './the-recipe-form/TheStepList.vue';
 
 import { useInputGroup } from '~/composables/input';
 
+import { linkValue } from './the-recipe-form/shared/newRecipe';
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 
@@ -18,10 +19,10 @@ const { injectValueByKey } = $(
   useInputGroup(['title', 'description', 'calorieCount', 'preparationTime'])
 );
 
-const title = injectValueByKey('title');
-const description = injectValueByKey('description');
-const calorieCount = injectValueByKey('calorieCount');
-const preparationTime = injectValueByKey('preparationTime');
+const title = $(injectValueByKey('title'));
+const description = $(injectValueByKey('description'));
+const calorieCount = $(injectValueByKey('calorieCount'));
+const preparationTime = $(injectValueByKey('preparationTime'));
 
 const { MEAL_TYPE_OPTION_REDUCER, mealTypeOptions, mealType } = useMealType();
 
@@ -29,7 +30,25 @@ const {
   PREPARATION_TIME_UNIT_OPTION_REDUCER,
   preparationTimeUnitOptions,
   preparationTimeUnit,
-} = usePreparationTimeUnit();
+} = $(usePreparationTimeUnit());
+
+linkValue('title', $$(title));
+linkValue('description', $$(description));
+
+linkValue(
+  'calorieCount',
+  computed(() => Number(calorieCount || 0))
+);
+
+linkValue('mealType', mealType);
+
+linkValue(
+  'preparationTime',
+  computed(() => ({
+    value: Number(preparationTime || 0),
+    unit: preparationTimeUnit,
+  }))
+);
 </script>
 
 <template>

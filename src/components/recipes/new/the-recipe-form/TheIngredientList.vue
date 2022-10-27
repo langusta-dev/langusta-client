@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { RecipeIngredientQuantityUnit } from '~/types/recipes';
 
+import { linkValue } from './shared/newRecipe';
 import { useQuantityUnit } from './the-ingredient-list/useQuantityUnit';
 
 import type { RecipeIngredient } from '~/types/recipes';
@@ -24,6 +25,8 @@ const ingredients = computed<RecipeIngredient[]>(() =>
   }))
 );
 
+linkValue('ingredients', ingredients);
+
 let ingredientId = 0;
 const addIngredient = () => {
   editableIngredients.push({
@@ -34,6 +37,8 @@ const addIngredient = () => {
   });
 };
 
+addIngredient();
+
 const deleteIngredientById = (id: number) => {
   const index = editableIngredients.findIndex((item) => item.id === id);
 
@@ -43,8 +48,6 @@ const deleteIngredientById = (id: number) => {
 };
 
 const { quantityUnitOptions, QUANTITY_UNIT_OPTION_REDUCER } = useQuantityUnit();
-
-onMounted(addIngredient);
 </script>
 
 <template>

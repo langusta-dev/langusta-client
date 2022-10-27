@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { linkValue } from './shared/newRecipe';
+
 import type { RecipeStep } from '~/types/recipes';
 
 const { t } = useI18n();
@@ -13,10 +15,14 @@ const steps = computed<RecipeStep[]>(() =>
   editableSteps.map(({ id: _, description }) => ({ description }))
 );
 
+linkValue('steps', steps);
+
 let stepId = 0;
 const addStep = () => {
   editableSteps.push({ id: stepId++, description: '' });
 };
+
+addStep();
 
 const deleteStepById = (id: number) => {
   const index = editableSteps.findIndex((item) => item.id === id);
@@ -41,8 +47,6 @@ const swapSteps = (indexA: number, indexB: number) => {
     editableSteps[indexA],
   ];
 };
-
-onMounted(addStep);
 </script>
 
 <template>
