@@ -20,6 +20,7 @@ recipes:
     add_step: Add step
     step:
       description: What to do?
+    submit: Submit recipe
 
 calendar:
   title: Calendar

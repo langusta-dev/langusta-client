@@ -1,4 +1,4 @@
-import { RecipePreparationTimeUnit } from '~/types/recipes';
+import { RecipePreparationTimeUnit } from '~/types/recipe';
 
 interface PreparationTimeUnitOption {
   value: RecipePreparationTimeUnit;

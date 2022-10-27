@@ -1,22 +1,13 @@
+import { useRecipeStore } from '~/stores/recipe';
+
 import type { Ref, WatchStopHandle } from 'vue';
-import type { Recipe } from '~/types/recipes';
+import type { EditableRecipe } from '~/types/recipe';
 
-type EditableRecipe = Pick<
-  Recipe,
-  | 'title'
-  | 'description'
-  | 'calorieCount'
-  | 'mealType'
-  | 'ingredients'
-  | 'preparationTime'
-  | 'steps'
->;
-
-const editableRecipe = $ref<Partial<EditableRecipe>>({});
+let editableRecipe = $ref<Partial<EditableRecipe>>({});
 
 const linkHandles: Partial<Record<keyof EditableRecipe, WatchStopHandle>> = {};
 
-export const linkValue = <K extends keyof EditableRecipe>(
+export const linkRecipeEntry = <K extends keyof EditableRecipe>(
   key: K,
   valueRef: Ref<EditableRecipe[K]>
 ) => {
@@ -28,4 +19,33 @@ export const linkValue = <K extends keyof EditableRecipe>(
     },
     { immediate: true }
   );
+};
+
+const isRecipeComplete = (
+  recipe: Partial<EditableRecipe>
+): recipe is EditableRecipe =>
+  !!(
+    recipe.title &&
+    recipe.description &&
+    recipe.calorieCount &&
+    recipe.mealType &&
+    recipe.ingredients &&
+    recipe.preparationTime &&
+    recipe.steps
+  );
+
+export const submitRecipe = () => {
+  if (!isRecipeComplete(editableRecipe)) {
+    return;
+  }
+
+  const recipeStore = useRecipeStore();
+  recipeStore.addRecipe(editableRecipe);
+
+  editableRecipe = {};
+
+  for (const [key, dropLink] of Object.entries(linkHandles)) {
+    dropLink();
+    delete linkHandles[key as keyof EditableRecipe];
+  }
 };

@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { RecipeIngredientQuantityUnit } from '~/types/recipes';
+import {
+  RecipeIngredientQuantityUnit,
+  type RecipeIngredient,
+} from '~/types/recipe';
 
-import { linkValue } from './shared/newRecipe';
+import { linkRecipeEntry } from './shared/newRecipe';
 import { useQuantityUnit } from './the-ingredient-list/useQuantityUnit';
-
-import type { RecipeIngredient } from '~/types/recipes';
 
 const { t } = useI18n();
 
@@ -25,7 +26,7 @@ const ingredients = computed<RecipeIngredient[]>(() =>
   }))
 );
 
-linkValue('ingredients', ingredients);
+linkRecipeEntry('ingredients', ingredients);
 
 let ingredientId = 0;
 const addIngredient = () => {

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { linkValue } from './shared/newRecipe';
+import { linkRecipeEntry } from './shared/newRecipe';
 
-import type { RecipeStep } from '~/types/recipes';
+import type { RecipeStep } from '~/types/recipe';
 
 const { t } = useI18n();
 
@@ -15,7 +15,7 @@ const steps = computed<RecipeStep[]>(() =>
   editableSteps.map(({ id: _, description }) => ({ description }))
 );
 
-linkValue('steps', steps);
+linkRecipeEntry('steps', steps);
 
 let stepId = 0;
 const addStep = () => {

@@ -9,7 +9,10 @@ import TheStepList from './the-recipe-form/TheStepList.vue';
 
 import { useInputGroup } from '~/composables/input';
 
-import { linkValue } from './the-recipe-form/shared/newRecipe';
+import {
+  linkRecipeEntry,
+  submitRecipe,
+} from './the-recipe-form/shared/newRecipe';
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 
@@ -32,17 +35,17 @@ const {
   preparationTimeUnit,
 } = $(usePreparationTimeUnit());
 
-linkValue('title', $$(title));
-linkValue('description', $$(description));
+linkRecipeEntry('title', $$(title));
+linkRecipeEntry('description', $$(description));
 
-linkValue(
+linkRecipeEntry(
   'calorieCount',
   computed(() => Number(calorieCount || 0))
 );
 
-linkValue('mealType', mealType);
+linkRecipeEntry('mealType', mealType);
 
-linkValue(
+linkRecipeEntry(
   'preparationTime',
   computed(() => ({
     value: Number(preparationTime || 0),
@@ -106,5 +109,9 @@ linkValue(
     <div>
       <TheStepList />
     </div>
+
+    <BaseButton @click="submitRecipe()">
+      {{ t('recipes.new.submit') }}
+    </BaseButton>
   </div>
 </template>

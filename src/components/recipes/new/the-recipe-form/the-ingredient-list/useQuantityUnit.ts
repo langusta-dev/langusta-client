@@ -1,4 +1,4 @@
-import { RecipeIngredientQuantityUnit } from '~/types/recipes';
+import { RecipeIngredientQuantityUnit } from '~/types/recipe';
 
 interface QuantityUnitOption {
   value: RecipeIngredientQuantityUnit;

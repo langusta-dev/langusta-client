@@ -1,4 +1,4 @@
-import { RecipeMealType } from '~/types/recipes';
+import { RecipeMealType } from '~/types/recipe';
 
 interface MealTypeOption {
   value: RecipeMealType;

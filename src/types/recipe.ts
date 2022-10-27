@@ -76,7 +76,7 @@ export interface Recipe {
   id: RecipeId;
   title: string;
   description: string;
-  author: string;
+  author?: string;
   externalSourceUrl?: string;
   likeCount?: number;
   rating?: number;
@@ -88,3 +88,14 @@ export interface Recipe {
   preparationTime: RecipePreparationTime;
   steps: RecipeStep[];
 }
+
+export type EditableRecipe = Pick<
+  Recipe,
+  | 'title'
+  | 'description'
+  | 'calorieCount'
+  | 'mealType'
+  | 'ingredients'
+  | 'preparationTime'
+  | 'steps'
+>;
