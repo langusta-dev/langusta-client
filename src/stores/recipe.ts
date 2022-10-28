@@ -3,28 +3,33 @@ import { v4 as uuid } from 'uuid';
 
 import { isOnline } from '~/composables/online';
 
-import { fetchRecipes, uploadRecipes } from '~/api/recipe';
+import { uploadRecipes } from '~/api/recipe';
 
 import { useLocalProfileStore } from './localProfile';
 
-import type { Recipe, RecipeId, EditableRecipe } from '~/types/recipe';
+import type { Recipe, EditableRecipe, RecipeId } from '~/types/recipe';
 
 export const useRecipeStore = defineStore('recipes', () => {
   const localProfileStore = useLocalProfileStore();
 
-  const { state: fetchedRecipes } = $(
-    useAsyncState<Recipe[]>(fetchRecipes, [])
-  );
-
-  const localRecipes = $(useLocalStorage<Recipe[]>('recipes', []));
-
-  const recipes = $computed(() => [...localRecipes, ...fetchedRecipes]);
+  const recipes = $(useLocalStorage<Recipe[]>('recipes', []));
 
   const recipesPerId = $computed(
     () => new Map(recipes.map((recipe) => [recipe.id, recipe]))
   );
 
   const getRecipeById = (id: RecipeId) => recipesPerId.get(id) || null;
+
+  // TODO
+  //
+  // - fetch the current user's recipes' ids or use locally cached ones
+  // - fetch collections from api or use locally cached ones
+  // - combine all the recipe ids (user's + from collections) and fetch the recipes from api (if online)
+  //
+  // - all local recipes should be cleared on user change
+  //
+  // why not let the server calculate the necessary recipes?
+  // - because user may not be logged in or simply synchronized
 
   const recipesToUpload = $(useLocalStorage<Recipe[]>('recipes-to-upload', []));
 
@@ -33,24 +38,25 @@ export const useRecipeStore = defineStore('recipes', () => {
 
     const newRecipe = { id: uuid(), createdAt: now, updatedAt: now, ...recipe };
 
-    localRecipes.push(newRecipe);
+    recipes.push(newRecipe);
 
     if (!localProfileStore.isLocalProfileEnabled) {
       recipesToUpload.push(newRecipe);
     }
   };
 
-  watch([$$(recipesToUpload), isOnline], async () => {
-    if (isOnline.value && recipesToUpload.length) {
-      await uploadRecipes(recipesToUpload);
-      recipesToUpload.splice(0, recipesToUpload.length);
-    }
-  });
+  watch(
+    [$$(recipesToUpload), isOnline],
+    async () => {
+      if (isOnline.value && recipesToUpload.length) {
+        await uploadRecipes(recipesToUpload);
+        recipesToUpload.splice(0, recipesToUpload.length);
+      }
+    },
+    { immediate: true }
+  );
 
-  // TODO
-  // clear `localRecipes` and `recipesToUpload` on user change
-
-  return { recipes: computed(() => recipes), getRecipeById, addRecipe };
+  return $$({ getRecipeById, addRecipe });
 });
 
 if (import.meta.hot) {

@@ -16,6 +16,8 @@ import {
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 
+import type { RecipePreparationTime } from '~/types/recipe';
+
 const { t } = useI18n();
 
 const { injectValueByKey } = $(
@@ -47,7 +49,7 @@ linkRecipeEntry('mealType', mealType);
 
 linkRecipeEntry(
   'preparationTime',
-  computed(() => ({
+  computed<RecipePreparationTime>(() => ({
     value: Number(preparationTime || 0),
     unit: preparationTimeUnit,
   }))

@@ -77,6 +77,7 @@ export interface Recipe {
   title: string;
   description: string;
   author?: string;
+  isPublic?: boolean;
   externalSourceUrl?: string;
   likeCount?: number;
   rating?: number;

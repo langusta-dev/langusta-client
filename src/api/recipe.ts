@@ -1,9 +1,9 @@
 import { rest } from '~/helpers/api';
 
-import type { Recipe } from '~/types/recipe';
+import type { Recipe, RecipeId } from '~/types/recipe';
 
-export const fetchRecipes = async () => {
-  const { data } = await rest.get<Recipe[]>('/recipes/all');
+export const fetchRecipesByIds = async (ids: RecipeId[]) => {
+  const { data } = await rest.post<Recipe[]>('/recipes/add', { ids });
   return data || [];
 };
 
