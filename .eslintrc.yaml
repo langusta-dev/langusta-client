@@ -295,7 +295,6 @@ overrides:
       'padding-line-between-statements': off
       '@typescript-eslint/padding-line-between-statements':
         - warn
-
         # imports
         - blankLine: always
           prev: import
@@ -303,7 +302,6 @@ overrides:
         - blankLine: any
           prev: import
           next: import
-
         # exports
         - blankLine: always
           prev: export
@@ -311,7 +309,6 @@ overrides:
         - blankLine: always
           prev: '*'
           next: export
-
         # blocks
         - blankLine: always
           prev:
@@ -325,7 +322,6 @@ overrides:
             - multiline-expression
             - block-like
           next: '*'
-
         # interfaces / types
         - blankLine: always
           prev: '*'
@@ -340,6 +336,11 @@ overrides:
       '@typescript-eslint/return-await':
         - error
         - never
+
+  - files: 'src/types/**/*.ts'
+    rules:
+      # the rule is unfortunately broken with interfaces and enums
+      'lines-around-comment': off
 
   - files: 'src/helpers/_global.ts'
     rules:

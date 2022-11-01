@@ -12,8 +12,6 @@ export enum RecipeMealType {
 }
 
 export enum RecipeIngredientQuantityUnit {
-  // eslint-disable-next-line lines-around-comment
-
   /**
    * gram
    */
