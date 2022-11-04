@@ -8,6 +8,8 @@ import {
   injectRouterMock,
 } from 'vue-router-mock';
 
+import { rest } from '~/composables/api';
+
 const router = createRouterMock();
 const i18n = createI18n({ legacy: false, locale: 'en', messages: {} });
 
@@ -16,8 +18,13 @@ config.plugins.VueWrapper.install(VueRouterMock);
 beforeEach(() => {
   injectRouterMock(router);
 
-  const pinia = createTestingPinia();
+  const pinia = createTestingPinia({ stubActions: false });
 
   setActivePinia(pinia);
   config.global.plugins = [router, pinia, i18n];
+
+  vi.spyOn(rest, 'get').mockResolvedValue({ data: null });
+  vi.spyOn(rest, 'post').mockResolvedValue({ data: null });
+
+  localStorage.clear();
 });

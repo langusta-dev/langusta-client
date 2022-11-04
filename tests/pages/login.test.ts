@@ -1,6 +1,6 @@
 import Login from '~/pages/login.vue';
 
-import { mount } from '@vue/test-utils';
+import { flushPromises, mount } from '@vue/test-utils';
 
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
@@ -58,6 +58,7 @@ describe('login page', () => {
 
     const button = wrapper.find('button');
     await button.trigger('click');
+    await flushPromises();
 
     expect(sessionStore.logIn).toHaveBeenCalledOnce();
 

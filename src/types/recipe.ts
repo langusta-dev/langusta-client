@@ -6,9 +6,10 @@ export type RecipeId = Uuid;
 export enum RecipeMealType {
   BREAKFAST = 'BREAKFAST',
   LUNCH = 'LUNCH',
-  DINNER = 'DINNER',
   APPETIZER = 'APPETIZER',
+  DINNER = 'DINNER',
   DESSERT = 'DESSERT',
+  SNACK = 'SNACK',
 }
 
 export enum RecipeIngredientQuantityUnit {

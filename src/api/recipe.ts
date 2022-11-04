@@ -12,5 +12,7 @@ export const fetchRecipesByIds = async (ids: RecipeId[]) => {
   return data;
 };
 
-export const uploadRecipes = (recipes: Recipe[]) =>
-  rest.post('/recipes/add', recipes);
+export const uploadRecipes = async (recipes: Recipe[]) => {
+  const response = await rest.post('/recipes/add', recipes);
+  return response.status === 200;
+};

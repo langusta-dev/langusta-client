@@ -123,8 +123,11 @@ export const useRecipeStore = defineStore('recipe', () => {
     [$$(recipesToUpload), isOnline],
     async () => {
       if (isOnline.value && recipesToUpload.length) {
-        await uploadRecipes(recipesToUpload);
-        recipesToUpload.splice(0, recipesToUpload.length);
+        const areRecipesUploaded = await uploadRecipes(recipesToUpload);
+
+        if (areRecipesUploaded) {
+          recipesToUpload.splice(0, recipesToUpload.length);
+        }
       }
     },
     { immediate: true }

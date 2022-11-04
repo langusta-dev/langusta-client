@@ -13,6 +13,7 @@ describe('register page', () => {
 
   afterEach(() => {
     vi.useRealTimers();
+    vi.restoreAllMocks();
   });
 
   it('should render', () => {
@@ -83,6 +84,7 @@ describe('register page', () => {
     const button = wrapper.find('button');
     await button.trigger('click');
 
+    await flushPromises();
     vi.advanceTimersToNextTimer();
     await flushPromises();
 
