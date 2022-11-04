@@ -3,33 +3,107 @@ import { v4 as uuid } from 'uuid';
 
 import { isOnline } from '~/composables/online';
 
-import { uploadRecipes } from '~/api/recipe';
+import {
+  fetchRecipesByIds,
+  fetchUserRecipes,
+  uploadRecipes,
+} from '~/api/recipe';
 
 import { useLocalProfileStore } from './localProfile';
+import { useRecipeCollectionStore } from './recipeCollection';
+import { useSessionStore } from './session';
 
 import type { Recipe, EditableRecipe, RecipeId } from '~/types/recipe';
 
-export const useRecipeStore = defineStore('recipes', () => {
+export const useRecipeStore = defineStore('recipe', () => {
+  const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
+  const recipeCollectionStore = useRecipeCollectionStore();
+
+  let areRecipesInSync = $ref(!sessionStore.isAuth);
+  whenever(
+    () => sessionStore.isAuth,
+    () => {
+      areRecipesInSync = false;
+    }
+  );
 
   const recipes = $(useLocalStorage<Recipe[]>('recipes', []));
+
+  const setRecipes = (newRecipes: Recipe[]) => {
+    recipes.splice(0, recipes.length, ...newRecipes);
+  };
+
+  // TODO the sync mechanism is duplicated in `useRecipeCollectionStore`
+  // thus should be extracted as a composable
+  // the "let's try again" part should also have some limitation
+
+  const syncRecipes = async () => {
+    if (!sessionStore.isAuth) {
+      areRecipesInSync = true;
+      return;
+    }
+
+    const [fetchedUserRecipes] = await Promise.all([
+      !localProfileStore.isLocalProfileEnabled ? fetchUserRecipes() : [],
+      until(() => recipeCollectionStore.areCollectionsInSync).toBe(true),
+    ]);
+
+    let recipesToFetchIds = recipeCollectionStore.collections.flatMap(
+      ({ recipeIds }) => recipeIds
+    );
+
+    const newRecipes = [];
+
+    if (fetchedUserRecipes?.length) {
+      newRecipes.push(...fetchedUserRecipes);
+
+      recipesToFetchIds = recipesToFetchIds.filter(
+        (id) => !fetchedUserRecipes.some((recipe) => recipe.id === id)
+      );
+    }
+
+    const shouldFetchMissingRecipes = !!recipesToFetchIds.length;
+
+    const missingRecipes = shouldFetchMissingRecipes
+      ? await fetchRecipesByIds(recipesToFetchIds)
+      : [];
+
+    /**
+     * all fired requests failed, so the server is probably unavailable
+     * let's use local recipes then
+     */
+    if (
+      !fetchedUserRecipes &&
+      ((shouldFetchMissingRecipes && !missingRecipes) ||
+        !shouldFetchMissingRecipes)
+    ) {
+      areRecipesInSync = true;
+      return;
+    }
+
+    /**
+     * one of the requests failed
+     * let's try again
+     */
+    if (!fetchedUserRecipes || !missingRecipes) {
+      syncRecipes();
+      return;
+    }
+
+    newRecipes.push(...missingRecipes);
+
+    setRecipes(newRecipes);
+    areRecipesInSync = true;
+  };
+
+  whenever(() => !areRecipesInSync, syncRecipes, { immediate: true });
 
   const recipesPerId = $computed(
     () => new Map(recipes.map((recipe) => [recipe.id, recipe]))
   );
 
   const getRecipeById = (id: RecipeId) => recipesPerId.get(id) || null;
-
-  // TODO
-  //
-  // - fetch the current user's recipes' ids or use locally cached ones
-  // - fetch collections from api or use locally cached ones
-  // - combine all the recipe ids (user's + from collections) and fetch the recipes from api (if online)
-  //
-  // - all local recipes should be cleared on user change
-  //
-  // why not let the server calculate the necessary recipes?
-  // - because user may not be logged in or simply synchronized
 
   const recipesToUpload = $(useLocalStorage<Recipe[]>('recipes-to-upload', []));
 
@@ -56,7 +130,7 @@ export const useRecipeStore = defineStore('recipes', () => {
     { immediate: true }
   );
 
-  return $$({ getRecipeById, addRecipe });
+  return { recipes: computed(() => recipes), getRecipeById, addRecipe };
 });
 
 if (import.meta.hot) {

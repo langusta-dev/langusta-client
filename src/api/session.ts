@@ -1,4 +1,4 @@
-import { rest } from '~/helpers/api';
+import { rest } from '~/composables/api';
 
 import type { LogInPayload, RegisterPayload } from '~/types/session';
 
