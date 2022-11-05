@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { linkRecipeEntry } from './shared/newRecipe';
+import { linkRecipeEntry } from './&shared/newRecipe';
 
 import type { RecipeStep } from '~/types/recipe';
 

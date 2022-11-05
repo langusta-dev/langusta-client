@@ -7,13 +7,16 @@ import {
   RecipePreparationTimeUnit,
 } from '~/types/recipe';
 
+import { useLocalProfileStore } from '~/stores/localProfile';
 import { useRecipeStore } from '~/stores/recipe';
+import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
 
 import * as recipeApi from '~/api/recipe';
 import * as recipeCollectionApi from '~/api/recipeCollection';
 
 import type { EditableRecipe, Recipe } from '~/types/recipe';
+import type { RecipeCollection } from '~/types/recipeCollection';
 
 describe('recipes store', () => {
   afterEach(() => {
@@ -27,11 +30,17 @@ describe('recipes store', () => {
     // @ts-expect-error the data is incomplete
     const testRecipe2: Recipe = { id: 'test-id-2' };
 
+    const testRecipeCollection: RecipeCollection = {
+      id: 'test-collection-id',
+      name: 'test-collection-name',
+      recipeIds: [testRecipe1.id],
+    };
+
     beforeEach(() => {
       vi.spyOn(
         recipeCollectionApi,
         'fetchUserRecipeCollections'
-      ).mockResolvedValue([{ id: '', name: '', recipeIds: [testRecipe1.id] }]);
+      ).mockResolvedValue([testRecipeCollection]);
 
       vi.spyOn(recipeApi, 'uploadRecipes').mockResolvedValue(true);
     });
@@ -201,6 +210,150 @@ describe('recipes store', () => {
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe2.id]);
       expect(recipeStore.recipes).toStrictEqual([testRecipe1, testRecipe2]);
+    });
+
+    it(`Given authenticated user
+        with local recipes created via local profile,
+        When synchronizing user recipes
+        and recipes from collections,
+        Then should preserve recipes created via local profile`, async () => {
+      const sessionStore = useSessionStore();
+
+      // Given
+      // @ts-expect-error it's readonly
+      sessionStore.isAuth = true;
+
+      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-1',
+        isLocalOnly: true,
+      };
+
+      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-2',
+      };
+
+      const testLocalRecipe3: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-3',
+        isLocalOnly: true,
+      };
+
+      const testLocalRecipe4: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-4',
+        isLocalOnly: false,
+      };
+
+      localStorage.setItem(
+        'recipes',
+        JSON.stringify([
+          testLocalRecipe1,
+          testLocalRecipe2,
+          testLocalRecipe3,
+          testLocalRecipe4,
+        ])
+      );
+
+      // When
+      vi.spyOn(recipeApi, 'fetchUserRecipes').mockResolvedValue([testRecipe2]);
+      vi.spyOn(recipeApi, 'fetchRecipesByIds').mockResolvedValue([testRecipe1]);
+
+      const recipeStore = useRecipeStore();
+      await flushPromises();
+
+      // Then
+      expect(recipeStore.recipes).toStrictEqual([
+        testLocalRecipe1,
+        testLocalRecipe3,
+        testRecipe2,
+        testRecipe1,
+      ]);
+    });
+
+    it(`Given user using local profile
+        with no local collections,
+        Then should use recipes created via local profile`, async () => {
+      const fetchUserRecipesSpy = vi
+        .spyOn(recipeApi, 'fetchUserRecipes')
+        .mockResolvedValue(null);
+
+      const fetchRecipesByIdsSpy = vi
+        .spyOn(recipeApi, 'fetchRecipesByIds')
+        .mockResolvedValue(null);
+
+      // Given
+      const localProfileStore = useLocalProfileStore();
+      localProfileStore.enableLocalProfile();
+
+      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-1',
+        isLocalOnly: true,
+      };
+
+      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-2',
+      };
+
+      localStorage.setItem(
+        'recipes',
+        JSON.stringify([testLocalRecipe1, testLocalRecipe2])
+      );
+
+      // When
+      const recipeStore = useRecipeStore();
+      await flushPromises();
+
+      // Then
+      expect(fetchUserRecipesSpy).not.toHaveBeenCalled();
+      expect(fetchRecipesByIdsSpy).not.toHaveBeenCalled();
+      expect(recipeStore.recipes).toStrictEqual([testLocalRecipe1]);
+    });
+
+    it(`Given user using local profile
+        with local collections,
+        Then should fetch recipes from collections
+        and combine them with local profile ones`, async () => {
+      const fetchUserRecipesSpy = vi
+        .spyOn(recipeApi, 'fetchUserRecipes')
+        .mockResolvedValue(null);
+
+      const fetchRecipesByIdsSpy = vi
+        .spyOn(recipeApi, 'fetchRecipesByIds')
+        .mockResolvedValue([testRecipe1]);
+
+      // Given
+      const localProfileStore = useLocalProfileStore();
+      localProfileStore.enableLocalProfile();
+
+      const recipeCollectionStore = useRecipeCollectionStore();
+
+      // @ts-expect-error it's readonly
+      recipeCollectionStore.collections = [testRecipeCollection];
+
+      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-1',
+        isLocalOnly: true,
+      };
+
+      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+        id: 'test-local-id-2',
+      };
+
+      localStorage.setItem(
+        'recipes',
+        JSON.stringify([testLocalRecipe1, testLocalRecipe2])
+      );
+
+      // When
+      const recipeStore = useRecipeStore();
+      await flushPromises();
+
+      // Then
+      expect(fetchUserRecipesSpy).not.toHaveBeenCalled();
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe1.id]);
+      expect(recipeStore.recipes).toStrictEqual([
+        testLocalRecipe1,
+        testRecipe1,
+      ]);
     });
 
     it(`Given authenticated user with local recipes,

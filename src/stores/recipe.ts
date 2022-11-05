@@ -31,7 +31,12 @@ export const useRecipeStore = defineStore('recipe', () => {
   const recipes = $(useLocalStorage<Recipe[]>('recipes', []));
 
   const setRecipes = (newRecipes: Recipe[]) => {
-    recipes.splice(0, recipes.length, ...newRecipes);
+    recipes.splice(
+      0,
+      recipes.length,
+      ...recipes.filter(({ isLocalOnly }) => isLocalOnly), // local recipes should be always preserved
+      ...newRecipes
+    );
   };
 
   // TODO the sync mechanism is duplicated in `useRecipeCollectionStore`
@@ -44,8 +49,10 @@ export const useRecipeStore = defineStore('recipe', () => {
       return;
     }
 
-    const [fetchedUserRecipes] = await Promise.all([
-      !localProfileStore.isLocalProfileEnabled ? fetchUserRecipes() : [],
+    const shouldFetchUserRecipes = !localProfileStore.isLocalProfileEnabled;
+
+    const [userRecipes] = await Promise.all([
+      shouldFetchUserRecipes ? fetchUserRecipes() : [],
       until(() => recipeCollectionStore.areCollectionsInSync).toBe(true),
     ]);
 
@@ -55,11 +62,11 @@ export const useRecipeStore = defineStore('recipe', () => {
 
     const newRecipes = [];
 
-    if (fetchedUserRecipes?.length) {
-      newRecipes.push(...fetchedUserRecipes);
+    if (userRecipes?.length) {
+      newRecipes.push(...userRecipes);
 
       recipesToFetchIds = recipesToFetchIds.filter(
-        (id) => !fetchedUserRecipes.some((recipe) => recipe.id === id)
+        (id) => !userRecipes.some((recipe) => recipe.id === id)
       );
     }
 
@@ -70,13 +77,13 @@ export const useRecipeStore = defineStore('recipe', () => {
       : [];
 
     /**
-     * all fired requests failed, so the server is probably unavailable
-     * let's use local recipes then
+     * there was something to fetch, but all fired requests failed
+     * let's use what we already have then
      */
     if (
-      !fetchedUserRecipes &&
-      ((shouldFetchMissingRecipes && !missingRecipes) ||
-        !shouldFetchMissingRecipes)
+      (shouldFetchUserRecipes || shouldFetchMissingRecipes) &&
+      (!shouldFetchUserRecipes || !userRecipes) &&
+      (!shouldFetchMissingRecipes || !missingRecipes)
     ) {
       areRecipesInSync = true;
       return;
@@ -86,7 +93,7 @@ export const useRecipeStore = defineStore('recipe', () => {
      * one of the requests failed
      * let's try again
      */
-    if (!fetchedUserRecipes || !missingRecipes) {
+    if (!userRecipes || !missingRecipes) {
       syncRecipes();
       return;
     }
@@ -110,11 +117,20 @@ export const useRecipeStore = defineStore('recipe', () => {
   const addRecipe = (recipe: EditableRecipe) => {
     const now = new Date().toString();
 
-    const newRecipe = { id: uuid(), createdAt: now, updatedAt: now, ...recipe };
+    const newRecipe: Recipe = {
+      id: uuid(),
+      createdAt: now,
+      updatedAt: now,
+      ...recipe,
+    };
+
+    if (localProfileStore.isLocalProfileEnabled) {
+      newRecipe.isLocalOnly = true;
+    }
 
     recipes.push(newRecipe);
 
-    if (!localProfileStore.isLocalProfileEnabled) {
+    if (!newRecipe.isLocalOnly) {
       recipesToUpload.push(newRecipe);
     }
   };

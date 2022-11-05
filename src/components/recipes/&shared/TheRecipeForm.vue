@@ -12,7 +12,7 @@ import { useInputGroup } from '~/composables/input';
 import {
   linkRecipeEntry,
   submitRecipe,
-} from './the-recipe-form/shared/newRecipe';
+} from './the-recipe-form/&shared/newRecipe';
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 

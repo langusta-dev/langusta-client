@@ -4,7 +4,7 @@ meta:
 </route>
 
 <script setup lang="ts">
-import TheRecipeForm from '~/components/recipes/new/TheRecipeForm.vue';
+import TheRecipeForm from '~/components/recipes/&shared/TheRecipeForm.vue';
 </script>
 
 <template>

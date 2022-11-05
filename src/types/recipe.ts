@@ -76,6 +76,13 @@ export interface Recipe {
   title: string;
   description: string;
   author?: string;
+
+  /**
+   * recipes created via local profile are always preserved in local storage
+   * they cannot be synchronized or published
+   */
+  isLocalOnly?: boolean;
+
   isPublic?: boolean;
   externalSourceUrl?: string;
   likeCount?: number;

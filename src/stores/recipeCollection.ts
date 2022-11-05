@@ -7,7 +7,7 @@ import { useSessionStore } from './session';
 
 import type { RecipeCollection } from '~/types/recipeCollection';
 
-export const useRecipeCollectionStore = defineStore('recipe-collection', () => {
+export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
   const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
 

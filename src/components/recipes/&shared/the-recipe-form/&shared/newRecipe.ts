@@ -21,7 +21,7 @@ export const linkRecipeEntry = <K extends keyof EditableRecipe>(
   );
 };
 
-const isRecipeComplete = (
+const _isRecipeComplete = (
   recipe: Partial<EditableRecipe>
 ): recipe is EditableRecipe =>
   !!(
@@ -35,7 +35,7 @@ const isRecipeComplete = (
   );
 
 export const submitRecipe = () => {
-  if (!isRecipeComplete(editableRecipe)) {
+  if (!_isRecipeComplete(editableRecipe)) {
     return;
   }
 

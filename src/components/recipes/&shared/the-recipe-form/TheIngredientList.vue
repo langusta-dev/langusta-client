@@ -4,7 +4,7 @@ import {
   type RecipeIngredient,
 } from '~/types/recipe';
 
-import { linkRecipeEntry } from './shared/newRecipe';
+import { linkRecipeEntry } from './&shared/newRecipe';
 import { useQuantityUnit } from './the-ingredient-list/useQuantityUnit';
 
 const { t } = useI18n();
