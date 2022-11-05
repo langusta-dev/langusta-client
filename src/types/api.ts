@@ -1,3 +1,7 @@
+import type { AxiosResponse } from 'axios';
+
+export type RestResponse<T> = AxiosResponse<T | null>;
+
 export enum HttpStatusCode {
   Continue = 100,
   SwitchingProtocols = 101,

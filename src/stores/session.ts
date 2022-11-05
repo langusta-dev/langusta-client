@@ -6,6 +6,8 @@ import * as api from '~/api/session';
 
 import { useLocalProfileStore } from './localProfile';
 
+import type { RestResponse } from '~/types/api';
+import type { JwtTokenPayload } from '~/types/jwt';
 import type { LogInPayload, RegisterPayload } from '~/types/session';
 
 export const useSessionStore = defineStore('session', () => {
@@ -23,31 +25,26 @@ export const useSessionStore = defineStore('session', () => {
     }
   };
 
-  const logIn = async (payload: LogInPayload) => {
+  const _authenticate = async (
+    tokenPayloadResponse: Promise<RestResponse<JwtTokenPayload>>
+  ) => {
     if (isAuth) {
       logOut();
     }
 
-    const { data } = await api.logIn(payload);
+    const { data } = await tokenPayloadResponse;
 
     if (data?.token) {
       setJwt(data.token);
     }
   };
 
-  const register = async (payload: RegisterPayload) => {
-    if (isAuth) {
-      logOut();
-    }
+  const logIn = (payload: LogInPayload) => _authenticate(api.logIn(payload));
 
-    const { data } = await api.register(payload);
+  const register = async (payload: RegisterPayload) =>
+    _authenticate(api.register(payload));
 
-    if (data?.token) {
-      setJwt(data.token);
-    }
-  };
-
-  return $$({ isAuth, logIn, logOut, register });
+  return { isAuth: $$(isAuth), logIn, logOut, register };
 });
 
 if (import.meta.hot) {

@@ -8,18 +8,17 @@ import { startNProgress, stopNProgress } from '~/composables/nprogress';
 import { isOnline } from './online';
 
 import type { AxiosRequestConfig, AxiosInstance, AxiosResponse } from 'axios';
+import type { RestResponse } from '~/types/api';
 
-type RequestResponse<T> = AxiosResponse<T | null>;
+type RestFn = <T = unknown>(url: string) => Promise<RestResponse<T>>;
 
-type RequestFn = <T = unknown>(url: string) => Promise<RequestResponse<T>>;
-
-type RequestFnWithData = <T = unknown, D = unknown>(
+type RestFnWithData = <T = unknown, D = unknown>(
   url: string,
   data?: D
-) => Promise<RequestResponse<T>>;
+) => Promise<RestResponse<T>>;
 
-type RestInstance = Record<'get' | 'delete', RequestFn> &
-  Record<'post' | 'put' | 'patch', RequestFnWithData> &
+type RestInstance = Record<'get' | 'delete', RestFn> &
+  Record<'post' | 'put' | 'patch', RestFnWithData> &
   AxiosInstance;
 
 class ClientOfflineError extends Error {

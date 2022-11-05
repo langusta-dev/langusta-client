@@ -1,6 +1,8 @@
-const jwt = useSessionStorage<string | null>('token', null);
+import type { JwtToken } from '~/types/jwt';
 
-const setJwt = (newJwt: string) => {
+const jwt = useSessionStorage<JwtToken | null>('token', null);
+
+const setJwt = (newJwt: JwtToken) => {
   jwt.value = newJwt;
 };
 
