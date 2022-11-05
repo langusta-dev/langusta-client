@@ -4,8 +4,13 @@ import {
   type RecipeIngredient,
 } from '~/types/recipe';
 
-import { linkRecipeEntry } from './&shared/newRecipe';
 import { useQuantityUnit } from './the-ingredient-list/useQuantityUnit';
+
+const props = defineProps<{ ingredients: RecipeIngredient[] }>();
+
+const emit = defineEmits<{
+  (e: 'update:ingredients', value: RecipeIngredient[]): void;
+}>();
 
 const { t } = useI18n();
 
@@ -16,9 +21,9 @@ interface EditableRecipeIngredient {
   quantityUnit: RecipeIngredientQuantityUnit;
 }
 
-const editableIngredients = $ref<EditableRecipeIngredient[]>([]);
+let editableIngredients = $ref<EditableRecipeIngredient[]>([]);
 
-const ingredients = computed<RecipeIngredient[]>(() =>
+const ingredients = $computed<RecipeIngredient[]>(() =>
   editableIngredients.map(({ id: _, name, quantity, quantityUnit }) => ({
     name,
     quantity: Number(quantity || 0),
@@ -26,7 +31,9 @@ const ingredients = computed<RecipeIngredient[]>(() =>
   }))
 );
 
-linkRecipeEntry('ingredients', ingredients);
+watch($$(ingredients), (v) => {
+  emit('update:ingredients', v);
+});
 
 let ingredientId = 0;
 const addIngredient = () => {
@@ -38,8 +45,6 @@ const addIngredient = () => {
   });
 };
 
-addIngredient();
-
 const deleteIngredientById = (id: number) => {
   const index = editableIngredients.findIndex((item) => item.id === id);
 
@@ -49,6 +54,19 @@ const deleteIngredientById = (id: number) => {
 };
 
 const { quantityUnitOptions, QUANTITY_UNIT_OPTION_REDUCER } = useQuantityUnit();
+
+const initializeIngredients = () => {
+  editableIngredients = props.ingredients.map<EditableRecipeIngredient>(
+    ({ name, quantity, quantityUnit }) => ({
+      id: ingredientId++,
+      name,
+      quantity: quantity ? String(quantity) : '',
+      quantityUnit,
+    })
+  );
+};
+
+initializeIngredients();
 </script>
 
 <template>

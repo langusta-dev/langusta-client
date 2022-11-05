@@ -9,51 +9,100 @@ import TheStepList from './the-recipe-form/TheStepList.vue';
 
 import { useInputGroup } from '~/composables/input';
 
-import {
-  linkRecipeEntry,
-  submitRecipe,
-} from './the-recipe-form/&shared/newRecipe';
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 
-import type { RecipePreparationTime } from '~/types/recipe';
+import type {
+  EditableRecipe,
+  RecipeIngredient,
+  RecipeStep,
+} from '~/types/recipe';
+
+const props = defineProps<{ recipe: EditableRecipe }>();
+
+const emit = defineEmits<{
+  (e: 'update:recipe', value: EditableRecipe): void;
+  (e: 'submitRecipe'): void;
+}>();
 
 const { t } = useI18n();
 
 const { injectValueByKey } = $(
-  useInputGroup(['title', 'description', 'calorieCount', 'preparationTime'])
+  useInputGroup([
+    'title',
+    'description',
+    'calorieCount',
+    'preparationTimeValue',
+  ])
 );
 
-const title = $(injectValueByKey('title'));
-const description = $(injectValueByKey('description'));
-const calorieCount = $(injectValueByKey('calorieCount'));
-const preparationTime = $(injectValueByKey('preparationTime'));
+let title = $(injectValueByKey('title'));
+let description = $(injectValueByKey('description'));
+let calorieCount = $(injectValueByKey('calorieCount'));
+let preparationTimeValue = $(injectValueByKey('preparationTimeValue'));
 
-const { MEAL_TYPE_OPTION_REDUCER, mealTypeOptions, mealType } = useMealType();
+let { MEAL_TYPE_OPTION_REDUCER, mealTypeOptions, mealType } = $(useMealType());
 
-const {
+let {
   PREPARATION_TIME_UNIT_OPTION_REDUCER,
   preparationTimeUnitOptions,
   preparationTimeUnit,
 } = $(usePreparationTimeUnit());
 
-linkRecipeEntry('title', $$(title));
-linkRecipeEntry('description', $$(description));
+let ingredients = $ref<RecipeIngredient[]>([]);
 
-linkRecipeEntry(
-  'calorieCount',
-  computed(() => Number(calorieCount || 0))
-);
+let steps = $ref<RecipeStep[]>([]);
 
-linkRecipeEntry('mealType', mealType);
-
-linkRecipeEntry(
-  'preparationTime',
-  computed<RecipePreparationTime>(() => ({
-    value: Number(preparationTime || 0),
+const recipe = $computed<EditableRecipe>(() => ({
+  title,
+  description,
+  mealType,
+  calorieCount: Number(calorieCount || 0),
+  preparationTime: {
+    value: Number(preparationTimeValue || 0),
     unit: preparationTimeUnit,
-  }))
+  },
+  ingredients,
+  steps,
+}));
+
+watch($$(recipe), (v) => {
+  emit('update:recipe', v);
+});
+
+const isRecipeComplete = computed(
+  () => !!(recipe.title && recipe.description && recipe.calorieCount)
 );
+
+const submitRecipe = () => {
+  if (!isRecipeComplete) {
+    return;
+  }
+
+  emit('submitRecipe');
+};
+
+const initializeForm = () => {
+  title = props.recipe.title;
+  description = props.recipe.description;
+  mealType = props.recipe.mealType;
+
+  calorieCount = props.recipe.calorieCount
+    ? String(props.recipe.calorieCount)
+    : '';
+
+  preparationTimeValue = props.recipe.preparationTime.value
+    ? String(props.recipe.preparationTime.value)
+    : '';
+
+  preparationTimeUnit = props.recipe.preparationTime.unit;
+
+  ingredients = props.recipe.ingredients;
+
+  steps = props.recipe.steps;
+};
+
+initializeForm();
 </script>
 
 <template>
@@ -88,7 +137,7 @@ linkRecipeEntry(
 
       <div _flex _children="!w0 grow" _gap2>
         <div>
-          <BaseInput v-model="preparationTime" numeric />
+          <BaseInput v-model="preparationTimeValue" numeric />
         </div>
 
         <BaseSelect
@@ -103,16 +152,16 @@ linkRecipeEntry(
     <BaseHr />
 
     <div>
-      <TheIngredientList />
+      <TheIngredientList v-model:ingredients="ingredients" />
     </div>
 
     <BaseHr />
 
     <div>
-      <TheStepList />
+      <TheStepList v-model:steps="steps" />
     </div>
 
-    <BaseButton @click="submitRecipe()">
+    <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
       {{ t('recipes.new.submit') }}
     </BaseButton>
   </div>

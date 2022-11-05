@@ -1,7 +1,11 @@
 <script setup lang="ts">
-import { linkRecipeEntry } from './&shared/newRecipe';
-
 import type { RecipeStep } from '~/types/recipe';
+
+const props = defineProps<{ steps: RecipeStep[] }>();
+
+const emit = defineEmits<{
+  (e: 'update:steps', value: RecipeStep[]): void;
+}>();
 
 const { t } = useI18n();
 
@@ -9,20 +13,20 @@ interface EditableRecipeStep extends RecipeStep {
   id: number;
 }
 
-const editableSteps = $ref<EditableRecipeStep[]>([]);
+let editableSteps = $ref<EditableRecipeStep[]>([]);
 
-const steps = computed<RecipeStep[]>(() =>
+const steps = $computed<RecipeStep[]>(() =>
   editableSteps.map(({ id: _, description }) => ({ description }))
 );
 
-linkRecipeEntry('steps', steps);
+watch($$(steps), (v) => {
+  emit('update:steps', v);
+});
 
 let stepId = 0;
 const addStep = () => {
   editableSteps.push({ id: stepId++, description: '' });
 };
-
-addStep();
 
 const deleteStepById = (id: number) => {
   const index = editableSteps.findIndex((item) => item.id === id);
@@ -47,6 +51,15 @@ const swapSteps = (indexA: number, indexB: number) => {
     editableSteps[indexA],
   ];
 };
+
+const initializeSteps = () => {
+  editableSteps = props.steps.map<EditableRecipeStep>(({ description }) => ({
+    id: stepId++,
+    description,
+  }));
+};
+
+initializeSteps();
 </script>
 
 <template>

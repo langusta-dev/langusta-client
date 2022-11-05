@@ -343,6 +343,13 @@ overrides:
         - error
         - never
 
+  - files: 'src/pages/**/*.vue'
+    rules:
+      'unicorn/filename-case':
+        - error
+        - cases:
+            kebabCase: true
+
   - files: 'src/types/**/*.ts'
     rules:
       # the rule is unfortunately broken with interfaces and enums
