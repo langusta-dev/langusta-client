@@ -136,6 +136,11 @@ rules:
   'unicorn/better-regex': warn
   'unicorn/catch-error-name': warn
   'unicorn/explicit-length-check': off
+  'unicorn/filename-case':
+    - error
+    - cases:
+        camelCase: true
+        pascalCase: true
   'unicorn/no-array-callback-reference': off
   'unicorn/no-null': off
   'unicorn/no-zero-fractions': warn
@@ -223,7 +228,6 @@ rules:
   'import/no-unresolved': off
   'no-undef': off
   'unicorn/consistent-function-scoping': off
-  'unicorn/filename-case': off
   'vue/multi-word-component-names': off
 
   # - Vue (Reactivity Transform)
@@ -237,6 +241,7 @@ rules:
 
   # - Prettier
   'prettier/prettier': warn
+  'unicorn/empty-brace-spaces': off
   'vue/max-attributes-per-line': off
   'vue/singleline-html-element-content-newline': off
 
@@ -283,6 +288,7 @@ overrides:
           allowClassEnd: true
           allowObjectStart: true
           allowObjectEnd: true
+          ignorePattern: '^\s*@ts-(expect-error|ignore)'
 
       '@typescript-eslint/consistent-type-exports':
         - warn
@@ -350,11 +356,14 @@ overrides:
     rules:
       '@typescript-eslint/no-explicit-any': off
 
-  - files: 'shims.d.ts'
+  - files: '*.d.ts'
     rules:
       '@typescript-eslint/ban-types': off
       '@typescript-eslint/no-explicit-any': off
-      '@typescript-eslint/padding-line-between-statements': off
+      'unicorn/filename-case':
+        - error
+        - cases:
+            kebabCase: true
 
   - files: ['*.test.ts', 'tests/setup.ts']
     rules:

@@ -26,7 +26,8 @@
       "vite-plugin-vue-layouts/client",
       "vite-plugin-pwa/client",
       "vue/macros-global",
-      "vitest/globals"
+      "vitest/globals",
+      "vitest/importMeta"
     ]
   },
   "exclude": ["coverage", "dist", "node_modules", "public"]

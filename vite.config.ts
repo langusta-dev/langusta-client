@@ -55,6 +55,7 @@ export default defineConfig(({ mode }) => ({
     alias: {
       '~/': `${cwd}/src/`,
       'vue-i18n': 'vue-i18n/dist/vue-i18n.cjs.js',
+      'import.meta.vitest': 'undefined',
     },
   },
 
@@ -147,9 +148,9 @@ export default defineConfig(({ mode }) => ({
     setupFiles: 'tests/setup.ts',
     globals: true,
     include: ['tests/**/*.test.ts'],
+    includeSource: ['src/**/*.ts'],
     environment: 'jsdom',
     deps: { inline: ['@vue', '@vueuse', 'vue-demi'] },
-
     coverage: {
       include: ['src/**/*.{ts,vue}'],
       exclude: ['src/main.ts', 'src/modules', 'src/types', '**/*.d.ts'],

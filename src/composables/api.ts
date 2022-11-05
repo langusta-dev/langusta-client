@@ -38,7 +38,7 @@ const rest = axios.create(CONFIG) as RestInstance & { silent: AxiosInstance };
 rest.silent = axios.create(CONFIG) as RestInstance;
 rest.silent.defaults.headers = rest.defaults.headers;
 
-const handleClientOffline = (
+const _handleClientOffline = (
   request: AxiosRequestConfig
 ): AxiosRequestConfig => {
   if (!isOnline.value) {
@@ -48,26 +48,41 @@ const handleClientOffline = (
   return request;
 };
 
-const parseResponse = (response: AxiosResponse): AxiosResponse => {
-  if (response.status === HttpStatusCode.Unauthorized) {
-    unsetJwt();
-  }
+const _parseResponse = (response: AxiosResponse): AxiosResponse => ({
+  ...response,
+  data: response.data || null,
+});
 
-  return { ...response, data: response.data ?? null };
-};
+const _clientOfflineResponse = (
+  error: Pick<Error, 'message'>
+): AxiosResponse => ({
+  status: HttpStatusCode.ClientOffline,
+  statusText: error.message,
+  data: null,
+  headers: {},
+  config: CONFIG,
+});
 
-const handleErrors = (error: Error | AxiosError): AxiosResponse => {
+const _unknownErrorResponse = (
+  error: Pick<Error, 'message'>
+): AxiosResponse => ({
+  status: HttpStatusCode.UnknownError,
+  statusText: error.message,
+  data: null,
+  headers: {},
+  config: CONFIG,
+});
+
+const _handleErrors = (error: Error): AxiosResponse => {
   if (error instanceof ClientOfflineError) {
-    return {
-      status: HttpStatusCode.ClientOffline,
-      statusText: 'Client is offline',
-      data: null,
-      headers: {},
-      config: CONFIG,
-    };
+    return _clientOfflineResponse(error);
   }
 
   if (error instanceof AxiosError) {
+    if (error.response?.status === HttpStatusCode.Unauthorized) {
+      unsetJwt();
+    }
+
     return {
       status: error.response?.status || HttpStatusCode.UnknownError,
       statusText: error.response?.statusText || error.message,
@@ -77,20 +92,14 @@ const handleErrors = (error: Error | AxiosError): AxiosResponse => {
     };
   }
 
-  return {
-    status: HttpStatusCode.UnknownError,
-    statusText: error.message,
-    data: null,
-    headers: {},
-    config: CONFIG,
-  };
+  return _unknownErrorResponse(error);
 };
 
-rest.interceptors.request.use(handleClientOffline);
-rest.silent.interceptors.request.use(handleClientOffline);
+rest.interceptors.request.use(_handleClientOffline);
+rest.silent.interceptors.request.use(_handleClientOffline);
 
-rest.interceptors.response.use(parseResponse, handleErrors);
-rest.silent.interceptors.response.use(parseResponse, handleErrors);
+rest.interceptors.response.use(_parseResponse, _handleErrors);
+rest.silent.interceptors.response.use(_parseResponse, _handleErrors);
 
 rest.interceptors.request.use((request) => {
   startNProgress();
@@ -121,3 +130,110 @@ watch(
 );
 
 export { rest };
+
+if (import.meta.vitest) {
+  const { describe, it, expect } = import.meta.vitest;
+
+  describe('_handleClientOffline', () => {
+    it('should do nothing, if online', () => {
+      isOnline.value = true;
+      expect(() => _handleClientOffline({})).not.toThrow();
+    });
+
+    it('should throw ClientOfflineError, if offline', () => {
+      isOnline.value = false;
+      expect(() => _handleClientOffline({})).toThrow(ClientOfflineError);
+    });
+  });
+
+  describe('_parseResponse', () => {
+    it('should not change response with data', () => {
+      const response = {
+        status: 200,
+        statusText: 'Ok',
+        data: {},
+        headers: {},
+        config: {},
+      };
+
+      expect(_parseResponse(response)).toStrictEqual(response);
+    });
+
+    it('should replace missing data with null', () => {
+      const response: AxiosResponse = {
+        status: 400,
+        statusText: 'Ok',
+        data: undefined,
+        headers: {},
+        config: {},
+      };
+
+      expect(_parseResponse(response)).toStrictEqual({
+        ...response,
+        data: null,
+      });
+    });
+  });
+
+  describe('_handleErrors', () => {
+    it('should handle ClientOfflineError', () => {
+      expect(_handleErrors(new ClientOfflineError())).toStrictEqual(
+        _clientOfflineResponse({ message: 'Client is offline' })
+      );
+    });
+
+    it('should handle AxiosError', () => {
+      expect(
+        _handleErrors(
+          // @ts-expect-error fields are intentionally missing
+          new AxiosError('some message', undefined, undefined, undefined, {})
+        )
+      ).toStrictEqual({
+        status: HttpStatusCode.UnknownError,
+        statusText: 'some message',
+        data: null,
+        headers: {},
+        config: CONFIG,
+      });
+
+      expect(
+        _handleErrors(
+          // @ts-expect-error other fields shouldn't matter
+          new AxiosError('some message', undefined, undefined, undefined, {
+            status: HttpStatusCode.BadRequest,
+            statusText: 'some status text',
+            headers: { some: 'header' },
+          })
+        )
+      ).toStrictEqual({
+        status: HttpStatusCode.BadRequest,
+        statusText: 'some status text',
+        data: null,
+        headers: { some: 'header' },
+        config: CONFIG,
+      });
+    });
+
+    it('should unset jwt, if response has status 401', async () => {
+      const { jwt, setJwt } = await import('~/composables/jwt');
+
+      setJwt('abc');
+      expect(jwt.value).toBe('abc');
+
+      _handleErrors(
+        // @ts-expect-error other fields shouldn't matter
+        new AxiosError(undefined, undefined, undefined, undefined, {
+          status: HttpStatusCode.Unauthorized,
+        })
+      );
+
+      expect(jwt.value).toBe(null);
+    });
+
+    it('should handle unknown error', () => {
+      expect(_handleErrors(new Error('abc'))).toStrictEqual(
+        _unknownErrorResponse({ message: 'abc' })
+      );
+    });
+  });
+}
