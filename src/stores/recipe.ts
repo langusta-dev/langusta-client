@@ -13,7 +13,8 @@ import { useLocalProfileStore } from './localProfile';
 import { useRecipeCollectionStore } from './recipeCollection';
 import { useSessionStore } from './session';
 
-import type { Recipe, EditableRecipe, RecipeId } from '~/types/recipe';
+import type { Recipe, EditableRecipe } from '~/types/recipe';
+import type { Uuid } from '~/types/uuid';
 
 export const useRecipeStore = defineStore('recipe', () => {
   const sessionStore = useSessionStore();
@@ -94,7 +95,7 @@ export const useRecipeStore = defineStore('recipe', () => {
      * let's try again
      */
     if (!userRecipes || !missingRecipes) {
-      syncRecipes();
+      await syncRecipes();
       return;
     }
 
@@ -110,7 +111,7 @@ export const useRecipeStore = defineStore('recipe', () => {
     () => new Map(recipes.map((recipe) => [recipe.id, recipe]))
   );
 
-  const getRecipeById = (id: RecipeId) => recipesPerId.get(id) || null;
+  const getRecipeById = (id: Uuid) => recipesPerId.get(id) || null;
 
   const recipesToUpload = $(useLocalStorage<Recipe[]>('recipes-to-upload', []));
 

@@ -15,12 +15,16 @@ describe('recipe collections store', () => {
   describe('data synchronization', () => {
     const testCollection1: RecipeCollection = {
       id: 'test-id-1',
+      createdAt: 'test-created-at-1',
+      updatedAt: 'test-updated-at-1',
       name: 'test-name-1',
       recipeIds: [],
     };
 
     const testCollection2: RecipeCollection = {
       id: 'test-id-2',
+      createdAt: 'test-created-at-2',
+      updatedAt: 'test-updated-at-2',
       name: 'test-name-2',
       recipeIds: ['abc'],
     };

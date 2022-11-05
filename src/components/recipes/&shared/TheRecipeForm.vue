@@ -15,6 +15,7 @@ import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit
 import type {
   EditableRecipe,
   RecipeIngredient,
+  RecipePreparationTime,
   RecipeStep,
 } from '~/types/recipe';
 
@@ -49,6 +50,11 @@ let {
   preparationTimeUnit,
 } = $(usePreparationTimeUnit());
 
+const preparationTime = $computed<RecipePreparationTime>(() => ({
+  value: Number(preparationTimeValue || 0),
+  unit: preparationTimeUnit,
+}));
+
 let ingredients = $ref<RecipeIngredient[]>([]);
 
 let steps = $ref<RecipeStep[]>([]);
@@ -61,10 +67,7 @@ watchEffect(() => {
     description,
     mealType,
     calorieCount: Number(calorieCount || 0),
-    preparationTime: {
-      value: Number(preparationTimeValue || 0),
-      unit: preparationTimeUnit,
-    },
+    preparationTime,
     ingredients,
     steps,
   };

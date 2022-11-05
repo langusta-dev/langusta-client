@@ -32,6 +32,8 @@ describe('recipes store', () => {
 
     const testRecipeCollection: RecipeCollection = {
       id: 'test-collection-id',
+      createdAt: 'test-created-at',
+      updatedAt: 'test-updated-at',
       name: 'test-collection-name',
       recipeIds: [testRecipe1.id],
     };
@@ -185,7 +187,10 @@ describe('recipes store', () => {
         recipeCollectionApi,
         'fetchUserRecipeCollections'
       ).mockResolvedValue([
-        { id: '', name: '', recipeIds: [testRecipe1.id, testRecipe2.id] },
+        {
+          ...testRecipeCollection,
+          recipeIds: [testRecipe1.id, testRecipe2.id],
+        },
       ]);
 
       const fetchUserRecipesSpy = vi

@@ -69,7 +69,6 @@ rules:
   '@typescript-eslint/consistent-type-assertions':
     - error
     - assertionStyle: as
-      objectLiteralTypeAssertions: never
   '@typescript-eslint/consistent-type-definitions':
     - warn
     - interface
@@ -288,7 +287,7 @@ overrides:
           allowClassEnd: true
           allowObjectStart: true
           allowObjectEnd: true
-          ignorePattern: '^\s*@ts-(expect-error|ignore)'
+          ignorePattern: '^\s*(eslint-(disable|enable)|@ts-(expect-error|ignore))'
 
       '@typescript-eslint/consistent-type-exports':
         - warn

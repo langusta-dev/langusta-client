@@ -1,7 +1,4 @@
-import type { DateString } from './basic';
-import type { Uuid } from './uuid';
-
-export type RecipeId = Uuid;
+import type { Editable, SynchronizableData } from './dataSync';
 
 export enum RecipeMealType {
   BREAKFAST = 'BREAKFAST',
@@ -71,24 +68,14 @@ export interface RecipeStep {
   description: string;
 }
 
-export interface Recipe {
-  id: RecipeId;
+export interface Recipe extends SynchronizableData {
   title: string;
   description: string;
   author?: string;
-
-  /**
-   * recipes created via local profile are always preserved in local storage
-   * they cannot be synchronized or published
-   */
-  isLocalOnly?: boolean;
-
   isPublic?: boolean;
   externalSourceUrl?: string;
   likeCount?: number;
   rating?: number;
-  createdAt: DateString;
-  updatedAt: DateString;
   calorieCount: number;
   mealType: RecipeMealType;
   ingredients: RecipeIngredient[];
@@ -96,13 +83,4 @@ export interface Recipe {
   steps: RecipeStep[];
 }
 
-export type EditableRecipe = Pick<
-  Recipe,
-  | 'title'
-  | 'description'
-  | 'calorieCount'
-  | 'mealType'
-  | 'ingredients'
-  | 'preparationTime'
-  | 'steps'
->;
+export type EditableRecipe = Editable<Recipe>;
