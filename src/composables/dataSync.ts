@@ -92,10 +92,10 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   const push = (item: Editable<T>): void => {
     const newItem = {
+      ...item,
       id: uuid(),
       createdAt: now(),
       updatedAt: now(),
-      ...item,
     } as T;
 
     if (localProfileStore.isLocalProfileEnabled) {
@@ -119,10 +119,10 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     }
 
     const newItem = {
+      ...item,
       id,
       createdAt: oldItem.createdAt,
       updatedAt: now(),
-      ...item,
     } as T;
 
     if (oldItem.isLocalOnly) {
