@@ -23,8 +23,11 @@ beforeEach(() => {
   setActivePinia(pinia);
   config.global.plugins = [router, pinia, i18n];
 
-  vi.spyOn(rest, 'get').mockResolvedValue({ data: null });
-  vi.spyOn(rest, 'post').mockResolvedValue({ data: null });
+  const emptyResponse = { data: null };
+  vi.spyOn(rest, 'get').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest, 'post').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest.silent, 'get').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest.silent, 'post').mockResolvedValue(emptyResponse);
 
   localStorage.clear();
 });
