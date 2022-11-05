@@ -217,8 +217,8 @@ if (import.meta.vitest) {
     it('should unset jwt, if response has status 401', async () => {
       const { jwt, setJwt } = await import('~/composables/jwt');
 
-      setJwt('abc');
-      expect(jwt.value).toBe('abc');
+      setJwt('some-jwt');
+      expect(jwt.value).toBe('some-jwt');
 
       _handleErrors(
         // @ts-expect-error other fields shouldn't matter
@@ -231,8 +231,8 @@ if (import.meta.vitest) {
     });
 
     it('should handle unknown error', () => {
-      expect(_handleErrors(new Error('abc'))).toStrictEqual(
-        _unknownErrorResponse({ message: 'abc' })
+      expect(_handleErrors(new Error('some-message'))).toStrictEqual(
+        _unknownErrorResponse({ message: 'some-message' })
       );
     });
   });
