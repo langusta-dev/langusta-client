@@ -23,16 +23,15 @@ interface EditableRecipeIngredient {
 
 let editableIngredients = $ref<EditableRecipeIngredient[]>([]);
 
-const ingredients = $computed<RecipeIngredient[]>(() =>
-  editableIngredients.map(({ id: _, name, quantity, quantityUnit }) => ({
-    name,
-    quantity: Number(quantity || 0),
-    quantityUnit,
-  }))
-);
-
-watch($$(ingredients), (v) => {
-  emit('update:ingredients', v);
+watchEffect(() => {
+  emit(
+    'update:ingredients',
+    editableIngredients.map(({ id: _, name, quantity, quantityUnit }) => ({
+      name,
+      quantity: Number(quantity || 0),
+      quantityUnit,
+    }))
+  );
 });
 
 let ingredientId = 0;

@@ -53,21 +53,21 @@ let ingredients = $ref<RecipeIngredient[]>([]);
 
 let steps = $ref<RecipeStep[]>([]);
 
-const recipe = $computed<EditableRecipe>(() => ({
-  title,
-  description,
-  mealType,
-  calorieCount: Number(calorieCount || 0),
-  preparationTime: {
-    value: Number(preparationTimeValue || 0),
-    unit: preparationTimeUnit,
-  },
-  ingredients,
-  steps,
-}));
+let { recipe } = $(useVModels(props, emit));
 
-watch($$(recipe), (v) => {
-  emit('update:recipe', v);
+watchEffect(() => {
+  recipe = {
+    title,
+    description,
+    mealType,
+    calorieCount: Number(calorieCount || 0),
+    preparationTime: {
+      value: Number(preparationTimeValue || 0),
+      unit: preparationTimeUnit,
+    },
+    ingredients,
+    steps,
+  };
 });
 
 const isRecipeComplete = computed(

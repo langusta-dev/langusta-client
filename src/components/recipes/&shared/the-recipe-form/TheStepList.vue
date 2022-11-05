@@ -15,12 +15,11 @@ interface EditableRecipeStep extends RecipeStep {
 
 let editableSteps = $ref<EditableRecipeStep[]>([]);
 
-const steps = $computed<RecipeStep[]>(() =>
-  editableSteps.map(({ id: _, description }) => ({ description }))
-);
-
-watch($$(steps), (v) => {
-  emit('update:steps', v);
+watchEffect(() => {
+  emit(
+    'update:steps',
+    editableSteps.map(({ id: _, description }) => ({ description }))
+  );
 });
 
 let stepId = 0;
