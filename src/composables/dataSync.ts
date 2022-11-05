@@ -38,22 +38,22 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     );
   };
 
-  let isDataInSync = $ref(!sessionStore.isAuth);
+  let isDataReady = $ref(!sessionStore.isAuth);
   whenever(
     () => sessionStore.isAuth,
     () => {
-      isDataInSync = false;
+      isDataReady = false;
     }
   );
 
   whenever(
-    () => !isDataInSync,
+    () => !isDataReady,
     async () => {
       if (sessionStore.isAuth) {
         setData(await initializer());
       }
 
-      isDataInSync = true;
+      isDataReady = true;
     },
     { immediate: true }
   );
@@ -66,9 +66,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     useLocalStorage<Uuid[]>(`${localStorageKey}-ids-to-delete`, [])
   );
 
-  const _autosync = <U, S extends (args: U[]) => boolean | Promise<boolean>>(
+  const _autosync = <U>(
     itemsRef: Ref<U[]>,
-    synchronizer: S
+    synchronizer: (items: U[]) => boolean | Promise<boolean>
   ) => {
     watch(
       [itemsRef, isOnline],
@@ -158,7 +158,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   return {
     state: computed(() => data),
-    isInSync: computed(() => isDataInSync),
+    isReady: computed(() => isDataReady),
+    isInSync: computed(() => !dataToUpload.length && !dataIdsToDelete.length),
     getById,
     push,
     editById,
