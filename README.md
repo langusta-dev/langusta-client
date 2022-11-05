@@ -184,8 +184,8 @@ pnpm build
 ├─ 🔹main.ts                      # initialization code of the application
 ├─ 🔹env.d.ts                     # type declarations for environment variables
 ├─ 🔹shims.d.ts                   # module declaration for .vue files
-├─ 🔹__vite_auto-imports.d.ts     # type declarations for unplugin-auto-import plugin (auto-generated - don't edit)
-└─ 🔹__vite_components.d.ts       # type declarations for unplugin-vue-components plugin (auto-generated - don't edit)
+├─ 🔹__vite-auto-imports.d.ts     # type declarations for unplugin-auto-import plugin (auto-generated - don't edit)
+└─ 🔹__vite-components.d.ts       # type declarations for unplugin-vue-components plugin (auto-generated - don't edit)
 ```
 
 More detailed subfolders descriptions:

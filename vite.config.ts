@@ -74,7 +74,7 @@ export default defineConfig(({ mode }) => ({
         '@vueuse/core',
         GlobalHelpersImport({ importPath: '~/helpers/_global' }),
       ],
-      dts: 'src/__vite_auto-imports.d.ts',
+      dts: 'src/__vite-auto-imports.d.ts',
     }),
 
     Components({
@@ -87,7 +87,7 @@ export default defineConfig(({ mode }) => ({
       ],
 
       // prevent tests from breaking the declaration file
-      dts: mode !== 'test' ? 'src/__vite_components.d.ts' : false,
+      dts: mode !== 'test' ? 'src/__vite-components.d.ts' : false,
     }),
 
     Pages({
