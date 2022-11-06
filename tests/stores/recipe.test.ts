@@ -5,11 +5,7 @@ import {
   RecipeMealType,
   RecipePreparationTimeUnit,
 } from '~/types/recipe';
-import {
-  expectDateString,
-  expectUuid,
-  flushDelayedPromises,
-} from '~test-utils';
+import { expectDateString, expectUuid } from '~test-utils';
 
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useRecipeStore } from '~/stores/recipe';
@@ -272,10 +268,10 @@ describe('recipes store', () => {
 
       // Then
       expect(recipeStore.recipes).toStrictEqual([
-        testLocalRecipe1,
-        testLocalRecipe3,
         testRecipe2,
         testRecipe1,
+        testLocalRecipe1,
+        testLocalRecipe3,
       ]);
     });
 
@@ -362,8 +358,8 @@ describe('recipes store', () => {
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe1.id]);
       expect(recipeStore.recipes).toStrictEqual([
-        testLocalRecipe1,
         testRecipe1,
+        testLocalRecipe1,
       ]);
     });
 
@@ -510,14 +506,14 @@ describe('recipes store', () => {
 
       expect(recipeStore.recipes).toStrictEqual([expectedRecipe1]);
       uploadRecipesSpy.mockResolvedValueOnce([recipeStore.recipes[0].id]);
-      await flushDelayedPromises();
+      await flushPromises();
 
       // Then
       expect(uploadRecipesSpy).toHaveBeenCalledOnce();
       expect(uploadRecipesSpy).toHaveBeenCalledWith([expectedRecipe1]);
 
       recipeStore.addRecipe(testEditableRecipe2);
-      await flushDelayedPromises();
+      await flushPromises();
 
       expect(uploadRecipesSpy).toHaveBeenCalledTimes(2);
       expect(uploadRecipesSpy).toHaveBeenCalledWith([expectedRecipe2]);
@@ -536,18 +532,18 @@ describe('recipes store', () => {
 
       // Then
       recipeStore.addRecipe(testEditableRecipe1);
-      await flushDelayedPromises();
+      await flushPromises();
 
       expect(uploadRecipesSpy).not.toHaveBeenCalled();
 
       recipeStore.addRecipe(testEditableRecipe2);
-      await flushDelayedPromises();
+      await flushPromises();
 
       expect(uploadRecipesSpy).not.toHaveBeenCalled();
 
       // When
       isOnline.value = true;
-      await flushDelayedPromises();
+      await flushPromises();
 
       // Then
       expect(uploadRecipesSpy).toHaveBeenCalledOnce();

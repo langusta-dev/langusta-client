@@ -1,9 +1,9 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
-import { v4 as uuid } from 'uuid';
 
-import { isOnline } from '~/composables/online';
+import { useSynchronizableArray } from '~/composables/dataSync';
 
 import {
+  deleteRecipesByIds,
   fetchRecipesByIds,
   fetchUserRecipes,
   uploadRecipes,
@@ -11,45 +11,18 @@ import {
 
 import { useLocalProfileStore } from './localProfile';
 import { useRecipeCollectionStore } from './recipeCollection';
-import { useSessionStore } from './session';
 
-import type { Recipe, EditableRecipe } from '~/types/recipe';
-import type { Uuid } from '~/types/uuid';
+import type { Recipe } from '~/types/recipe';
 
 export const useRecipeStore = defineStore('recipe', () => {
-  const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
   const recipeCollectionStore = useRecipeCollectionStore();
 
-  let areRecipesInSync = $ref(!sessionStore.isAuth);
-  whenever(
-    () => sessionStore.isAuth,
-    () => {
-      areRecipesInSync = false;
-    }
-  );
-
-  const recipes = $(useLocalStorage<Recipe[]>('recipes', []));
-
-  const setRecipes = (newRecipes: Recipe[]) => {
-    recipes.splice(
-      0,
-      recipes.length,
-      ...recipes.filter(({ isLocalOnly }) => isLocalOnly), // local recipes should be always preserved
-      ...newRecipes
-    );
-  };
-
-  // TODO the sync mechanism is duplicated in `useRecipeCollectionStore`
-  // thus should be extracted as a composable
+  // TODO the sync mechanism in `useRecipeCollectionStore`
+  // should use `useSynchronizableArray` as well
   // the "let's try again" part should also have some limitation
 
-  const syncRecipes = async () => {
-    if (!sessionStore.isAuth) {
-      areRecipesInSync = true;
-      return;
-    }
-
+  const recipeInitializer = async (): Promise<Recipe[] | null> => {
     const shouldFetchUserRecipes = !localProfileStore.isLocalProfileEnabled;
 
     const [userRecipes] = await Promise.all([
@@ -86,79 +59,35 @@ export const useRecipeStore = defineStore('recipe', () => {
       (!shouldFetchUserRecipes || !userRecipes) &&
       (!shouldFetchMissingRecipes || !missingRecipes)
     ) {
-      areRecipesInSync = true;
-      return;
+      return null;
     }
 
     /**
-     * one of the requests failed
+     * one of the requests has failed
      * let's try again
      */
     if (!userRecipes || !missingRecipes) {
-      await syncRecipes();
-      return;
+      return recipeInitializer();
     }
 
     newRecipes.push(...missingRecipes);
 
-    setRecipes(newRecipes);
-    areRecipesInSync = true;
+    return newRecipes;
   };
 
-  whenever(() => !areRecipesInSync, syncRecipes, { immediate: true });
-
-  const recipesPerId = $computed(
-    () => new Map(recipes.map((recipe) => [recipe.id, recipe]))
+  const {
+    state: recipes,
+    getById: getRecipeById,
+    push: addRecipe,
+  } = useSynchronizableArray(
+    'recipes',
+    recipeInitializer,
+    uploadRecipes,
+    deleteRecipesByIds,
+    []
   );
 
-  const getRecipeById = (id: Uuid) => recipesPerId.get(id) || null;
-
-  const recipesToUpload = $(useLocalStorage<Recipe[]>('recipes-to-upload', []));
-
-  const addRecipe = (recipe: EditableRecipe) => {
-    const now = new Date().toString();
-
-    const newRecipe: Recipe = {
-      id: uuid(),
-      createdAt: now,
-      updatedAt: now,
-      ...recipe,
-    };
-
-    if (localProfileStore.isLocalProfileEnabled) {
-      newRecipe.isLocalOnly = true;
-    }
-
-    recipes.push(newRecipe);
-
-    if (!newRecipe.isLocalOnly) {
-      recipesToUpload.push(newRecipe);
-    }
-  };
-
-  watchDebounced(
-    [$$(recipesToUpload), isOnline],
-    async () => {
-      if (!isOnline.value || !recipesToUpload.length) {
-        return;
-      }
-
-      const uploadedRecipesIds = new Set(
-        await uploadRecipes([...recipesToUpload])
-      );
-
-      if (uploadedRecipesIds.size) {
-        recipesToUpload.splice(
-          0,
-          recipesToUpload.length,
-          ...recipesToUpload.filter(({ id }) => !uploadedRecipesIds.has(id))
-        );
-      }
-    },
-    { immediate: true, deep: true, debounce: 300 }
-  );
-
-  return { recipes: computed(() => recipes), getRecipeById, addRecipe };
+  return { recipes, getRecipeById, addRecipe };
 });
 
 if (import.meta.hot) {

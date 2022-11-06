@@ -13,9 +13,9 @@ const now = () => new Date().toString();
 
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
-  initializer: () => T[] | Promise<T[]>,
-  uploader: (data: T[]) => Promise<Uuid[]>,
-  deleter: (data: Uuid[]) => Promise<Uuid[]>,
+  initializer: () => Promise<T[] | null>,
+  uploader: (data: T[]) => Promise<Uuid[] | null>,
+  deleter: (data: Uuid[]) => Promise<Uuid[] | null>,
   initialData: T[]
 ) => {
   const sessionStore = useSessionStore();
@@ -50,7 +50,11 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     () => !isDataReady,
     async () => {
       if (sessionStore.isAuth) {
-        setData(await initializer());
+        const newData = await initializer();
+
+        if (newData) {
+          setData(newData);
+        }
       }
 
       isDataReady = true;
@@ -69,30 +73,29 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const _autosync = <U>(
     itemsRef: Ref<U[]>,
     itemReducer: (item: U) => Uuid,
-    synchronizer: (items: U[]) => Promise<Uuid[]>
+    synchronizer: (items: U[]) => Promise<Uuid[] | null>
   ) => {
-    watchDebounced(
+    watch(
       [itemsRef, isOnline],
-      async ([items], [previousItems]) => {
-        if (
-          !isOnline.value ||
-          !items.length ||
-          (previousItems && items.length <= previousItems.length)
-        ) {
+      async ([items, online]) => {
+        if (!online || !items.length) {
           return;
         }
 
-        const syncedIds = new Set(await synchronizer(items));
+        const syncedIds = new Set(await synchronizer([...items]));
 
         if (syncedIds.size) {
           items.splice(
             0,
             items.length,
+
+            // TODO remember rejected ids per session
+            // don't ask api to sync already rejected ids
             ...items.filter((item) => !syncedIds.has(itemReducer(item)))
           );
         }
       },
-      { immediate: true, debounce: 300 }
+      { immediate: true, deep: true }
     );
   };
 
