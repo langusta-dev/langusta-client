@@ -31,3 +31,7 @@ beforeEach(() => {
 
   localStorage.clear();
 });
+
+afterEach(() => {
+  vi.useRealTimers();
+});

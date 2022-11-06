@@ -136,18 +136,26 @@ export const useRecipeStore = defineStore('recipe', () => {
     }
   };
 
-  watch(
+  watchDebounced(
     [$$(recipesToUpload), isOnline],
     async () => {
-      if (isOnline.value && recipesToUpload.length) {
-        const areRecipesUploaded = await uploadRecipes(recipesToUpload);
+      if (!isOnline.value || !recipesToUpload.length) {
+        return;
+      }
 
-        if (areRecipesUploaded) {
-          recipesToUpload.splice(0, recipesToUpload.length);
-        }
+      const uploadedRecipesIds = new Set(
+        await uploadRecipes([...recipesToUpload])
+      );
+
+      if (uploadedRecipesIds.size) {
+        recipesToUpload.splice(
+          0,
+          recipesToUpload.length,
+          ...recipesToUpload.filter(({ id }) => !uploadedRecipesIds.has(id))
+        );
       }
     },
-    { immediate: true }
+    { immediate: true, deep: true, debounce: 300 }
   );
 
   return { recipes: computed(() => recipes), getRecipeById, addRecipe };

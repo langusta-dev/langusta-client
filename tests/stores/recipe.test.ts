@@ -1,16 +1,22 @@
 import { flushPromises } from '@vue/test-utils';
 
-import { expectDateString, expectUuid } from 'tests/utils';
 import {
   RecipeIngredientQuantityUnit,
   RecipeMealType,
   RecipePreparationTimeUnit,
 } from '~/types/recipe';
+import {
+  expectDateString,
+  expectUuid,
+  flushDelayedPromises,
+} from '~test-utils';
 
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useRecipeStore } from '~/stores/recipe';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
+
+import { isOnline } from '~/composables/online';
 
 import * as recipeApi from '~/api/recipe';
 import * as recipeCollectionApi from '~/api/recipeCollection';
@@ -44,7 +50,7 @@ describe('recipes store', () => {
         'fetchUserRecipeCollections'
       ).mockResolvedValue([testRecipeCollection]);
 
-      vi.spyOn(recipeApi, 'uploadRecipes').mockResolvedValue(true);
+      vi.spyOn(recipeApi, 'uploadRecipes').mockResolvedValue([]);
     });
 
     it(`Given unauthenticated user,
@@ -436,63 +442,118 @@ describe('recipes store', () => {
   });
 
   describe('addRecipe', () => {
+    const testEditableRecipe1: EditableRecipe = {
+      title: 'title-1',
+      description: 'description-1',
+      mealType: RecipeMealType.BREAKFAST,
+      calorieCount: 111,
+      preparationTime: { value: 11, unit: RecipePreparationTimeUnit.MINUTE },
+      ingredients: [],
+      steps: [],
+    };
+
+    const testEditableRecipe2: EditableRecipe = {
+      title: 'title-2',
+      description: 'description-2',
+      mealType: RecipeMealType.DINNER,
+      calorieCount: 222,
+      preparationTime: { value: 22, unit: RecipePreparationTimeUnit.HOUR },
+      ingredients: [
+        {
+          name: 'ingredient-2',
+          quantity: 2,
+          quantityUnit: RecipeIngredientQuantityUnit.G,
+        },
+      ],
+      steps: [{ description: 'step-2' }],
+    };
+
+    const expectedRecipe1: Recipe = {
+      ...testEditableRecipe1,
+      id: expectUuid(),
+      createdAt: expectDateString(),
+      updatedAt: expectDateString(),
+    };
+
+    const expectedRecipe2: Recipe = {
+      ...testEditableRecipe2,
+      id: expectUuid(),
+      createdAt: expectDateString(),
+      updatedAt: expectDateString(),
+    };
+
     it('should add new recipe', () => {
-      const newRecipe1: EditableRecipe = {
-        title: 'title-1',
-        description: 'description-1',
-        mealType: RecipeMealType.BREAKFAST,
-        calorieCount: 111,
-        preparationTime: { value: 11, unit: RecipePreparationTimeUnit.MINUTE },
-        ingredients: [],
-        steps: [],
-      };
-
-      const newRecipe2: EditableRecipe = {
-        title: 'title-2',
-        description: 'description-2',
-        mealType: RecipeMealType.DINNER,
-        calorieCount: 222,
-        preparationTime: { value: 22, unit: RecipePreparationTimeUnit.HOUR },
-        ingredients: [
-          {
-            name: 'ingredient-2',
-            quantity: 2,
-            quantityUnit: RecipeIngredientQuantityUnit.G,
-          },
-        ],
-        steps: [{ description: 'step-2' }],
-      };
-
       const recipeStore = useRecipeStore();
 
       expect(recipeStore.recipes).toStrictEqual([]);
 
-      recipeStore.addRecipe(newRecipe1);
+      recipeStore.addRecipe(testEditableRecipe1);
+      expect(recipeStore.recipes).toStrictEqual([expectedRecipe1]);
 
+      recipeStore.addRecipe(testEditableRecipe2);
       expect(recipeStore.recipes).toStrictEqual([
-        {
-          ...newRecipe1,
-          id: expectUuid(),
-          createdAt: expectDateString(),
-          updatedAt: expectDateString(),
-        },
+        expectedRecipe1,
+        expectedRecipe2,
       ]);
+    });
 
-      recipeStore.addRecipe(newRecipe2);
+    it(`When online,
+        Then should upload new recipes`, async () => {
+      vi.useFakeTimers();
+      const uploadRecipesSpy = vi.spyOn(recipeApi, 'uploadRecipes');
 
-      expect(recipeStore.recipes).toStrictEqual([
-        {
-          ...newRecipe1,
-          id: expectUuid(),
-          createdAt: expectDateString(),
-          updatedAt: expectDateString(),
-        },
-        {
-          ...newRecipe2,
-          id: expectUuid(),
-          createdAt: expectDateString(),
-          updatedAt: expectDateString(),
-        },
+      // When
+      isOnline.value = true;
+      const recipeStore = useRecipeStore();
+
+      recipeStore.addRecipe(testEditableRecipe1);
+
+      expect(recipeStore.recipes).toStrictEqual([expectedRecipe1]);
+      uploadRecipesSpy.mockResolvedValueOnce([recipeStore.recipes[0].id]);
+      await flushDelayedPromises();
+
+      // Then
+      expect(uploadRecipesSpy).toHaveBeenCalledOnce();
+      expect(uploadRecipesSpy).toHaveBeenCalledWith([expectedRecipe1]);
+
+      recipeStore.addRecipe(testEditableRecipe2);
+      await flushDelayedPromises();
+
+      expect(uploadRecipesSpy).toHaveBeenCalledTimes(2);
+      expect(uploadRecipesSpy).toHaveBeenCalledWith([expectedRecipe2]);
+    });
+
+    it(`When offline,
+        Then should accumulate recipes to synchronize,
+        When online,
+        Then should upload all accumulated recipes at once`, async () => {
+      vi.useFakeTimers();
+      const uploadRecipesSpy = vi.spyOn(recipeApi, 'uploadRecipes');
+
+      // When
+      isOnline.value = false;
+      const recipeStore = useRecipeStore();
+
+      // Then
+      recipeStore.addRecipe(testEditableRecipe1);
+      await flushDelayedPromises();
+
+      expect(uploadRecipesSpy).not.toHaveBeenCalled();
+
+      recipeStore.addRecipe(testEditableRecipe2);
+      await flushDelayedPromises();
+
+      expect(uploadRecipesSpy).not.toHaveBeenCalled();
+
+      // When
+      isOnline.value = true;
+      await flushDelayedPromises();
+
+      // Then
+      expect(uploadRecipesSpy).toHaveBeenCalledOnce();
+      expect(uploadRecipesSpy).toHaveBeenCalledWith([
+        expectedRecipe1,
+        expectedRecipe2,
       ]);
     });
   });

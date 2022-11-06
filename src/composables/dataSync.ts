@@ -14,8 +14,8 @@ const now = () => new Date().toString();
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
   initializer: () => T[] | Promise<T[]>,
-  uploader: (data: T[]) => Promise<boolean>,
-  deleter: (data: Uuid[]) => Promise<boolean>,
+  uploader: (data: T[]) => Promise<Uuid[]>,
+  deleter: (data: Uuid[]) => Promise<Uuid[]>,
   initialData: T[]
 ) => {
   const sessionStore = useSessionStore();
@@ -68,25 +68,36 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   const _autosync = <U>(
     itemsRef: Ref<U[]>,
-    synchronizer: (items: U[]) => boolean | Promise<boolean>
+    itemReducer: (item: U) => Uuid,
+    synchronizer: (items: U[]) => Promise<Uuid[]>
   ) => {
-    watch(
+    watchDebounced(
       [itemsRef, isOnline],
-      async () => {
-        if (isOnline.value && itemsRef.value.length) {
-          const isSync = await synchronizer(itemsRef.value);
+      async ([items], [previousItems]) => {
+        if (
+          !isOnline.value ||
+          !items.length ||
+          (previousItems && items.length <= previousItems.length)
+        ) {
+          return;
+        }
 
-          if (isSync) {
-            itemsRef.value.splice(0, itemsRef.value.length);
-          }
+        const syncedIds = new Set(await synchronizer(items));
+
+        if (syncedIds.size) {
+          items.splice(
+            0,
+            items.length,
+            ...items.filter((item) => !syncedIds.has(itemReducer(item)))
+          );
         }
       },
-      { immediate: true }
+      { immediate: true, debounce: 300 }
     );
   };
 
-  _autosync($$(dataToUpload), uploader);
-  _autosync($$(dataIdsToDelete), deleter);
+  _autosync($$(dataToUpload), (item) => item.id, uploader);
+  _autosync($$(dataIdsToDelete), (id) => id, deleter);
 
   const getById = (id: Uuid): T | null => dataPerId.get(id) || null;
 

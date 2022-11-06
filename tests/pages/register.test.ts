@@ -2,6 +2,8 @@ import Register from '~/pages/register.vue';
 
 import { flushPromises, mount } from '@vue/test-utils';
 
+import { flushDelayedPromises } from '~test-utils';
+
 import { useSessionStore } from '~/stores/session';
 
 describe('register page', () => {
@@ -12,7 +14,6 @@ describe('register page', () => {
   const password = 'some-password';
 
   afterEach(() => {
-    vi.useRealTimers();
     vi.restoreAllMocks();
   });
 
@@ -63,6 +64,7 @@ describe('register page', () => {
   });
 
   it('should show error on failed registration', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(Register);
 
     const inputs = wrapper.findAll('input');
@@ -79,14 +81,10 @@ describe('register page', () => {
     // @ts-expect-error it's readonly
     sessionStore.isAuth = false;
 
-    vi.useFakeTimers();
-
     const button = wrapper.find('button');
     await button.trigger('click');
-
     await flushPromises();
-    vi.advanceTimersToNextTimer();
-    await flushPromises();
+    await flushDelayedPromises();
 
     expect(sessionStore.register).toHaveBeenCalledOnce();
 
@@ -97,6 +95,7 @@ describe('register page', () => {
   });
 
   it('should show error on invalid email input', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(Register);
 
     const inputs = wrapper.findAll('input');
@@ -106,18 +105,15 @@ describe('register page', () => {
 
     await emailInput.setValue(invalidEmail);
 
-    vi.useFakeTimers();
-
     await emailInput.trigger('blur');
-
-    vi.advanceTimersToNextTimer();
-    await flushPromises();
+    await flushDelayedPromises();
 
     expect(wrapper.html()).toContain('register.invalid_email_error');
     expect(emailInput.element.value).toBe(invalidEmail);
   });
 
   it('should show error on too short password input', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(Register);
 
     const inputs = wrapper.findAll('input');
@@ -127,18 +123,15 @@ describe('register page', () => {
       'x'.repeat(import.meta.env.VITE_PASSWORD_MIN_LENGTH - 1)
     );
 
-    vi.useFakeTimers();
-
     await passwordInput.trigger('blur');
-
-    vi.advanceTimersToNextTimer();
-    await flushPromises();
+    await flushDelayedPromises();
 
     expect(wrapper.html()).toContain('register.password_too_short_error');
     expect(passwordInput.element.value).toBe('');
   });
 
   it('should show error on not matching passwords', async () => {
+    vi.useFakeTimers();
     const wrapper = mount(Register);
 
     const inputs = wrapper.findAll('input');
@@ -154,13 +147,9 @@ describe('register page', () => {
 
     const sessionStore = useSessionStore();
 
-    vi.useFakeTimers();
-
     const button = wrapper.find('button');
     await button.trigger('click');
-
-    vi.advanceTimersToNextTimer();
-    await flushPromises();
+    await flushDelayedPromises();
 
     expect(sessionStore.register).not.toHaveBeenCalled();
 

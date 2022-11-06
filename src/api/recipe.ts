@@ -14,11 +14,11 @@ export const fetchRecipesByIds = async (recipeIds: Uuid[]) => {
 };
 
 export const uploadRecipes = async (recipes: Recipe[]) => {
-  const response = await rest.silent.post('/recipes/add', recipes);
-  return response.status === 200;
+  const { data } = await rest.post<Uuid[]>('/recipes/add', recipes);
+  return data;
 };
 
 export const deleteRecipesByIds = async (recipeIds: Uuid[]) => {
-  const { data } = await rest.post<Recipe[]>('/recipes/add', { recipeIds });
+  const { data } = await rest.post<Uuid[]>('/recipes/add', { recipeIds });
   return data;
 };

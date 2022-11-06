@@ -13,7 +13,7 @@
     "noImplicitOverride": true,
     "noImplicitReturns": true,
     "outDir": "dist",
-    "paths": { "~/*": ["src/*"] },
+    "paths": { "~/*": ["src/*"], "~test-utils": ["tests/utils"] },
     "removeComments": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
