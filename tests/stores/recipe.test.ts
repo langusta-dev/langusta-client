@@ -21,10 +21,6 @@ import type { EditableRecipe, Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
 describe('recipes store', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   describe('data synchronization', () => {
     // @ts-expect-error the data is incomplete
     const testRecipe1: Recipe = { id: 'test-id-1' };

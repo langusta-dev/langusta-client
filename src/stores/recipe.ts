@@ -83,8 +83,7 @@ export const useRecipeStore = defineStore('recipe', () => {
     'recipes',
     recipeInitializer,
     uploadRecipes,
-    deleteRecipesByIds,
-    []
+    deleteRecipesByIds
   );
 
   return { recipes, getRecipeById, addRecipe };

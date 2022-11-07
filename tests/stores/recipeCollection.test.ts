@@ -8,10 +8,6 @@ import * as recipeCollectionApi from '~/api/recipeCollection';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
 describe('recipe collections store', () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   describe('data synchronization', () => {
     const testCollection1: RecipeCollection = {
       id: 'test-id-1',

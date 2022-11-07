@@ -10,7 +10,6 @@ import type { LogInPayload, RegisterPayload } from '~/types/session';
 describe('session store', () => {
   afterEach(() => {
     unsetJwt();
-    vi.restoreAllMocks();
   });
 
   describe('isAuth', () => {

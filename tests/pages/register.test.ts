@@ -13,10 +13,6 @@ describe('register page', () => {
   const lastname = 'some-lastname';
   const password = 'some-password';
 
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
   it('should render', () => {
     const wrapper = mount(Register);
 

@@ -2,6 +2,8 @@ import Link from '~/components/_base/Link.vue';
 
 import { mount } from '@vue/test-utils';
 
+import type { SpyInstance } from 'vitest';
+
 describe('Link', () => {
   it('should render', () => {
     const wrapper = mount(Link, { slots: { default: 'abc' } });
@@ -11,8 +13,12 @@ describe('Link', () => {
 
   const to = '/abc';
 
-  const openSpy = vi.spyOn(window, 'open').mockImplementation(() => window);
-  const focusSpy = vi.spyOn(window, 'focus').mockImplementation(() => {});
+  let openSpy: SpyInstance;
+  let focusSpy: SpyInstance;
+  beforeEach(() => {
+    openSpy = vi.spyOn(window, 'open').mockImplementation(() => window);
+    focusSpy = vi.spyOn(window, 'focus').mockImplementation(() => {});
+  });
 
   it('should do nothing', async () => {
     const wrapper = mount(Link);

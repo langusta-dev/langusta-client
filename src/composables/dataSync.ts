@@ -16,22 +16,34 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   initializer: () => Promise<T[] | null>,
   uploader: (data: T[]) => Promise<Uuid[] | null>,
   deleter: (data: Uuid[]) => Promise<Uuid[] | null>,
-  initialData: T[]
+  initialData: T[] = []
 ) => {
   const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
 
   const data = $(useLocalStorage<T[]>(localStorageKey, initialData));
 
-  const dataPerId = $computed(
-    () => new Map<Uuid, T>(data.map((item) => [item.id, item]))
+  const dataToUpload = $(
+    useLocalStorage<T[]>(`${localStorageKey}-to-upload`, [])
   );
 
+  const dataIdsToDelete = $(
+    useLocalStorage<Uuid[]>(`${localStorageKey}-ids-to-delete`, [])
+  );
+
+  const dataIdsToDeleteSet = $computed(() => new Set(dataIdsToDelete));
+
   const setData = (newData: T[]) => {
+    let fullData = [...newData, ...dataToUpload];
+
+    if (dataIdsToDelete.length) {
+      fullData = fullData.filter(({ id }) => !dataIdsToDeleteSet.has(id));
+    }
+
     data.splice(
       0,
       data.length,
-      ...newData,
+      ...fullData,
 
       // data created via local profile should be always preserved
       ...data.filter(({ isLocalOnly }) => isLocalOnly)
@@ -62,17 +74,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     { immediate: true }
   );
 
-  const dataToUpload = $(
-    useLocalStorage<T[]>(`${localStorageKey}-to-upload`, [])
-  );
-
-  const dataIdsToDelete = $(
-    useLocalStorage<Uuid[]>(`${localStorageKey}-ids-to-delete`, [])
-  );
-
   const _autosync = <U>(
     itemsRef: Ref<U[]>,
-    itemReducer: (item: U) => Uuid,
     synchronizer: (items: U[]) => Promise<Uuid[] | null>
   ) => {
     watch(
@@ -82,25 +85,26 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
           return;
         }
 
-        const syncedIds = new Set(await synchronizer([...items]));
+        const syncedIds = await synchronizer([...items]);
 
-        if (syncedIds.size) {
-          items.splice(
-            0,
-            items.length,
-
-            // TODO remember rejected ids per session
-            // don't ask api to sync already rejected ids
-            ...items.filter((item) => !syncedIds.has(itemReducer(item)))
-          );
+        if (syncedIds) {
+          items.splice(0, items.length);
         }
+
+        // TODO
+        // what to do with items
+        // that were not included in `syncedIds`?
       },
       { immediate: true, deep: true }
     );
   };
 
-  _autosync($$(dataToUpload), (item) => item.id, uploader);
-  _autosync($$(dataIdsToDelete), (id) => id, deleter);
+  _autosync($$(dataToUpload), uploader);
+  _autosync($$(dataIdsToDelete), deleter);
+
+  const dataPerId = $computed(
+    () => new Map<Uuid, T>(data.map((item) => [item.id, item]))
+  );
 
   const getById = (id: Uuid): T | null => dataPerId.get(id) || null;
 
@@ -125,8 +129,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   const editById = (id: Uuid, item: Editable<T>): void => {
     const oldItem = getById(id);
+    const oldItemIndex = data.findIndex((item) => item.id === id);
 
-    if (!oldItem) {
+    if (!oldItem || oldItemIndex === -1) {
       // eslint-disable-next-line no-console
       console.error(`Failed to modify item: ${id}`);
       return;
@@ -153,21 +158,22 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       dataToUpload.push(newItem);
     }
 
-    deleteById(id);
-    data.push(newItem);
+    data.splice(oldItemIndex, 1, newItem);
   };
 
   const deleteById = (id: Uuid): void => {
     const index = data.findIndex((item) => item.id === id);
 
     if (index !== -1) {
+      if (!data[index].isLocalOnly) {
+        dataIdsToDelete.push(id);
+      }
+
       data.splice(index, 1);
     } else {
       // eslint-disable-next-line no-console
       console.warn(`Failed to delete item: ${id}`);
     }
-
-    dataIdsToDelete.push(id);
   };
 
   return {
