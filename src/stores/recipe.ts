@@ -18,10 +18,6 @@ export const useRecipeStore = defineStore('recipe', () => {
   const localProfileStore = useLocalProfileStore();
   const recipeCollectionStore = useRecipeCollectionStore();
 
-  // TODO the sync mechanism in `useRecipeCollectionStore`
-  // should use `useSynchronizableArray` as well
-  // the "let's try again" part should also have some limitation
-
   const recipeInitializer = async (): Promise<Recipe[] | null> => {
     const shouldFetchUserRecipes = !localProfileStore.isLocalProfileEnabled;
 
@@ -51,23 +47,10 @@ export const useRecipeStore = defineStore('recipe', () => {
       : [];
 
     /**
-     * there was something to fetch, but all fired requests failed
-     * let's use what we already have then
-     */
-    if (
-      (shouldFetchUserRecipes || shouldFetchMissingRecipes) &&
-      (!shouldFetchUserRecipes || !userRecipes) &&
-      (!shouldFetchMissingRecipes || !missingRecipes)
-    ) {
-      return null;
-    }
-
-    /**
-     * one of the requests has failed
-     * let's try again
+     * at least one of the requests has failed
      */
     if (!userRecipes || !missingRecipes) {
-      return recipeInitializer();
+      return null;
     }
 
     newRecipes.push(...missingRecipes);

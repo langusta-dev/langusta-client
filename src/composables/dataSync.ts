@@ -11,6 +11,8 @@ import type { Uuid } from '~/types/uuid';
 
 const now = () => new Date().toString();
 
+const MAX_INIT_RETRY_COUNT = 1;
+
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
   initializer: () => Promise<T[] | null>,
@@ -58,11 +60,18 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     }
   );
 
+  let retryCount = 0;
+
   whenever(
     () => !isDataReady,
     async () => {
       if (sessionStore.isAuth) {
-        const newData = await initializer();
+        let newData = await initializer();
+
+        while (!newData && retryCount < MAX_INIT_RETRY_COUNT) {
+          retryCount++;
+          newData = await initializer();
+        }
 
         if (newData) {
           setData(newData);

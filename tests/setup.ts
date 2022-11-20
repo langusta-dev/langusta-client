@@ -30,6 +30,7 @@ beforeEach(() => {
   vi.spyOn(rest.silent, 'post').mockResolvedValue(emptyResponse);
 
   localStorage.clear();
+  sessionStorage.clear();
 });
 
 afterEach(() => {

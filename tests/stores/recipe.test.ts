@@ -391,8 +391,8 @@ describe('recipes store', () => {
       await flushPromises();
 
       // Then
-      expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
-      expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
+      expect(fetchUserRecipesSpy).toHaveBeenCalled();
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalled();
       expect(recipeStore.recipes).toStrictEqual([
         testLocalRecipe1,
         testLocalRecipe2,
@@ -400,19 +400,17 @@ describe('recipes store', () => {
     });
 
     it(`Given authenticated user,
-        When one of fired requests fails,
+        When the first set of fired requests fails,
         Then should try again`, async () => {
       // When
       const fetchUserRecipesSpy = vi
         .spyOn(recipeApi, 'fetchUserRecipes')
-        .mockResolvedValueOnce([testRecipe2])
         .mockResolvedValueOnce(null)
         .mockResolvedValueOnce([testRecipe2]);
 
       const fetchRecipesByIdsSpy = vi
         .spyOn(recipeApi, 'fetchRecipesByIds')
         .mockResolvedValueOnce(null)
-        .mockResolvedValueOnce([testRecipe1])
         .mockResolvedValueOnce([testRecipe1]);
 
       const sessionStore = useSessionStore();
@@ -421,14 +419,13 @@ describe('recipes store', () => {
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
 
-      const recipeStore = useRecipeStore();
-
       // When
+      const recipeStore = useRecipeStore();
       await flushPromises();
 
       // Then
-      expect(fetchUserRecipesSpy).toHaveBeenCalledTimes(3);
-      expect(fetchRecipesByIdsSpy).toHaveBeenCalledTimes(3);
+      expect(fetchUserRecipesSpy).toHaveBeenCalledTimes(2);
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalledTimes(2);
       expect(recipeStore.recipes).toStrictEqual([testRecipe2, testRecipe1]);
     });
   });
