@@ -177,6 +177,60 @@ describe('useSynchronizableArray', () => {
     ]);
   });
 
+  it('should preserve `createdAt` entry on edit', () => {
+    vi.useFakeTimers();
+
+    const { state, getById, push, editById } = $(
+      useSynchronizableArray<ExampleDataItem>(
+        'some-data',
+        vi.fn(() => Promise.resolve([])),
+        vi.fn(),
+        vi.fn()
+      )
+    );
+
+    const getItem = () => getById(state[0].id) as ExampleDataItem;
+
+    const createdAtDate = new Date();
+
+    push(testItem1);
+    expect(getItem().createdAt).toBe(createdAtDate.toString());
+
+    vi.advanceTimersByTime(1000);
+
+    editById(state[0].id, testItem2);
+    expect(getItem().createdAt).toBe(createdAtDate.toString());
+  });
+
+  it('should update `updatedAt` entry on edit', () => {
+    vi.useFakeTimers();
+
+    const { state, getById, push, editById } = $(
+      useSynchronizableArray<ExampleDataItem>(
+        'some-data',
+        vi.fn(() => Promise.resolve([])),
+        vi.fn(),
+        vi.fn()
+      )
+    );
+
+    const getItem = () => getById(state[0].id) as ExampleDataItem;
+
+    const createdAtDate = new Date();
+    const updatedAtDate = new Date(createdAtDate);
+
+    push(testItem1);
+    expect(getItem().updatedAt).toBe(getItem().createdAt);
+    expect(getItem().updatedAt).toBe(updatedAtDate.toString());
+
+    vi.advanceTimersByTime(1000);
+    updatedAtDate.setSeconds(createdAtDate.getSeconds() + 1);
+
+    editById(state[0].id, testItem2);
+    expect(getItem().updatedAt).not.toBe(getItem().createdAt);
+    expect(getItem().updatedAt).toBe(updatedAtDate.toString());
+  });
+
   it('it should sync added items', async () => {
     const uploader = vi.fn(() => Promise.resolve([]));
 
