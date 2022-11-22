@@ -14,7 +14,7 @@ export const fetchRecipesByIds = async (recipeIds: Uuid[]) => {
 };
 
 export const uploadRecipes = async (recipes: Recipe[]) => {
-  const { data } = await rest.post<Uuid[]>('/recipes/add', recipes);
+  const { data } = await rest.post<Uuid[]>('/recipes/add', { recipes });
   return data;
 };
 

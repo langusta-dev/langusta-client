@@ -15,7 +15,7 @@ const MAX_INIT_RETRY_COUNT = 1;
 
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
-  initializer: () => Promise<T[] | null>,
+  initializer: () => T[] | null | Promise<T[] | null>,
   uploader: (data: T[]) => Promise<Uuid[] | null>,
   deleter: (data: Uuid[]) => Promise<Uuid[] | null>,
   initialData: T[] = []

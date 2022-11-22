@@ -1,47 +1,43 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-import { fetchUserRecipeCollections } from '~/api/recipeCollection';
+import { useSynchronizableArray } from '~/composables/dataSync';
+
+import {
+  fetchUserRecipeCollections,
+  uploadRecipeCollections,
+  deleteRecipeCollectionsByIds,
+} from '~/api/recipeCollection';
 
 import { useLocalProfileStore } from './localProfile';
-import { useSessionStore } from './session';
-
-import type { RecipeCollection } from '~/types/recipeCollection';
 
 export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
-  const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
 
-  let areCollectionsInSync = $ref(!sessionStore.isAuth);
-  whenever(
-    () => sessionStore.isAuth,
-    () => {
-      areCollectionsInSync = false;
+  const collectionInitializer = () => {
+    if (localProfileStore.isLocalProfileEnabled) {
+      return [];
     }
+
+    return fetchUserRecipeCollections();
+  };
+
+  const {
+    isInSync: areCollectionsInSync,
+    state: collections,
+    getById: getCollectionById,
+    push: addCollection,
+  } = useSynchronizableArray(
+    'recipe-collections',
+    collectionInitializer,
+    uploadRecipeCollections,
+    deleteRecipeCollectionsByIds
   );
 
-  const collections = $(useLocalStorage<RecipeCollection[]>('collections', []));
-
-  const setCollections = (newCollections: RecipeCollection[]) => {
-    collections.splice(0, collections.length, ...newCollections);
-  };
-
-  const syncCollections = async () => {
-    if (sessionStore.isAuth && !localProfileStore.isLocalProfileEnabled) {
-      const newCollections = await fetchUserRecipeCollections();
-
-      if (newCollections) {
-        setCollections(newCollections);
-      }
-    }
-
-    areCollectionsInSync = true;
-  };
-
-  whenever(() => !areCollectionsInSync, syncCollections, { immediate: true });
-
   return {
-    collections: computed(() => collections),
-    areCollectionsInSync: $$(areCollectionsInSync),
+    areCollectionsInSync,
+    collections,
+    getCollectionById,
+    addCollection,
   };
 });
 

@@ -12,13 +12,11 @@ import {
 import { useLocalProfileStore } from './localProfile';
 import { useRecipeCollectionStore } from './recipeCollection';
 
-import type { Recipe } from '~/types/recipe';
-
 export const useRecipeStore = defineStore('recipe', () => {
   const localProfileStore = useLocalProfileStore();
   const recipeCollectionStore = useRecipeCollectionStore();
 
-  const recipeInitializer = async (): Promise<Recipe[] | null> => {
+  const recipeInitializer = async () => {
     const shouldFetchUserRecipes = !localProfileStore.isLocalProfileEnabled;
 
     const [userRecipes] = await Promise.all([
@@ -59,6 +57,7 @@ export const useRecipeStore = defineStore('recipe', () => {
   };
 
   const {
+    isInSync: areRecipesInSync,
     state: recipes,
     getById: getRecipeById,
     push: addRecipe,
@@ -69,7 +68,7 @@ export const useRecipeStore = defineStore('recipe', () => {
     deleteRecipesByIds
   );
 
-  return { recipes, getRecipeById, addRecipe };
+  return { areRecipesInSync, recipes, getRecipeById, addRecipe };
 });
 
 if (import.meta.hot) {
