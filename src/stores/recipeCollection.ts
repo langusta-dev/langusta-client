@@ -13,13 +13,8 @@ import { useLocalProfileStore } from './localProfile';
 export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
   const localProfileStore = useLocalProfileStore();
 
-  const collectionInitializer = () => {
-    if (localProfileStore.isLocalProfileEnabled) {
-      return [];
-    }
-
-    return fetchUserRecipeCollections();
-  };
+  const collectionInitializer = () =>
+    localProfileStore.isLocalProfileEnabled ? [] : fetchUserRecipeCollections();
 
   const {
     isInSync: areCollectionsInSync,

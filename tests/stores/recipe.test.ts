@@ -434,9 +434,9 @@ describe('recipes store', () => {
     const testEditableRecipe1: EditableRecipe = {
       title: 'title-1',
       description: 'description-1',
-      mealType: RecipeMealType.BREAKFAST,
+      mealType: RecipeMealType.Breakfast,
       calorieCount: 111,
-      preparationTime: { value: 11, unit: RecipePreparationTimeUnit.MINUTE },
+      preparationTime: { value: 11, unit: RecipePreparationTimeUnit.Minute },
       ingredients: [],
       steps: [],
     };
@@ -444,9 +444,9 @@ describe('recipes store', () => {
     const testEditableRecipe2: EditableRecipe = {
       title: 'title-2',
       description: 'description-2',
-      mealType: RecipeMealType.DINNER,
+      mealType: RecipeMealType.Dinner,
       calorieCount: 222,
-      preparationTime: { value: 22, unit: RecipePreparationTimeUnit.HOUR },
+      preparationTime: { value: 22, unit: RecipePreparationTimeUnit.Hour },
       ingredients: [
         {
           name: 'ingredient-2',

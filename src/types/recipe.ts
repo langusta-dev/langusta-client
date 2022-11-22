@@ -1,12 +1,12 @@
 import type { Editable, SynchronizableData } from './dataSync';
 
 export enum RecipeMealType {
-  BREAKFAST = 'BREAKFAST',
-  LUNCH = 'LUNCH',
-  APPETIZER = 'APPETIZER',
-  DINNER = 'DINNER',
-  DESSERT = 'DESSERT',
-  SNACK = 'SNACK',
+  Breakfast = 'BREAKFAST',
+  Lunch = 'LUNCH',
+  Appetizer = 'APPETIZER',
+  Dinner = 'DINNER',
+  Dessert = 'DESSERT',
+  Snack = 'SNACK',
 }
 
 export enum RecipeIngredientQuantityUnit {
@@ -18,7 +18,7 @@ export enum RecipeIngredientQuantityUnit {
   /**
    * kilogram
    */
-  KG = 'KG',
+  Kg = 'KG',
 
   /**
    * liter
@@ -28,24 +28,24 @@ export enum RecipeIngredientQuantityUnit {
   /**
    * milliliter
    */
-  ML = 'ML',
+  Ml = 'ML',
 
   /**
    * 1 glass -> 200 ml
    */
-  GLASS = 'GLASS',
+  Glass = 'GLASS',
 
   /**
    * 1 spoon -> 15 g
    * 1 spoon -> 15 ml
    */
-  SPOON = 'SPOON',
+  Spoon = 'SPOON',
 
   /**
    * 1 teaspoon -> 5 g
    * 1 teaspoon -> 5 ml
    */
-  TEASPOON = 'TEASPOON',
+  Teaspoon = 'TEASPOON',
 }
 
 export interface RecipeIngredient {
@@ -55,8 +55,8 @@ export interface RecipeIngredient {
 }
 
 export enum RecipePreparationTimeUnit {
-  HOUR = 'HOUR',
-  MINUTE = 'MINUTE',
+  Hour = 'HOUR',
+  Minute = 'MINUTE',
 }
 
 export interface RecipePreparationTime {

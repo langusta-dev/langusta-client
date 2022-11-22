@@ -16,11 +16,11 @@ export const useQuantityUnit = () => {
       label: t('recipe.quantity.unit.g'),
     },
     {
-      value: RecipeIngredientQuantityUnit.KG,
+      value: RecipeIngredientQuantityUnit.Kg,
       label: t('recipe.quantity.unit.kg'),
     },
     {
-      value: RecipeIngredientQuantityUnit.ML,
+      value: RecipeIngredientQuantityUnit.Ml,
       label: t('recipe.quantity.unit.ml'),
     },
     {
@@ -28,15 +28,15 @@ export const useQuantityUnit = () => {
       label: t('recipe.quantity.unit.l'),
     },
     {
-      value: RecipeIngredientQuantityUnit.GLASS,
+      value: RecipeIngredientQuantityUnit.Glass,
       label: t('recipe.quantity.unit.glass'),
     },
     {
-      value: RecipeIngredientQuantityUnit.SPOON,
+      value: RecipeIngredientQuantityUnit.Spoon,
       label: t('recipe.quantity.unit.spoon'),
     },
     {
-      value: RecipeIngredientQuantityUnit.TEASPOON,
+      value: RecipeIngredientQuantityUnit.Teaspoon,
       label: t('recipe.quantity.unit.teaspoon'),
     },
   ]);

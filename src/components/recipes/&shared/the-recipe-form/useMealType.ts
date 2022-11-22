@@ -12,28 +12,28 @@ export const useMealType = () => {
 
   const mealTypeOptions = $computed<MealTypeOption[]>(() => [
     {
-      value: RecipeMealType.BREAKFAST,
+      value: RecipeMealType.Breakfast,
       label: t('recipe.meal_type.breakfast'),
     },
     {
-      value: RecipeMealType.LUNCH,
+      value: RecipeMealType.Lunch,
       label: t('recipe.meal_type.lunch'),
     },
     {
-      value: RecipeMealType.APPETIZER,
+      value: RecipeMealType.Appetizer,
       label: t('recipe.meal_type.appetizer'),
     },
     {
-      value: RecipeMealType.DINNER,
+      value: RecipeMealType.Dinner,
       label: t('recipe.meal_type.dinner'),
     },
     {
-      value: RecipeMealType.DESSERT,
+      value: RecipeMealType.Dessert,
       label: t('recipe.meal_type.dessert'),
     },
   ]);
 
-  const mealType = $ref(RecipeMealType.LUNCH);
+  const mealType = $ref(RecipeMealType.Lunch);
 
   return $$({
     MEAL_TYPE_OPTION_REDUCER,
