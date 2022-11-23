@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 
 import { HttpStatusCode } from '~/types/api';
 
-import { jwt, unsetJwt } from '~/composables/jwt';
+import { getJwt, unsetJwt } from '~/composables/jwt';
 import { startNProgress, stopNProgress } from '~/composables/nprogress';
 
 import { isOnline } from './online';
@@ -117,7 +117,7 @@ rest.interceptors.response.use(
 );
 
 watch(
-  jwt,
+  getJwt,
   (v) => {
     if (v) {
       rest.defaults.headers.common.Authorization = `Bearer ${v}`;
@@ -214,10 +214,10 @@ if (import.meta.vitest) {
     });
 
     it('should unset jwt, if response has status 401', async () => {
-      const { jwt, setJwt } = await import('~/composables/jwt');
+      const { getJwt, setJwt } = await import('~/composables/jwt');
 
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
 
       _handleErrors(
         // @ts-expect-error other fields shouldn't matter
@@ -226,7 +226,7 @@ if (import.meta.vitest) {
         })
       );
 
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
     });
 
     it('should handle unknown error', () => {

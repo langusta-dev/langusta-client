@@ -1,13 +1,15 @@
 import type { JwtToken } from '~/types/jwt';
 
-const jwt = useSessionStorage<JwtToken | null>('token', null);
+const _jwt = useSessionStorage<JwtToken | null>('token', null);
+
+const getJwt = () => _jwt.value;
 
 const setJwt = (newJwt: JwtToken) => {
-  jwt.value = newJwt;
+  _jwt.value = newJwt;
 };
 
 const unsetJwt = () => {
-  jwt.value = null;
+  _jwt.value = null;
 };
 
-export { jwt, setJwt, unsetJwt };
+export { getJwt, setJwt, unsetJwt };

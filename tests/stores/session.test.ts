@@ -1,7 +1,7 @@
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
-import { jwt, setJwt, unsetJwt } from '~/composables/jwt';
+import { getJwt, setJwt, unsetJwt } from '~/composables/jwt';
 
 import * as sessionApi from '~/api/session';
 
@@ -38,11 +38,11 @@ describe('session store', () => {
       const sessionStore = useSessionStore();
 
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
       expect(sessionStore.isAuth).toBe(true);
 
       sessionStore.logOut();
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
       expect(sessionStore.isAuth).toBe(false);
     });
 
@@ -69,12 +69,12 @@ describe('session store', () => {
       const sessionStore = useSessionStore();
 
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
       expect(sessionStore.isAuth).toBe(true);
 
       await sessionStore.logIn(logInPayload);
 
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
       expect(sessionStore.isAuth).toBe(false);
     });
 
@@ -106,7 +106,7 @@ describe('session store', () => {
       expect(apiLogInSpy).toHaveBeenCalledOnce();
       expect(apiLogInSpy).toHaveBeenCalledWith(logInPayload);
 
-      expect(jwt.value).toBe(token);
+      expect(getJwt()).toBe(token);
     });
 
     it('should not authenticate, if request fails', async () => {
@@ -122,7 +122,7 @@ describe('session store', () => {
       expect(apiLogInSpy).toHaveBeenCalledOnce();
       expect(apiLogInSpy).toHaveBeenCalledWith(logInPayload);
 
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
       expect(sessionStore.isAuth).toBe(false);
     });
   });
@@ -140,12 +140,12 @@ describe('session store', () => {
       const sessionStore = useSessionStore();
 
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
       expect(sessionStore.isAuth).toBe(true);
 
       await sessionStore.register(registerPayload);
 
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
       expect(sessionStore.isAuth).toBe(false);
     });
 
@@ -177,7 +177,7 @@ describe('session store', () => {
       expect(apiLogInSpy).toHaveBeenCalledOnce();
       expect(apiLogInSpy).toHaveBeenCalledWith(registerPayload);
 
-      expect(jwt.value).toBe(token);
+      expect(getJwt()).toBe(token);
     });
 
     it('should not authenticate, if request fails', async () => {
@@ -193,7 +193,7 @@ describe('session store', () => {
       expect(apiLogInSpy).toHaveBeenCalledOnce();
       expect(apiLogInSpy).toHaveBeenCalledWith(registerPayload);
 
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
       expect(sessionStore.isAuth).toBe(false);
     });
   });

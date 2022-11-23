@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-import { jwt, setJwt, unsetJwt } from '~/composables/jwt';
+import { getJwt, setJwt, unsetJwt } from '~/composables/jwt';
 
 import * as api from '~/api/session';
 
@@ -14,7 +14,7 @@ export const useSessionStore = defineStore('session', () => {
   const localProfileStore = useLocalProfileStore();
 
   const isAuth = $computed(
-    () => !!jwt.value || localProfileStore.isLocalProfileEnabled
+    () => !!getJwt() || localProfileStore.isLocalProfileEnabled
   );
 
   const logOut = () => {

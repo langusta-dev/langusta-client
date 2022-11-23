@@ -1,24 +1,24 @@
 import { flushPromises } from '@vue/test-utils';
 
-import { jwt, setJwt, unsetJwt } from '~/composables/jwt';
+import { getJwt, setJwt, unsetJwt } from '~/composables/jwt';
 
 describe('jwt', () => {
   describe('setJwt', () => {
     it('should update JWT value', () => {
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
 
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
     });
   });
 
   describe('unsetJwt', () => {
     it('should reset JWT value to null', () => {
       setJwt('some-jwt');
-      expect(jwt.value).toBe('some-jwt');
+      expect(getJwt()).toBe('some-jwt');
 
       unsetJwt();
-      expect(jwt.value).toBe(null);
+      expect(getJwt()).toBe(null);
     });
   });
 
