@@ -64,7 +64,7 @@ let showSteps = $ref(false);
 let { recipe } = $(useVModels(props, emit));
 
 watchEffect(() => {
-  recipe = {
+  const newRecipe: EditableRecipe = {
     title,
     description,
     mealType,
@@ -74,8 +74,10 @@ watchEffect(() => {
   };
 
   if (steps.length) {
-    recipe.steps = steps;
+    newRecipe.steps = steps;
   }
+
+  recipe = newRecipe;
 });
 
 const isRecipeComplete = computed(
