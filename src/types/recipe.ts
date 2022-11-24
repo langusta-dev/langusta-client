@@ -80,7 +80,7 @@ export interface Recipe extends SynchronizableData {
   mealType: RecipeMealType;
   ingredients: RecipeIngredient[];
   preparationTime: RecipePreparationTime;
-  steps: RecipeStep[];
+  steps?: RecipeStep[];
 }
 
 export type EditableRecipe = Editable<Recipe>;

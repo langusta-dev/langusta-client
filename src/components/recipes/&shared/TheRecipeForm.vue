@@ -71,8 +71,11 @@ watchEffect(() => {
     calorieCount: Number(calorieCount || 0),
     preparationTime,
     ingredients,
-    steps,
   };
+
+  if (steps.length) {
+    recipe.steps = steps;
+  }
 });
 
 const isRecipeComplete = computed(
@@ -108,7 +111,7 @@ const initializeForm = () => {
 
   ingredients = props.recipe.ingredients;
 
-  steps = props.recipe.steps;
+  steps = props.recipe.steps || [];
 
   showSteps = !!steps.length;
 };
