@@ -8,6 +8,7 @@ import TheIngredientList from './the-recipe-form/TheIngredientList.vue';
 import TheStepList from './the-recipe-form/TheStepList.vue';
 
 import { useInputGroup } from '~/composables/input';
+import { useWindowWidthBreakpoints } from '~/composables/window';
 
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
@@ -22,7 +23,7 @@ import type {
 const props = defineProps<{ recipe: EditableRecipe }>();
 
 const emit = defineEmits<{
-  (e: 'update:recipe', value: EditableRecipe): void;
+  (e: 'update:recipe', v: EditableRecipe): void;
   (e: 'submitRecipe'): void;
 }>();
 
@@ -59,7 +60,7 @@ let ingredients = $ref<RecipeIngredient[]>([]);
 
 let steps = $ref<RecipeStep[]>([]);
 
-let showSteps = $ref(false);
+let enableSteps = $ref(true);
 
 let { recipe } = $(useVModels(props, emit));
 
@@ -89,7 +90,7 @@ const submitRecipe = () => {
     return;
   }
 
-  if (!showSteps) {
+  if (enableSteps) {
     steps = [];
   }
 
@@ -115,15 +116,25 @@ const initializeForm = () => {
 
   steps = props.recipe.steps || [];
 
-  showSteps = !!steps.length;
+  enableSteps = !!steps.length;
 };
 
 initializeForm();
+
+const { isXl: showStandardForm } = $(useWindowWidthBreakpoints());
+
+const formComponent = computed(() =>
+  defineAsyncComponent(
+    showStandardForm
+      ? () => import('./the-recipe-form/TheStandardForm.vue')
+      : () => import('./the-recipe-form/TheMobileForm.vue')
+  )
+);
 </script>
 
 <template>
-  <div _flex="~ col" _gap4 _my4>
-    <BaseFadeTransitionGroup>
+  <component :is="formComponent" v-model:enable-steps="enableSteps">
+    <template #main>
       <div>
         <div>{{ t('recipes.form.title') }}</div>
         <BaseInput v-model="title" />
@@ -165,27 +176,20 @@ initializeForm();
         <div>{{ t('recipes.form.description') }}</div>
         <BaseInput v-model="description" type="textarea" />
       </div>
+    </template>
 
-      <div>
-        <BaseCheckbox
-          v-model="showSteps"
-          :label="t('recipes.form.show_steps')"
-        />
-      </div>
+    <template #steps>
+      <TheStepList v-model:steps="steps" />
+    </template>
 
-      <div v-if="showSteps">
-        <TheStepList v-model:steps="steps" />
-      </div>
+    <template #ingredients>
+      <TheIngredientList v-model:ingredients="ingredients" />
+    </template>
 
-      <BaseHr />
-
-      <div>
-        <TheIngredientList v-model:ingredients="ingredients" />
-      </div>
-    </BaseFadeTransitionGroup>
-
-    <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
-      {{ t('recipes.form.submit') }}
-    </BaseButton>
-  </div>
+    <template #submit-button>
+      <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
+        {{ t('recipes.form.submit') }}
+      </BaseButton>
+    </template>
+  </component>
 </template>

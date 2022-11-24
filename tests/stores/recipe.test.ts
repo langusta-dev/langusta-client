@@ -12,7 +12,7 @@ import { useRecipeStore } from '~/stores/recipe';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
 
-import { isOnline } from '~/composables/online';
+import * as online from '~/composables/online';
 
 import * as recipeApi from '~/api/recipe';
 import * as recipeCollectionApi from '~/api/recipeCollection';
@@ -492,7 +492,7 @@ describe('recipes store', () => {
       const uploadRecipesSpy = vi.spyOn(recipeApi, 'uploadRecipes');
 
       // When
-      isOnline.value = true;
+      vi.spyOn(online, 'isOnline').mockReturnValue(true);
       const recipeStore = useRecipeStore();
 
       recipeStore.addRecipe(testEditableRecipe1);
@@ -520,7 +520,8 @@ describe('recipes store', () => {
       const uploadRecipesSpy = vi.spyOn(recipeApi, 'uploadRecipes');
 
       // When
-      isOnline.value = false;
+      const isOnline = ref(false);
+      vi.spyOn(online, 'isOnline').mockImplementation(() => isOnline.value);
       const recipeStore = useRecipeStore();
 
       // Then

@@ -1,1 +1,3 @@
-export const isOnline = useOnline();
+const _isOnline = useOnline();
+
+export const isOnline = () => _isOnline.value;

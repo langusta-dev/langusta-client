@@ -40,7 +40,7 @@ rest.silent.defaults.headers = rest.defaults.headers;
 const _handleClientOffline = (
   request: AxiosRequestConfig
 ): AxiosRequestConfig => {
-  if (!isOnline.value) {
+  if (!isOnline()) {
     throw new ClientOfflineError();
   }
 
@@ -134,13 +134,15 @@ if (import.meta.vitest) {
   const { describe, it, expect } = import.meta.vitest;
 
   describe('_handleClientOffline', () => {
-    it('should do nothing, if online', () => {
-      isOnline.value = true;
+    it('should do nothing, if online', async () => {
+      const online = await import('~/composables/online');
+      vi.spyOn(online, 'isOnline').mockReturnValue(true);
       expect(() => _handleClientOffline({})).not.toThrow();
     });
 
-    it('should throw ClientOfflineError, if offline', () => {
-      isOnline.value = false;
+    it('should throw ClientOfflineError, if offline', async () => {
+      const online = await import('~/composables/online');
+      vi.spyOn(online, 'isOnline').mockReturnValue(false);
       expect(() => _handleClientOffline({})).toThrow(ClientOfflineError);
     });
   });

@@ -8,7 +8,7 @@ import { useWrapper } from './scroll/useWrapper';
 const { modelValue } = defineProps<{ modelValue?: number }>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: number): void;
+  (e: 'update:modelValue', v: number): void;
 }>();
 
 const scrollEl = $ref<HTMLDivElement>();

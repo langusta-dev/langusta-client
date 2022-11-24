@@ -14,7 +14,7 @@ interface Props {
 }
 
 interface Emits {
-  (e: 'update:modelValue', value: string): void;
+  (e: 'update:modelValue', v: string): void;
 }
 
 const {

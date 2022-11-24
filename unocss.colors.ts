@@ -1,15 +1,15 @@
 // todo color theme
 export default {
   primary: {
-    DEFAULT: '#eee',
+    'DEFAULT': '#eee',
     ':dark': '#222',
 
-    contrast: {
-      DEFAULT: '#222',
+    'contrast': {
+      'DEFAULT': '#222',
       ':dark': '#fafafa',
 
-      interactive: {
-        DEFAULT: '~',
+      'interactive': {
+        'DEFAULT': '~',
         ':hover': 'accent',
         ':dark': '~',
         ':dark:hover': 'accent',
@@ -33,31 +33,31 @@ export default {
     DEFAULT: '#42b883',
 
     contrast: {
-      DEFAULT: '#fff',
+      'DEFAULT': '#fff',
       ':dark': '#333',
     },
 
     focus: {
-      DEFAULT: '#33a06f',
+      'DEFAULT': '#33a06f',
       ':dark': '#42d392',
     },
 
     interactive: {
-      DEFAULT: '~',
+      'DEFAULT': '~',
       ':hover': {
-        DEFAULT: 'accent-focus',
+        'DEFAULT': 'accent-focus',
         ':dark': 'accent-focus:dark',
       },
       ':disabled': {
-        DEFAULT: '#999',
+        'DEFAULT': '#999',
         ':dark': '#333',
       },
 
-      contrast: {
-        DEFAULT: 'accent-contrast',
+      'contrast': {
+        'DEFAULT': 'accent-contrast',
         ':dark': 'accent-contrast:dark',
         ':disabled': {
-          DEFAULT: '#f1f1f1',
+          'DEFAULT': '#f1f1f1',
           ':dark': '#888',
         },
       },
@@ -67,10 +67,10 @@ export default {
       DEFAULT: '#ddd',
 
       interactive: {
-        DEFAULT: '~',
+        'DEFAULT': '~',
         ':hover': 'accent',
         ':disabled': {
-          DEFAULT: '#999',
+          'DEFAULT': '#999',
           ':dark': '#333',
         },
       },

@@ -4,7 +4,7 @@ import type { RecipeStep } from '~/types/recipe';
 const props = defineProps<{ steps: RecipeStep[] }>();
 
 const emit = defineEmits<{
-  (e: 'update:steps', value: RecipeStep[]): void;
+  (e: 'update:steps', v: RecipeStep[]): void;
 }>();
 
 const { t } = useI18n();

@@ -9,7 +9,7 @@ import { useQuantityUnit } from './the-ingredient-list/useQuantityUnit';
 const props = defineProps<{ ingredients: RecipeIngredient[] }>();
 
 const emit = defineEmits<{
-  (e: 'update:ingredients', value: RecipeIngredient[]): void;
+  (e: 'update:ingredients', v: RecipeIngredient[]): void;
 }>();
 
 const { t } = useI18n();

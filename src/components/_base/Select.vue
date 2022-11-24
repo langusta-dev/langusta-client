@@ -25,7 +25,7 @@ const {
 } = defineProps<Props>();
 
 const emit = defineEmits<{
-  (e: 'update:modelValue', value: Option): void;
+  (e: 'update:modelValue', v: Option): void;
 }>();
 </script>
 

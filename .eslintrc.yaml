@@ -76,6 +76,24 @@ rules:
   '@typescript-eslint/no-invalid-void-type': error
   '@typescript-eslint/unified-signatures': error
 
+  'no-restricted-imports': off
+  '@typescript-eslint/no-restricted-imports':
+    - error
+    - patterns:
+        - group: ['vue']
+          message: Vue API is automatically imported
+          allowTypeImports: true
+        - group: ['vue-router']
+          message: Vue Router API is automatically imported
+          allowTypeImports: true
+        - group: ['vue-i18n']
+          importNames: ['useI18n']
+          message: useI18n() from Vue I18n API is automatically imported
+          allowTypeImports: true
+        - group: ['@vueuse/core', '@vueuse/head']
+          message: VueUse API is automatically imported
+          allowTypeImports: true
+
   'import/order':
     - warn
     - groups:

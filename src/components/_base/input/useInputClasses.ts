@@ -8,8 +8,6 @@ const STATIC_CLASSES = [
   'placeholder:(text-sm italic text-primary-contrast/75)',
   'border-1px',
   'outline-(~ 2px offset-0 transparent) hover:outline-accent !focus:outline-accent-focus',
-  'hover:outline-accent',
-  '!focus:outline-accent-focus',
   'transition-(colors property-[outline])',
 ];
 
