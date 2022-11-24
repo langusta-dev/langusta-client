@@ -8,6 +8,7 @@ export {}
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
     BaseButton: typeof import('~/components/_base/Button.vue')['default']
+    BaseCheckbox: typeof import('~/components/_base/Checkbox.vue')['default']
     BaseFadeTransition: typeof import('~/components/_base/FadeTransition.vue')['default']
     BaseFadeTransitionGroup: typeof import('~/components/_base/FadeTransitionGroup.vue')['default']
     BaseHr: typeof import('~/components/_base/Hr.vue')['default']

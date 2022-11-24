@@ -18,16 +18,13 @@ export const createApp = ViteSSG(
   { routes, base: import.meta.env.BASE_URL },
   async (ctx) => {
     // install all modules under `modules/`
-    const moduleImports = Object.values(
-      import.meta.glob<{ install: InstallModule }>('./modules/*.ts')
+    const modules = await Promise.all(
+      Object.values(
+        import.meta.glob<{ install: InstallModule }>('./modules/*.ts')
+      ).map((importModule) => importModule())
     );
 
-    await Promise.all([
-      moduleImports.map(async (importModule) => {
-        const module = await importModule();
-        await module.install(ctx);
-      }),
-    ]);
+    await Promise.all([modules.map((module) => module.install(ctx))]);
   },
   { transformState: (state) => (import.meta.env.SSR ? devalue(state) : state) }
 );

@@ -1,6 +1,6 @@
 import { acceptHMRUpdate, defineStore } from 'pinia';
 
-import { jwt } from '~/composables/jwt';
+import { getJwt } from '~/composables/jwt';
 
 export const useLocalProfileStore = defineStore('localProfile', () => {
   let isLocalProfileEnabled = $(
@@ -15,7 +15,7 @@ export const useLocalProfileStore = defineStore('localProfile', () => {
     isLocalProfileEnabled = false;
   };
 
-  whenever(jwt, disableLocalProfile);
+  whenever(getJwt, disableLocalProfile);
 
   return {
     isLocalProfileEnabled: computed(() => isLocalProfileEnabled),

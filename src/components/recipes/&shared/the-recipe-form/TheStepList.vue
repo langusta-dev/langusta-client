@@ -64,9 +64,9 @@ initializeSteps();
 <template>
   <div _flex="~ col" _gap2>
     <div _flex _justify-between _items-center>
-      <div>{{ t('recipes.new.steps') }}</div>
+      <div>{{ t('recipes.form.steps') }}</div>
       <BaseButton @click="addStep()">
-        {{ t('recipes.new.add_step') }}
+        {{ t('recipes.form.add_step') }}
       </BaseButton>
     </div>
 
@@ -97,7 +97,7 @@ initializeSteps();
 
           <BaseInput
             v-model="item.description"
-            :placeholder="t('recipes.new.step.description')"
+            :placeholder="t('recipes.form.step.description')"
             type="textarea"
           />
         </div>

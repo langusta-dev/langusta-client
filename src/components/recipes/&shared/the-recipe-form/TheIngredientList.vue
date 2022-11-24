@@ -71,9 +71,9 @@ initializeIngredients();
 <template>
   <div _flex="~ col" _gap2>
     <div _flex _justify-between _items-center>
-      <div>{{ t('recipes.new.ingredients') }}</div>
+      <div>{{ t('recipes.form.ingredients') }}</div>
       <BaseButton @click="addIngredient()">
-        {{ t('recipes.new.add_ingredient') }}
+        {{ t('recipes.form.add_ingredient') }}
       </BaseButton>
     </div>
 
@@ -83,7 +83,7 @@ initializeIngredients();
           <div _flex _gap2>
             <BaseInput
               v-model="item.name"
-              :placeholder="t('recipes.new.ingredient.name')"
+              :placeholder="t('recipes.form.ingredient.name')"
               _w="!0"
               _grow
             />
@@ -96,7 +96,7 @@ initializeIngredients();
           <div _flex _gap2 _mt2 _children="!w0 grow">
             <BaseInput
               v-model="item.quantity"
-              :placeholder="t('recipes.new.ingredient.quantity')"
+              :placeholder="t('recipes.form.ingredient.quantity')"
               numeric
             />
 

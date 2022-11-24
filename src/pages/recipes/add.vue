@@ -17,16 +17,14 @@ import { useRecipeStore } from '~/stores/recipe';
 import type { EditableRecipe } from '~/types/recipe';
 
 const recipeStore = useRecipeStore();
+const router = useRouter();
 
 const initialRecipe = (): EditableRecipe => ({
   title: '',
   description: '',
-  mealType: RecipeMealType.LUNCH,
+  mealType: RecipeMealType.Lunch,
   calorieCount: 0,
-  preparationTime: {
-    value: 0,
-    unit: RecipePreparationTimeUnit.MINUTE,
-  },
+  preparationTime: { value: 0, unit: RecipePreparationTimeUnit.Minute },
   steps: [{ description: '' }],
   ingredients: [
     { name: '', quantity: 0, quantityUnit: RecipeIngredientQuantityUnit.G },
@@ -35,12 +33,10 @@ const initialRecipe = (): EditableRecipe => ({
 
 let newRecipe = $ref<EditableRecipe>(initialRecipe());
 
-let formKey = $ref(0);
-
 const submitRecipe = () => {
   recipeStore.addRecipe(newRecipe);
   newRecipe = initialRecipe();
-  formKey++;
+  router.push('/recipes');
 };
 </script>
 
@@ -48,7 +44,6 @@ const submitRecipe = () => {
   <div _flex="~ col" _items-center>
     <BaseScroll>
       <TheRecipeForm
-        :key="formKey"
         v-model:recipe="newRecipe"
         @submit-recipe="submitRecipe()"
       />

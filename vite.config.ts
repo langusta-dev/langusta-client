@@ -88,7 +88,7 @@ export default defineConfig(({ mode }) => ({
       ],
 
       // prevent tests from breaking the declaration file
-      dts: mode !== 'test' ? 'src/__vite-components.d.ts' : false,
+      dts: mode === 'test' ? false : 'src/__vite-components.d.ts',
     }),
 
     Pages({

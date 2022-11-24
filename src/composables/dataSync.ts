@@ -173,16 +173,17 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const deleteById = (id: Uuid): void => {
     const index = data.findIndex((item) => item.id === id);
 
-    if (index !== -1) {
-      if (!data[index].isLocalOnly) {
-        dataIdsToDelete.push(id);
-      }
-
-      data.splice(index, 1);
-    } else {
+    if (index === -1) {
       // eslint-disable-next-line no-console
       console.warn(`Failed to delete item: ${id}`);
+      return;
     }
+
+    if (!data[index].isLocalOnly) {
+      dataIdsToDelete.push(id);
+    }
+
+    data.splice(index, 1);
   };
 
   return {

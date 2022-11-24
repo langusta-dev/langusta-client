@@ -59,6 +59,8 @@ let ingredients = $ref<RecipeIngredient[]>([]);
 
 let steps = $ref<RecipeStep[]>([]);
 
+let showSteps = $ref(false);
+
 let { recipe } = $(useVModels(props, emit));
 
 watchEffect(() => {
@@ -82,6 +84,10 @@ const submitRecipe = () => {
     return;
   }
 
+  if (!showSteps) {
+    steps = [];
+  }
+
   emit('submitRecipe');
 };
 
@@ -103,6 +109,8 @@ const initializeForm = () => {
   ingredients = props.recipe.ingredients;
 
   steps = props.recipe.steps;
+
+  showSteps = !!steps.length;
 };
 
 initializeForm();
@@ -110,62 +118,69 @@ initializeForm();
 
 <template>
   <div _flex="~ col" _gap4 _my4>
-    <div>
-      <div>{{ t('recipes.new.title') }}</div>
-      <BaseInput v-model="title" />
-    </div>
+    <BaseFadeTransitionGroup>
+      <div>
+        <div>{{ t('recipes.form.title') }}</div>
+        <BaseInput v-model="title" />
+      </div>
 
-    <div>
-      <div>{{ t('recipes.new.meal_type') }}</div>
-      <BaseSelect
-        v-model="mealType"
-        :options="mealTypeOptions"
-        :reduce="MEAL_TYPE_OPTION_REDUCER"
-        label="label"
-      />
-    </div>
-
-    <div>
-      <div>{{ t('recipes.new.description') }}</div>
-      <BaseInput v-model="description" type="textarea" />
-    </div>
-
-    <div>
-      <div>{{ t('recipes.new.calorie_count') }}</div>
-      <BaseInput v-model="calorieCount" numeric />
-    </div>
-
-    <div>
-      <div>{{ t('recipes.new.preparation_time') }}</div>
-
-      <div _flex _children="!w0 grow" _gap2>
-        <div>
-          <BaseInput v-model="preparationTimeValue" numeric />
-        </div>
-
+      <div>
+        <div>{{ t('recipes.form.meal_type') }}</div>
         <BaseSelect
-          v-model="preparationTimeUnit"
-          :options="preparationTimeUnitOptions"
-          :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
+          v-model="mealType"
+          :options="mealTypeOptions"
+          :reduce="MEAL_TYPE_OPTION_REDUCER"
           label="label"
         />
       </div>
-    </div>
 
-    <BaseHr />
+      <div>
+        <div>{{ t('recipes.form.calorie_count') }}</div>
+        <BaseInput v-model="calorieCount" numeric />
+      </div>
 
-    <div>
-      <TheIngredientList v-model:ingredients="ingredients" />
-    </div>
+      <div>
+        <div>{{ t('recipes.form.preparation_time') }}</div>
 
-    <BaseHr />
+        <div _flex _children="!w0 grow" _gap2>
+          <div>
+            <BaseInput v-model="preparationTimeValue" numeric />
+          </div>
 
-    <div>
-      <TheStepList v-model:steps="steps" />
-    </div>
+          <BaseSelect
+            v-model="preparationTimeUnit"
+            :options="preparationTimeUnitOptions"
+            :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
+            label="label"
+          />
+        </div>
+      </div>
+
+      <div>
+        <div>{{ t('recipes.form.description') }}</div>
+        <BaseInput v-model="description" type="textarea" />
+      </div>
+
+      <div>
+        <BaseCheckbox
+          v-model="showSteps"
+          :label="t('recipes.form.show_steps')"
+        />
+      </div>
+
+      <div v-if="showSteps">
+        <TheStepList v-model:steps="steps" />
+      </div>
+
+      <BaseHr />
+
+      <div>
+        <TheIngredientList v-model:ingredients="ingredients" />
+      </div>
+    </BaseFadeTransitionGroup>
 
     <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
-      {{ t('recipes.new.submit') }}
+      {{ t('recipes.form.submit') }}
     </BaseButton>
   </div>
 </template>

@@ -5,7 +5,7 @@ index:
 
 recipes:
   title: Recipes
-  new:
+  form:
     title: Name
     meal_type: Meal
     description: Description
@@ -16,6 +16,7 @@ recipes:
     ingredient:
       name: Name
       quantity: Quantity
+    show_steps: Define list of steps
     steps: Preparation steps
     add_step: Add step
     step:
