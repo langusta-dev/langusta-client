@@ -41,6 +41,7 @@ specifiers:
   eslint-plugin-vue-scoped-css: ^2.2.0
   eslint-plugin-yml: ^1.2.0
   jsonc-eslint-parser: ^2.1.0
+  klona: ^2.0.5
   nprogress: ^0.2.0
   pinia: ^2.0.26
   pnpm: ^7.17.0
@@ -74,6 +75,7 @@ dependencies:
   '@vueuse/head': 1.0.18_vue@3.2.41
   '@vueuse/integrations': 9.6.0_stldmftzdozqbyg5em4orvwggi
   axios: 1.2.0
+  klona: 2.0.5
   nprogress: 0.2.0
   pinia: 2.0.26_lkvyoo2kqf5fp4b2zmqolhfxpe
   uuid: 9.0.0
@@ -4926,6 +4928,11 @@ packages:
     resolution: {integrity: sha512-p/nXbhSEcu3pZRdkW1OfJhpsVtW1gd4Wa1fnQc9YLiTfAjn0312eMKimbdIQzuZl9aa9xUGaRlP9T/CJE/ditQ==}
     engines: {node: '>=0.10.0'}
     dev: true
+
+  /klona/2.0.5:
+    resolution: {integrity: sha512-pJiBpiXMbt7dkzXe8Ghj/u4FfXOOa98fPW+bihOJ4SjnoijweJrNThJfd3ifXpXhREjpoF2mZVH1GfS9LV3kHQ==}
+    engines: {node: '>= 8'}
+    dev: false
 
   /kolorist/1.6.0:
     resolution: {integrity: sha512-dLkz37Ab97HWMx9KTes3Tbi3D1ln9fCAy2zr2YVExJasDRPGRaKcoE4fycWNtnCAJfjFqe0cnY+f8KT2JePEXQ==}

@@ -61,6 +61,8 @@ export const useRecipeStore = defineStore('recipe', () => {
     state: recipes,
     getById: getRecipeById,
     push: addRecipe,
+    editById: editRecipeById,
+    deleteById: deleteRecipeById,
   } = useSynchronizableArray(
     'recipes',
     recipeInitializer,
@@ -68,7 +70,14 @@ export const useRecipeStore = defineStore('recipe', () => {
     deleteRecipesByIds
   );
 
-  return { areRecipesInSync, recipes, getRecipeById, addRecipe };
+  return {
+    areRecipesInSync,
+    recipes,
+    getRecipeById,
+    addRecipe,
+    editRecipeById,
+    deleteRecipeById,
+  };
 });
 
 if (import.meta.hot) {

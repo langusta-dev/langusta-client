@@ -21,7 +21,7 @@ const { t } = useI18n();
 
     <div _mt-5>
       <BaseButton @click="router.push('/')">
-        {{ t('nav.index') }}
+        {{ t('index.title') }}
       </BaseButton>
     </div>
   </div>

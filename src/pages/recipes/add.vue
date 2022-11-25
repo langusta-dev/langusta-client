@@ -41,12 +41,5 @@ const submitRecipe = () => {
 </script>
 
 <template>
-  <div _flex="~ col" _items-center>
-    <BaseScroll>
-      <TheRecipeForm
-        v-model:recipe="newRecipe"
-        @submit-recipe="submitRecipe()"
-      />
-    </BaseScroll>
-  </div>
+  <TheRecipeForm v-model:recipe="newRecipe" @submit-recipe="submitRecipe()" />
 </template>

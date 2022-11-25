@@ -26,6 +26,7 @@
     "@vueuse/head": "^1.0.18",
     "@vueuse/integrations": "^9.6.0",
     "axios": "^1.2.0",
+    "klona": "^2.0.5",
     "nprogress": "^0.2.0",
     "pinia": "^2.0.26",
     "uuid": "^9.0.0",

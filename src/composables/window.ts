@@ -1,5 +1,3 @@
-import { capitalize } from '~/helpers/string';
-
 import type { Ref } from 'vue';
 
 const WINDOW_WIDTH_BREAKPOINTS = {

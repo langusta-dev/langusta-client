@@ -73,6 +73,7 @@ export default defineConfig(({ mode }) => ({
         'vue-i18n',
         '@vueuse/head',
         '@vueuse/core',
+        { klona: ['klona'] },
         GlobalHelpersImport({ importPath: '~/helpers/_global' }),
       ],
       dts: 'src/__vite-auto-imports.d.ts',
