@@ -8,8 +8,8 @@ import TheIngredientList from './the-recipe-form/TheIngredientList.vue';
 import TheStepList from './the-recipe-form/TheStepList.vue';
 
 import { useInputGroup } from '~/composables/input';
-import { useWindowWidthBreakpoints } from '~/composables/window';
 
+import { useFormSkeleton } from './the-recipe-form/useFormSkeleton';
 import { useMealType } from './the-recipe-form/useMealType';
 import { usePreparationTimeUnit } from './the-recipe-form/usePreparationTimeUnit';
 
@@ -121,19 +121,11 @@ const initializeForm = () => {
 
 initializeForm();
 
-const { isXl: showStandardForm } = $(useWindowWidthBreakpoints());
-
-const formComponent = computed(() =>
-  defineAsyncComponent(
-    showStandardForm
-      ? () => import('./the-recipe-form/TheStandardForm.vue')
-      : () => import('./the-recipe-form/TheMobileForm.vue')
-  )
-);
+const { skeletonComponent } = useFormSkeleton();
 </script>
 
 <template>
-  <component :is="formComponent" v-model:enable-steps="enableSteps">
+  <component :is="skeletonComponent">
     <template #metadata>
       <div>
         <div>{{ t('recipes.form.title') }}</div>
