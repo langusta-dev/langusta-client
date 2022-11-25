@@ -1,42 +1,21 @@
-<script setup lang="ts">
-const props = defineProps<{ enableSteps: boolean }>();
-
-const emit = defineEmits<{
-  (e: 'update:enableSteps', v: boolean): void;
-}>();
-
-const { t } = useI18n();
-
-const { enableSteps } = useVModels(props, emit);
-</script>
-
 <template>
-  <div
-    _flex
-    _my4
-    :_children="`flex-(~ col) gap4 px3 ${
-      enableSteps ? 'min-w-1/3' : 'min-w-1/2'
-    }`"
-  >
-    <BaseFadeTransitionGroup>
-      <div>
-        <slot name="main" />
+  <div _flex _m="t12 b4" _children="flex-(~ col) gap4 px3 min-w-1/3">
+    <div _relative>
+      <slot name="metadata" />
 
-        <div>
-          <BaseCheckbox
-            v-model="enableSteps"
-            :label="t('recipes.form.show_steps')"
-          />
-        </div>
-      </div>
+      <BaseHr />
 
-      <div>
-        <slot name="ingredients" />
-      </div>
+      <slot name="submit-button" />
+    </div>
 
-      <div v-if="enableSteps">
-        <slot name="steps" />
-      </div>
-    </BaseFadeTransitionGroup>
+    <div>
+      <slot name="description" />
+
+      <slot name="steps" />
+    </div>
+
+    <div>
+      <slot name="ingredients" />
+    </div>
   </div>
 </template>

@@ -16,7 +16,7 @@ recipes:
     ingredient:
       name: Name
       quantity: Quantity
-    show_steps: Define list of steps
+    enable_steps: Define list of steps
     steps: Preparation steps
     add_step: Add step
     step:

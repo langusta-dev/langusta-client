@@ -27,8 +27,6 @@ const { modelValue } = $(useVModels(props, emit));
         }`"
         _transition="colors property-[outline]"
       >
-        <input :value="modelValue" type="checkbox" _w-full _h-full _op0 />
-
         <BaseFadeTransition>
           <div v-if="modelValue" _cover _bg-accent _pointer-events-none />
         </BaseFadeTransition>

@@ -2,7 +2,7 @@ import type { Ref } from 'vue';
 
 const STATIC_CLASSES = [
   'p-(x2 y1)',
-  'w72 max-w-full',
+  'w80 max-w-full',
   'bg-primary',
   'rounded',
   'placeholder:(text-sm italic text-primary-contrast/75)',

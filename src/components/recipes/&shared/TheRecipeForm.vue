@@ -134,7 +134,7 @@ const formComponent = computed(() =>
 
 <template>
   <component :is="formComponent" v-model:enable-steps="enableSteps">
-    <template #main>
+    <template #metadata>
       <div>
         <div>{{ t('recipes.form.title') }}</div>
         <BaseInput v-model="title" />
@@ -171,7 +171,9 @@ const formComponent = computed(() =>
           />
         </div>
       </div>
+    </template>
 
+    <template #description>
       <div>
         <div>{{ t('recipes.form.description') }}</div>
         <BaseInput v-model="description" type="textarea" />
@@ -179,7 +181,14 @@ const formComponent = computed(() =>
     </template>
 
     <template #steps>
-      <TheStepList v-model:steps="steps" />
+      <div>
+        <BaseCheckbox
+          v-model="enableSteps"
+          :label="t('recipes.form.enable_steps')"
+        />
+
+        <TheStepList v-model:steps="steps" :enable-steps="enableSteps" />
+      </div>
     </template>
 
     <template #ingredients>
