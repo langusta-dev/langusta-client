@@ -53,6 +53,11 @@ rules:
   'curly':
     - warn
     - all
+  'max-lines':
+    - error
+    - max: 500
+      skipBlankLines: true
+      skipComments: true
   'no-console': warn
   'no-debugger': warn
   'no-empty': warn
