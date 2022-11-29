@@ -2,9 +2,8 @@
 import { useNav } from './useNav';
 
 const { t } = useI18n();
-const route = useRoute();
 const router = useRouter();
-const { navigableRoutes } = useNav();
+const { navigableRoutes, currentNavigableRoute } = useNav();
 </script>
 
 <template>
@@ -31,7 +30,7 @@ const { navigableRoutes } = useNav();
 
       <BaseFadeTransition>
         <div
-          v-if="route.path === path"
+          v-if="currentNavigableRoute?.path === path"
           _cover
           _pointer-events-none
           _border="2 accent"

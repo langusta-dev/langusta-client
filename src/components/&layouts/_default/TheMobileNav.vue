@@ -2,17 +2,12 @@
 import { useNav } from './useNav';
 
 const { t } = useI18n();
-const route = useRoute();
 const router = useRouter();
 const { navigableRoutes, currentNavigableRoute } = useNav();
 </script>
 
 <template>
   <div _flex="~ col">
-    <BaseFadeTransition>
-      <div v-if="currentNavigableRoute?.children?.length">it has kiddos</div>
-    </BaseFadeTransition>
-
     <div _flex _justify-center _gap1 _bg="primary-contrast/30" _p="t1 x1">
       <div
         v-for="{ path, meta: { navIcon, title } } in navigableRoutes"
@@ -39,7 +34,7 @@ const { navigableRoutes, currentNavigableRoute } = useNav();
 
           <BaseFadeTransition>
             <div
-              v-if="route.path === path"
+              v-if="currentNavigableRoute?.path === path"
               _cover
               _pointer-events-none
               _border="2 accent"
