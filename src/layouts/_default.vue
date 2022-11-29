@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import TheMobileNav from '~/components/&layouts/_default/TheMobileNav.vue';
 import TheStandardNav from '~/components/&layouts/_default/TheStandardNav.vue';
+
+import { useWindowWidthBreakpoints } from '~/composables/window';
+
+const { isMd } = useWindowWidthBreakpoints();
 </script>
 
 <template>
@@ -9,11 +13,9 @@ import TheStandardNav from '~/components/&layouts/_default/TheStandardNav.vue';
       <BaseRouterView />
     </main>
 
-    <div _order-first _hidden _md:block>
-      <TheStandardNav />
-    </div>
-    <div _md:hidden>
-      <TheMobileNav />
-    </div>
+    <BaseFadeTransition>
+      <TheStandardNav v-if="isMd" _order-first />
+      <TheMobileNav v-else />
+    </BaseFadeTransition>
   </div>
 </template>

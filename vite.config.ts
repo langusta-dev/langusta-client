@@ -139,6 +139,8 @@ export default defineConfig(({ mode }) => ({
     Inspect(),
   ],
 
+  build: { target: ['esnext'] },
+
   ssgOptions: {
     script: 'async',
     formatting: 'minify',

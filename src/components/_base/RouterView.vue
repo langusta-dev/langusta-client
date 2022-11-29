@@ -7,10 +7,8 @@ const route = useRoute();
 <template>
   <RouterView v-slot="{ Component }">
     <BaseFadeTransition appear>
-      <Suspense>
-        <component :is="Component" v-if="lazy" _h-full _w-full />
-        <component :is="Component" v-else :key="route.name" _h-full _w-full />
-      </Suspense>
+      <component :is="Component" v-if="lazy" _h-full _w-full />
+      <component :is="Component" v-else :key="route.name" _h-full _w-full />
     </BaseFadeTransition>
   </RouterView>
 </template>

@@ -8,7 +8,6 @@ import TheRecipeForm from '~/components/recipes/&shared/TheRecipeForm.vue';
 
 import { useRecipeStore } from '~/stores/recipe';
 
-import type { Recipe } from '~/types/recipe';
 import type { Uuid } from '~/types/uuid';
 
 const { id } = defineProps<{ id: Uuid }>();
@@ -16,15 +15,19 @@ const { id } = defineProps<{ id: Uuid }>();
 const router = useRouter();
 const recipeStore = useRecipeStore();
 
-const recipe = computed(() => recipeStore.getRecipeById(id));
+const recipe = $computed(() => recipeStore.getRecipeById(id));
 
-if (!recipe.value) {
-  await router.replace({ name: 'all', params: { all: ['recipes', id] } });
+if (!recipe) {
+  router.replace({ name: 'all', params: { all: ['recipes', id] } });
 }
 
-const editableRecipe = $ref(klona(recipe.value as Recipe));
+const editableRecipe = $ref(recipe ? klona(recipe) : null);
 
 const submitRecipe = () => {
+  if (!editableRecipe) {
+    return;
+  }
+
   recipeStore.editRecipeById(id, editableRecipe);
   router.push('/recipes');
 };
@@ -32,6 +35,7 @@ const submitRecipe = () => {
 
 <template>
   <TheRecipeForm
+    v-if="editableRecipe"
     v-model:recipe="editableRecipe"
     @submit-recipe="submitRecipe()"
   />
