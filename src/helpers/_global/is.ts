@@ -1,7 +1,7 @@
 import type { Nullish, Primitive } from '~/types/basic';
 
-export const isArray = (value: unknown): value is unknown[] =>
-  Array.isArray(value);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const isArray = (value: unknown): value is any[] => Array.isArray(value);
 
 export const isBool = (value: unknown): value is boolean =>
   typeof value === 'boolean';

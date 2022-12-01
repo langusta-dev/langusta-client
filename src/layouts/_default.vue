@@ -13,9 +13,7 @@ const { isMd } = useWindowWidthBreakpoints();
       <BaseRouterView />
     </main>
 
-    <BaseFadeTransition>
-      <TheStandardNav v-if="isMd" _order-first />
-      <TheMobileNav v-else />
-    </BaseFadeTransition>
+    <TheStandardNav v-if="isMd" _order-first />
+    <TheMobileNav v-else />
   </div>
 </template>

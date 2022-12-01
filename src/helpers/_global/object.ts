@@ -20,9 +20,6 @@ export const deepEqual = <T, U>(valueA: T, valueB: U): valueA is T & U => {
   return keysA.every((key) => deepEqual(valueA[key], valueB[key]));
 };
 
-export const capitalize = (str: string) =>
-  str.length ? str[0].toUpperCase() + str.slice(1) : str;
-
 export const match =
   <T extends () => ReturnType<T>>(value: string) =>
   (callbackObj: Record<string, T>, defaultCallback?: T) =>
