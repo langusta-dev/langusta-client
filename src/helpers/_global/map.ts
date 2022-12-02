@@ -31,7 +31,7 @@ export class SafeMap<K extends SafeMapKey, V> extends Map<K, V> {
   }
 
   private defaultSetter: SafeMapDefaultSetter<K, V>;
-  private allowedKeys: Ref<Set<K>> | undefined;
+  private allowedKeys: { value: Set<K> } | undefined;
 
   constructor(options: SafeMapOptions<K, V>);
   constructor(entries: MapEntries<K, V>, options?: SafeMapOptions<K, V>);
@@ -62,12 +62,22 @@ export class SafeMap<K extends SafeMapKey, V> extends Map<K, V> {
     if (allowedKeys) {
       this.allowedKeys = isRef(allowedKeys)
         ? computed(() => new Set((allowedKeys as Ref).value))
-        : ref(new Set(allowedKeys));
+        : { value: new Set(allowedKeys) };
     }
   }
 
+  private isKeyValid(k: K) {
+    if (this.allowedKeys && !this.allowedKeys.value.has(k)) {
+      // @ts-expect-error accessing static property
+      this.constructor.forbiddenKeyCb(k, [...this.allowedKeys.value]);
+      return false;
+    }
+
+    return true;
+  }
+
   override get(k: K): V {
-    if (!this.allowedKeys?.value.has(k)) {
+    if (!this.isKeyValid(k)) {
       return this.defaultSetter(k);
     }
 
@@ -75,6 +85,14 @@ export class SafeMap<K extends SafeMapKey, V> extends Map<K, V> {
       this.set(k, this.defaultSetter(k));
     }
 
-    return this.get(k);
+    return super.get(k) as V;
+  }
+
+  override set(k: K, v: V): this {
+    if (!this.isKeyValid(k)) {
+      return this;
+    }
+
+    return super.set(k, v);
   }
 }

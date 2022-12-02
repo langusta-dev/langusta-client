@@ -3,27 +3,32 @@ import { useNav } from './useNav';
 
 const { t } = useI18n();
 const router = useRouter();
-const { navigableRoutes, currentNavigableRoute, navigableNeighboringRoutes } =
-  useNav();
+const {
+  navigableRootRoutes,
+  neighboringNavigableSubroutes,
+  isActiveRoutePath,
+} = useNav();
 </script>
 
 <template>
   <div _flex="~ col">
     <BaseFadeTransition>
-      <div v-if="navigableNeighboringRoutes" _flex>
+      <div v-if="neighboringNavigableSubroutes" _flex>
         <div
-          v-for="{ path, meta: { title } } in navigableNeighboringRoutes"
+          v-for="{ path, meta: { title } } in neighboringNavigableSubroutes"
           :key="path"
           _grow
         >
-          {{ title }}
+          <div _text-center>
+            {{ t(title) }}
+          </div>
         </div>
       </div>
     </BaseFadeTransition>
 
     <div _flex _justify-center _gap1 _bg="primary-contrast/30" _p="t1 x1">
       <div
-        v-for="{ path, meta: { navIcon, title } } in navigableRoutes"
+        v-for="{ path, meta: { navIcon, title } } in navigableRootRoutes"
         :key="path"
         _grow
       >
@@ -47,7 +52,7 @@ const { navigableRoutes, currentNavigableRoute, navigableNeighboringRoutes } =
 
           <BaseFadeTransition>
             <div
-              v-if="currentNavigableRoute?.path === path"
+              v-if="isActiveRoutePath(path)"
               _cover
               _pointer-events-none
               _border="2 accent"

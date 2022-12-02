@@ -3,13 +3,13 @@ import { useNav } from './useNav';
 
 const { t } = useI18n();
 const router = useRouter();
-const { navigableRoutes, currentNavigableRoute } = useNav();
+const { navigableRootRoutes, isActiveRoutePath } = useNav();
 </script>
 
 <template>
   <div _h-full _flex="~ col" _gap1 _bg="primary-contrast/30" _p="t4 x1">
     <div
-      v-for="{ path, meta: { navIcon, title } } in navigableRoutes"
+      v-for="{ path, meta: { navIcon, title } } in navigableRootRoutes"
       :key="path"
       _flex
       _gap2
@@ -30,7 +30,7 @@ const { navigableRoutes, currentNavigableRoute } = useNav();
 
       <BaseFadeTransition>
         <div
-          v-if="currentNavigableRoute?.path === path"
+          v-if="isActiveRoutePath(path)"
           _cover
           _pointer-events-none
           _border="2 accent"
