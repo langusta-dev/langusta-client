@@ -8,7 +8,7 @@ const { navigableRootRoutes, neighboringNavigableRoutes, isActiveRoutePath } =
 </script>
 
 <template>
-  <div _flex="~ col" _gap1 _bg="primary-contrast/30" _p="t1 x1">
+  <div _flex="~ col" _gap1 _bg="primary-contrast/30" _p="t1 x1" _select-none>
     <BaseFadeTransition>
       <div v-if="neighboringNavigableRoutes" _flex _gap1>
         <div

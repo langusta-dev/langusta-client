@@ -12,7 +12,14 @@ const {
 </script>
 
 <template>
-  <div _h-full _flex="~ col" _gap4 _bg="primary-contrast/30" _p="t4 x1">
+  <div
+    _h-full
+    _flex="~ col"
+    _gap4
+    _bg="primary-contrast/30"
+    _p="t4 x1"
+    _select-none
+  >
     <div
       v-for="{ path, meta: { navIcon, title } } in navigableRootRoutes"
       :key="path"
