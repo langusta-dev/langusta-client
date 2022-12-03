@@ -35,6 +35,19 @@ export const useNav = () => {
     router.getRoutes().filter(isNavigableRouteRecord).sort(routeSortCompareCb)
   );
 
+  const _navigableRoutePerPath = $computed(
+    () =>
+      new Map(
+        _navigableRoutes.map((navigableRoute) => [
+          navigableRoute.path,
+          navigableRoute,
+        ])
+      )
+  );
+
+  const getNavigableRouteByPath = (path: string) =>
+    _navigableRoutePerPath.get(path) as NavigableRouteRecordNormalized;
+
   const subroutePathsPerRootPaths = $computed(() => {
     const subRoutePathsPerRootPaths = new SafeMap<string, string[]>({
       defaultSetter: () => [],
@@ -71,15 +84,22 @@ export const useNav = () => {
       () => _navigableRoutes.find(({ path }) => path === route.path) || null
     );
 
-  const neighboringNavigableSubroutes = $computed<
+  const navigableSubRoutes = $computed<NavigableRouteRecordNormalized[] | null>(
+    () => {
+      if (!_currentNavigableRoute) {
+        return null;
+      }
+
+      return subroutePathsPerRootPaths
+        .get(_currentNavigableRoute.path)
+        .map(getNavigableRouteByPath);
+    }
+  );
+
+  const neighboringNavigableRoutes = $computed<
     NavigableRouteRecordNormalized[] | null
   >(() => {
-    if (!_currentNavigableRoute) {
-      return null;
-    }
-
-    const neighboringPathMatch =
-      _currentNavigableRoute.path.match(/^\/[a-z-]+\//);
+    const neighboringPathMatch = route.path.match(/^\/[a-z-]+\//);
 
     if (!neighboringPathMatch) {
       return null;
@@ -101,7 +121,8 @@ export const useNav = () => {
 
   return $$({
     navigableRootRoutes,
-    neighboringNavigableSubroutes,
+    navigableSubRoutes,
+    neighboringNavigableRoutes,
     isActiveRoutePath,
   });
 };

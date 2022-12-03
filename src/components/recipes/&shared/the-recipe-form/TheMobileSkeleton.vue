@@ -1,5 +1,5 @@
 <template>
-  <div _flex="~ col" _gap4 _my4>
+  <div _flex="~ col" _gap4>
     <BaseFadeTransitionGroup>
       <slot name="metadata" />
 

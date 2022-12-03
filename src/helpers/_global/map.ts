@@ -1,8 +1,8 @@
 import type { Ref } from 'vue';
 
-type SafeMapKey = string | number | symbol;
-
 type MapEntries<K, V> = readonly (readonly [K, V])[] | null;
+
+type SafeMapKey = string | number | symbol;
 
 type SafeMapDefaultSetter<K, V> = (k: K) => V;
 

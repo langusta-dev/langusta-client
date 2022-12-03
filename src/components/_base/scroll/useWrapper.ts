@@ -17,23 +17,17 @@ export const useWrapper = () => {
       return;
     }
 
-    wrapperHeightPx = wrapperEl.offsetHeight;
-    wrapperScrollHeightPx = wrapperEl.scrollHeight;
-  };
+    if (wrapperHeightPx !== wrapperEl.offsetHeight) {
+      wrapperHeightPx = wrapperEl.offsetHeight;
+    }
 
-  useResizeObserver($$(wrapperEl), updateWrapperElHeights);
-
-  const observeWrapperChildren = () => {
-    for (const child of wrapperEl.children) {
-      useResizeObserver(child as HTMLElement, updateWrapperElHeights);
+    if (wrapperScrollHeightPx !== wrapperEl.scrollHeight) {
+      wrapperScrollHeightPx = wrapperEl.scrollHeight;
     }
   };
 
-  useMutationObserver($$(wrapperEl), observeWrapperChildren, {
-    childList: true,
-  });
-
-  onMounted(observeWrapperChildren);
+  const { pause } = useIntervalFn(updateWrapperElHeights, 50);
+  onBeforeUnmount(pause);
 
   const isWrapperElReady = $computed(
     () => !!(wrapperHeightPx && wrapperScrollHeightPx)

@@ -12,5 +12,5 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div>Home</div>
+  <div>{{ t('index.title') }}</div>
 </template>

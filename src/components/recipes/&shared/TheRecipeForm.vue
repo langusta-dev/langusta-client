@@ -125,76 +125,74 @@ const { skeletonComponent } = useFormSkeleton();
 </script>
 
 <template>
-  <div _flex="~ col" _items-center>
-    <BaseScroll>
-      <component :is="skeletonComponent">
-        <template #metadata>
-          <div>
-            <div>{{ t('recipes.form.title') }}</div>
-            <BaseInput v-model="title" />
-          </div>
+  <div _flex _justify-center>
+    <component :is="skeletonComponent">
+      <template #metadata>
+        <div>
+          <div>{{ t('recipes.form.title') }}</div>
+          <BaseInput v-model="title" />
+        </div>
 
-          <div>
-            <div>{{ t('recipes.form.meal_type') }}</div>
+        <div>
+          <div>{{ t('recipes.form.meal_type') }}</div>
+          <BaseSelect
+            v-model="mealType"
+            :options="mealTypeOptions"
+            :reduce="MEAL_TYPE_OPTION_REDUCER"
+            label="label"
+          />
+        </div>
+
+        <div>
+          <div>{{ t('recipes.form.calorie_count') }}</div>
+          <BaseInput v-model="calorieCount" numeric />
+        </div>
+
+        <div>
+          <div>{{ t('recipes.form.preparation_time') }}</div>
+
+          <div _flex _children="!w0 grow" _gap2>
+            <div>
+              <BaseInput v-model="preparationTimeValue" numeric />
+            </div>
+
             <BaseSelect
-              v-model="mealType"
-              :options="mealTypeOptions"
-              :reduce="MEAL_TYPE_OPTION_REDUCER"
+              v-model="preparationTimeUnit"
+              :options="preparationTimeUnitOptions"
+              :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
               label="label"
             />
           </div>
+        </div>
+      </template>
 
-          <div>
-            <div>{{ t('recipes.form.calorie_count') }}</div>
-            <BaseInput v-model="calorieCount" numeric />
-          </div>
+      <template #description>
+        <div>
+          <div>{{ t('recipes.form.description') }}</div>
+          <BaseInput v-model="description" type="textarea" />
+        </div>
+      </template>
 
-          <div>
-            <div>{{ t('recipes.form.preparation_time') }}</div>
+      <template #steps>
+        <div>
+          <BaseCheckbox
+            v-model="enableSteps"
+            :label="t('recipes.form.enable_steps')"
+          />
 
-            <div _flex _children="!w0 grow" _gap2>
-              <div>
-                <BaseInput v-model="preparationTimeValue" numeric />
-              </div>
+          <TheStepList v-model:steps="steps" :enable-steps="enableSteps" />
+        </div>
+      </template>
 
-              <BaseSelect
-                v-model="preparationTimeUnit"
-                :options="preparationTimeUnitOptions"
-                :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
-                label="label"
-              />
-            </div>
-          </div>
-        </template>
+      <template #ingredients>
+        <TheIngredientList v-model:ingredients="ingredients" />
+      </template>
 
-        <template #description>
-          <div>
-            <div>{{ t('recipes.form.description') }}</div>
-            <BaseInput v-model="description" type="textarea" />
-          </div>
-        </template>
-
-        <template #steps>
-          <div>
-            <BaseCheckbox
-              v-model="enableSteps"
-              :label="t('recipes.form.enable_steps')"
-            />
-
-            <TheStepList v-model:steps="steps" :enable-steps="enableSteps" />
-          </div>
-        </template>
-
-        <template #ingredients>
-          <TheIngredientList v-model:ingredients="ingredients" />
-        </template>
-
-        <template #submit-button>
-          <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
-            {{ t('recipes.form.submit') }}
-          </BaseButton>
-        </template>
-      </component>
-    </BaseScroll>
+      <template #submit-button>
+        <BaseButton :disabled="!isRecipeComplete" @click="submitRecipe()">
+          {{ t('recipes.form.submit') }}
+        </BaseButton>
+      </template>
+    </component>
   </div>
 </template>

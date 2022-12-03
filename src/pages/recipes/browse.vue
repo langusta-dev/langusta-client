@@ -1,6 +1,6 @@
 <route lang="yaml">
 meta:
-  title: recipes.title
+  title: browse_recipes.title
   auth: true
   nav: true
   navOrder: 1
@@ -8,5 +8,5 @@ meta:
 </route>
 
 <template>
-  <div>browse</div>
+  <div>browse recipes</div>
 </template>

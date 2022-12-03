@@ -1,12 +1,12 @@
 <route lang="yaml">
 meta:
-  title: recipes_created_by_me.title
+  title: browse_recipe_collections.title
   auth: true
   nav: true
-  navOrder: 3
+  navOrder: 2
   navIcon: emojione-monotone:pot-of-food
 </route>
 
 <template>
-  <div>recipes created by me</div>
+  <div>browse collections</div>
 </template>

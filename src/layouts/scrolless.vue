@@ -11,12 +11,8 @@ const flexDirection = $computed(() => (isMd ? 'flex-row' : 'flex-col'));
 
 <template>
   <div _flex :class="flexDirection">
-    <main _grow>
-      <BaseScroll>
-        <div _py6>
-          <BaseRouterView />
-        </div>
-      </BaseScroll>
+    <main _grow _pt6>
+      <BaseRouterView />
     </main>
 
     <TheStandardNav v-if="isMd" _order-first />

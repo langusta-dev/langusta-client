@@ -65,7 +65,7 @@ const { startTrackScroll, isTrackScrollActive } = useTrackScroll(
   })
 );
 
-const showScroll = $computed(() => scrollHandleHeightPercent !== 100);
+const showScroll = $computed(() => scrollHandleHeightPercent <= 99.9);
 
 const scrollHandleHeight = $computed(() => `${scrollHandleHeightPercent}%`);
 const scrollHandleTop = $computed(() => `${wrapperScrollTopPercent}%`);

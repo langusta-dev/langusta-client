@@ -1,5 +1,5 @@
 <template>
-  <div _flex _m="t12 b4" _children="flex-(~ col) gap4 px3 min-w-1/3">
+  <div _flex _mt6 _children="flex-(~ col) gap4 px3 min-w-1/3">
     <div _relative>
       <slot name="metadata" />
 

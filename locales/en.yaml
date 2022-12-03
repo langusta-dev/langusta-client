@@ -23,6 +23,24 @@ recipes:
       description: What to do?
     submit: Submit recipe
 
+browse_recipes:
+  title: Browse recipes
+
+recipes_created_by_me:
+  title: My recipes
+
+browse_recipe_collections:
+  title: Browse collections
+
+recipe_collections_created_by_me:
+  title: My collections
+
+add_recipe:
+  title: Create new recipe
+
+add_recipe_collection:
+  title: Create new collection
+
 calendar:
   title: Calendar
 
