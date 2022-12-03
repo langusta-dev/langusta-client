@@ -48,8 +48,8 @@ export const useNav = () => {
   const getNavigableRouteByPath = (path: string) =>
     _navigableRoutePerPath.get(path) as NavigableRouteRecordNormalized;
 
-  const subroutePathsPerRootPaths = $computed(() => {
-    const subRoutePathsPerRootPaths = new SafeMap<string, string[]>({
+  const _subRoutePathsPerRootPath = $computed(() => {
+    const subRoutePathsPerRootPath = new SafeMap<string, string[]>({
       defaultSetter: () => [],
     });
 
@@ -62,18 +62,35 @@ export const useNav = () => {
       );
 
       if (parentRoute) {
-        subRoutePathsPerRootPaths
+        subRoutePathsPerRootPath
           .get(parentRoute.path)
           .push(navigableRoute.path);
       }
     }
 
-    return subRoutePathsPerRootPaths;
+    return subRoutePathsPerRootPath;
   });
+
+  const _subRoutesPerRootPath = $computed(
+    () =>
+      new SafeMap<string, NavigableRouteRecordNormalized[]>(
+        [..._subRoutePathsPerRootPath.entries()].map(([rootPath, paths]) => [
+          rootPath,
+          paths.map(getNavigableRouteByPath),
+        ]),
+        { defaultSetter: () => [] }
+      )
+  );
+
+  const getNavigableSubRoutesByRootPath = (path: string) =>
+    _subRoutesPerRootPath.get(path);
+
+  const hasNavigableSubRoutesByRootPath = (path: string) =>
+    !!getNavigableSubRoutesByRootPath(path).length;
 
   const navigableRootRoutes = $computed(() => {
     const subroutePaths = new Set(
-      [...subroutePathsPerRootPaths.values()].flat()
+      [..._subRoutePathsPerRootPath.values()].flat()
     );
 
     return _navigableRoutes.filter(({ path }) => !subroutePaths.has(path));
@@ -90,7 +107,7 @@ export const useNav = () => {
         return null;
       }
 
-      return subroutePathsPerRootPaths
+      return _subRoutePathsPerRootPath
         .get(_currentNavigableRoute.path)
         .map(getNavigableRouteByPath);
     }
@@ -123,6 +140,8 @@ export const useNav = () => {
     navigableRootRoutes,
     navigableSubRoutes,
     neighboringNavigableRoutes,
+    getNavigableSubRoutesByRootPath,
+    hasNavigableSubRoutesByRootPath,
     isActiveRoutePath,
   });
 };

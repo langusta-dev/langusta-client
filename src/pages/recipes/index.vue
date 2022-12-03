@@ -26,9 +26,5 @@ const navItems = $computed<{ title: string; path: string }[]>(() => [
 </script>
 
 <template>
-  <div>
-    <div _text="center 4xl">{{ t('recipes.title') }}</div>
-
-    <TheNavList :nav-items="navItems" />
-  </div>
+  <TheNavList :header="t('recipes.title')" :nav-items="navItems" />
 </template>
