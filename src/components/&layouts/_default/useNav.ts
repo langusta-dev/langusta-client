@@ -130,11 +130,7 @@ export const useNav = () => {
   });
 
   const isActiveRoutePath = (path: string) =>
-    !!(
-      _currentNavigableRoute &&
-      (path === _currentNavigableRoute.path ||
-        (path !== '/' && _currentNavigableRoute.path.includes(path)))
-    );
+    path === route.path || (path !== '/' && route.path.includes(path));
 
   return $$({
     navigableRootRoutes,
