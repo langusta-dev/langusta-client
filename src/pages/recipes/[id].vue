@@ -17,7 +17,7 @@ const recipeStore = useRecipeStore();
 
 const recipe = $computed(() => recipeStore.getRecipeById(id));
 
-if (!recipe) {
+if (!recipe?.isOwned) {
   router.replace({ name: 'all', params: { all: ['recipes', id] } });
 }
 
@@ -29,7 +29,7 @@ const submitRecipe = () => {
   }
 
   recipeStore.editRecipeById(id, editableRecipe);
-  router.push('/recipes');
+  router.push('/recipes/created-by-me');
 };
 </script>
 

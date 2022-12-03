@@ -12,6 +12,7 @@ import type { Uuid } from '~/types/uuid';
 const now = () => new Date().toString();
 
 const MAX_INIT_RETRY_COUNT = 1;
+const SYNC_DEBOUNCE = 5000; // ms
 
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
@@ -88,7 +89,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     synchronizer: (items: U[]) => Promise<Uuid[] | null>
   ) => {
     watch(
-      [itemsRef, isOnline],
+      [refDebounced(itemsRef, SYNC_DEBOUNCE), isOnline],
       async ([items, online]) => {
         if (!online || !items.length) {
           return;
@@ -111,11 +112,15 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   _autosync($$(dataToUpload), uploader);
   _autosync($$(dataIdsToDelete), deleter);
 
-  const dataPerId = $computed(
+  const ownedData = $computed(() => data.filter(({ isOwned }) => isOwned));
+
+  const _dataPerId = $computed(
     () => new Map<Uuid, T>(data.map((item) => [item.id, item]))
   );
 
-  const getById = (id: Uuid): T | null => dataPerId.get(id) || null;
+  const getById = (id: Uuid): T | null => _dataPerId.get(id) || null;
+
+  const isOwnedById = (id: Uuid): boolean => !!getById(id)?.isOwned;
 
   const push = (item: Editable<T>): void => {
     const newItem = {
@@ -123,6 +128,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       id: uuid(),
       createdAt: now(),
       updatedAt: now(),
+      isOwned: true,
     } as T;
 
     if (localProfileStore.isLocalProfileEnabled) {
@@ -140,7 +146,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     const oldItem = getById(id);
     const oldItemIndex = data.findIndex((item) => item.id === id);
 
-    if (!oldItem || oldItemIndex === -1) {
+    if (!oldItem?.isOwned || oldItemIndex === -1) {
       // eslint-disable-next-line no-console
       console.error(`Failed to modify item: ${id}`);
       return;
@@ -151,6 +157,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       id,
       createdAt: oldItem.createdAt,
       updatedAt: now(),
+      isOwned: true,
     } as T;
 
     if (oldItem.isLocalOnly) {
@@ -173,7 +180,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const deleteById = (id: Uuid): void => {
     const index = data.findIndex((item) => item.id === id);
 
-    if (index === -1) {
+    if (index === -1 || !data[index].isOwned) {
       // eslint-disable-next-line no-console
       console.warn(`Failed to delete item: ${id}`);
       return;
@@ -188,9 +195,11 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   return {
     state: computed(() => data),
+    ownedState: computed(() => ownedData),
     isReady: computed(() => isDataReady),
     isInSync: computed(() => !dataToUpload.length && !dataIdsToDelete.length),
     getById,
+    isOwnedById,
     push,
     editById,
     deleteById,

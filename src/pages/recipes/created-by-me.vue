@@ -7,6 +7,16 @@ meta:
   navIcon: emojione-monotone:pot-of-food
 </route>
 
+<script setup lang="ts">
+import RecipeList from '~/components/_shared/RecipeList.vue';
+
+import { useRecipeStore } from '~/stores/recipe';
+
+const recipeStore = useRecipeStore();
+</script>
+
 <template>
-  <div>recipes created by me</div>
+  <div>
+    <RecipeList :recipes="recipeStore.ownedRecipes" />
+  </div>
 </template>

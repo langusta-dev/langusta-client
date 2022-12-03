@@ -1,6 +1,10 @@
 import { flushPromises } from '@vue/test-utils';
 
-import { expectUuid, expectDateString } from '~test-utils';
+import {
+  expectUuid,
+  expectDateString,
+  flushDelayedPromises,
+} from '~test-utils';
 
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
@@ -20,6 +24,7 @@ const expectExampleDataItem = (item: EditableExampleDataItem) => ({
   id: expectUuid(),
   createdAt: expectDateString(),
   updatedAt: expectDateString(),
+  isOwned: true,
 });
 
 describe('useSynchronizableArray', () => {
@@ -232,6 +237,7 @@ describe('useSynchronizableArray', () => {
   });
 
   it('it should sync added items', async () => {
+    vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
     const { push } = $(
@@ -244,22 +250,23 @@ describe('useSynchronizableArray', () => {
     );
 
     push(testItem1);
-    await flushPromises();
+    await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledOnce();
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem1)]);
 
     push(testItem2);
-    await flushPromises();
+    await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledTimes(2);
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem2)]);
 
     push(testItem3);
-    await flushPromises();
+    await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledTimes(3);
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem3)]);
   });
 
   it('it should sync deleted items', async () => {
+    vi.useFakeTimers();
     const deleter = vi.fn(() => Promise.resolve([]));
 
     const { state, push, deleteById } = $(
@@ -281,12 +288,12 @@ describe('useSynchronizableArray', () => {
       expectExampleDataItem(testItem3),
     ]);
 
-    await flushPromises();
+    await flushDelayedPromises();
 
     {
       const id = state[0].id;
       deleteById(id);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledOnce();
       expect(deleter).toHaveBeenCalledWith([id]);
     }
@@ -294,7 +301,7 @@ describe('useSynchronizableArray', () => {
     {
       const id = state[0].id;
       deleteById(id);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledTimes(2);
       expect(deleter).toHaveBeenCalledWith([id]);
     }
@@ -302,13 +309,14 @@ describe('useSynchronizableArray', () => {
     {
       const id = state[0].id;
       deleteById(id);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledTimes(3);
       expect(deleter).toHaveBeenCalledWith([id]);
     }
   });
 
   it('it should sync edited items', async () => {
+    vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
     const { state, push, editById } = $(
@@ -323,13 +331,13 @@ describe('useSynchronizableArray', () => {
     push(testItem1);
     push(testItem2);
     push(testItem3);
-    await flushPromises();
+    await flushDelayedPromises();
     uploader.mockClear();
 
     {
       const id = state[0].id;
       editById(id, testItem2);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledOnce();
       expect(uploader).toHaveBeenCalledWith([
         { ...expectExampleDataItem(testItem2), id },
@@ -339,7 +347,7 @@ describe('useSynchronizableArray', () => {
     {
       const id = state[0].id;
       editById(id, testItem3);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledTimes(2);
       expect(uploader).toHaveBeenCalledWith([
         { ...expectExampleDataItem(testItem3), id },
@@ -349,7 +357,7 @@ describe('useSynchronizableArray', () => {
     {
       const id = state[2].id;
       editById(id, testItem1);
-      await flushPromises();
+      await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledTimes(3);
       expect(uploader).toHaveBeenCalledWith([
         { ...expectExampleDataItem(testItem1), id },

@@ -8,6 +8,7 @@ export const expectDateString = () =>
 export const expectUuid = () => expect.stringMatching(/^[\da-z-]{36}$/);
 
 export const flushTimers = async () => {
+  await nextTick();
   vi.advanceTimersByTime(9999);
   await nextTick();
 };

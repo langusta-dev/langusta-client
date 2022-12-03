@@ -36,7 +36,7 @@ let newRecipe = $ref<EditableRecipe>(initialRecipe());
 const submitRecipe = () => {
   recipeStore.addRecipe(newRecipe);
   newRecipe = initialRecipe();
-  router.push('/recipes');
+  router.push('/recipes/created-by-me');
 };
 </script>
 

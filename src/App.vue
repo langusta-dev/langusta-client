@@ -8,14 +8,15 @@ const { t } = useI18n();
 const route = useRoute();
 
 const title = computed(() =>
-  t(isStr(route.meta.title) ? route.meta.title : 'title')
+  isStr(route.meta.title)
+    ? `${t('title')} • ${t(route.meta.title)}`
+    : t('title')
 );
 
 useHead({
   title,
   meta: [
-    // TODO: meta description
-    { name: 'description', content: 'LANgusta' },
+    { name: 'description', content: t('description') },
     {
       name: 'theme-color',
       content: computed(() => (isDark.value ? '#00aba9' : '#ffffff')),

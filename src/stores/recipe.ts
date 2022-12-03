@@ -59,7 +59,9 @@ export const useRecipeStore = defineStore('recipe', () => {
   const {
     isInSync: areRecipesInSync,
     state: recipes,
+    ownedState: ownedRecipes,
     getById: getRecipeById,
+    isOwnedById: isRecipeOwnedById,
     push: addRecipe,
     editById: editRecipeById,
     deleteById: deleteRecipeById,
@@ -73,7 +75,9 @@ export const useRecipeStore = defineStore('recipe', () => {
   return {
     areRecipesInSync,
     recipes,
+    ownedRecipes,
     getRecipeById,
+    isRecipeOwnedById,
     addRecipe,
     editRecipeById,
     deleteRecipeById,
