@@ -98,6 +98,7 @@ const handleRecipeClick = (id: Uuid) => {
             :key="recipe.id"
             :recipe="recipe"
             :editable="isEditable"
+            :selected="!!selectedRecipeIds?.has(recipe.id)"
             @click="handleRecipeClick(recipe.id)"
           />
         </BaseFadeTransitionGroup>

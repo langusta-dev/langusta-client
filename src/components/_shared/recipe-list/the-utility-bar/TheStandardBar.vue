@@ -22,7 +22,7 @@ const { search } = useVModels(props, emit);
 
       <div v-if="editable" _absolute _inset="y-0 r-0" _flex _items-center>
         <BaseButton @click="emit('addRecipe')">
-          {{ t('add_recipe.title_short') }}
+          {{ t('recipes.add_recipe') }}
         </BaseButton>
       </div>
     </div>

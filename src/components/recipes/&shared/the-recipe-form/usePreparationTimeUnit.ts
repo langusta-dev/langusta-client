@@ -16,11 +16,11 @@ export const usePreparationTimeUnit = () => {
     () => [
       {
         value: RecipePreparationTimeUnit.Minute,
-        label: t('recipe.preparation_time.unit.minutes'),
+        label: t('recipe.preparation_time.unit.minute'),
       },
       {
         value: RecipePreparationTimeUnit.Hour,
-        label: t('recipe.preparation_time.unit.hours'),
+        label: t('recipe.preparation_time.unit.hour'),
       },
     ]
   );

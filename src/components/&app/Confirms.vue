@@ -57,6 +57,7 @@ onBeforeUnmount(unsubscribe);
       v-for="{ id, msg, confirmMsg, cancelMsg, cb } in payloadQueue"
       :key="id"
       _w-86
+      _max-w="93/100"
       _absolute
       _top="[25%]"
       _left-0

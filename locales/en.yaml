@@ -25,6 +25,8 @@ recipes:
     step:
       description: What to do?
     submit: Submit recipe
+  add_recipe: New Recipe
+  delete_recipe_confirm: 'Are you sure you want to delete recipe: {title}'
 
 browse_recipes:
   title: Browse recipes
@@ -40,7 +42,6 @@ recipe_collections_created_by_me:
 
 add_recipe:
   title: Create new recipe
-  title_short: New Recipe
 
 add_recipe_collection:
   title: Create new collection
@@ -102,8 +103,8 @@ recipe:
     dessert: Dessert
   preparation_time:
     unit:
-      minutes: Minutes
-      hours: Hours
+      minute: Minutes
+      hour: Hours
   quantity:
     unit:
       g: grams

@@ -36,7 +36,7 @@ describe('recipes store', () => {
       id: 'test-collection-id',
       createdAt: 'test-created-at',
       updatedAt: 'test-updated-at',
-      name: 'test-collection-name',
+      title: 'test-collection-name',
       recipeIds: [testRecipe1.id],
     };
 
