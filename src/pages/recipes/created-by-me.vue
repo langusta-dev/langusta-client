@@ -13,10 +13,14 @@ import RecipeList from '~/components/_shared/RecipeList.vue';
 import { useRecipeStore } from '~/stores/recipe';
 
 const recipeStore = useRecipeStore();
+
+const recipesSorted = $computed(() =>
+  recipeStore.ownedRecipes.sort((a, b) => (a.title > b.title ? 1 : -1))
+);
 </script>
 
 <template>
-  <div>
-    <RecipeList :recipes="recipeStore.ownedRecipes" />
+  <div _h-full>
+    <RecipeList :recipes="recipesSorted" />
   </div>
 </template>

@@ -12,7 +12,7 @@ const router = useRouter();
 
 <template>
   <div>
-    <div _text="center 4xl" _m="y6 lg:b9 2xl:b12">{{ header }}</div>
+    <div _text="center 4xl" _m="t10 b6 lg:b8 2xl:b10">{{ header }}</div>
 
     <div
       _flex="~ col md:row md:wrap"

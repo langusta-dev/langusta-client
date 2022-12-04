@@ -214,7 +214,7 @@ rules:
     - error
     - allowBinding: false
   'vue/no-undef-properties': error
-  'vue/no-unused-properties': error
+  'vue/no-unused-properties': warn
   'vue/no-unused-refs': error
   'vue/no-useless-mustaches': warn
   'vue/no-useless-v-bind': warn
@@ -276,8 +276,7 @@ rules:
   'unused-imports/no-unused-vars':
     - warn
     - vars: all
-      varsIgnorePattern: ^_
-      args: after-used
+      args: all
       argsIgnorePattern: ^_
 
 settings:

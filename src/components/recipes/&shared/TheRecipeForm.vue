@@ -125,7 +125,7 @@ const { skeletonComponent } = useFormSkeleton();
 </script>
 
 <template>
-  <div _flex _justify-center>
+  <div _flex _justify-center _py6>
     <BaseFadeTransition>
       <component :is="skeletonComponent">
         <template #metadata>

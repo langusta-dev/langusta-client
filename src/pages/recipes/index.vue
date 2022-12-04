@@ -10,7 +10,7 @@ meta:
 <script setup lang="ts">
 import TheNavList from '~/components/_shared/TheNavList.vue';
 
-import { useNav } from '~/components/&layouts/_default/useNav';
+import { useNav } from '~/composables/useNav';
 
 const { t } = useI18n();
 

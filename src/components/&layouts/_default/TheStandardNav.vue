@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useNav } from './useNav';
+import { useNav } from '~/composables/useNav';
 
 const { t } = useI18n();
 const router = useRouter();

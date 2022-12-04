@@ -20,11 +20,14 @@ const {
     _rounded
     _inline-block
     _fw600
-    _text-accent-interactive-contrast
+    _text="accent-interactive-contrast center"
     _transition-colors
     _cursor-pointer
     _select-none
     _disabled:pointer-events-none
+    _flex
+    _justify-center
+    _items-center
   >
     <slot />
   </button>

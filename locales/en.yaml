@@ -40,6 +40,7 @@ recipe_collections_created_by_me:
 
 add_recipe:
   title: Create new recipe
+  title_short: New Recipe
 
 add_recipe_collection:
   title: Create new collection
@@ -88,6 +89,9 @@ confirm:
   default_msg: Are you sure?
   default_confirm_msg: Confirm
   default_cancel_msg: Cancel
+
+input:
+  search: Search
 
 recipe:
   meal_type:

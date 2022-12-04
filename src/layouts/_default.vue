@@ -10,12 +10,10 @@ const flexDirection = $computed(() => (isMd ? 'flex-row' : 'flex-col'));
 </script>
 
 <template>
-  <div _flex :class="flexDirection">
+  <div _h-full _flex :class="flexDirection">
     <main _grow>
       <BaseScroll>
-        <div _py6>
-          <BaseRouterView />
-        </div>
+        <BaseRouterView />
       </BaseScroll>
     </main>
 
