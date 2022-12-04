@@ -2,7 +2,6 @@ import Login from '~/pages/login.vue';
 
 import { flushPromises, mount } from '@vue/test-utils';
 
-import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
 import * as confirm from '~/composables/confirm';
@@ -84,12 +83,10 @@ describe('login page', () => {
 
     await buttons[1].trigger('click');
 
-    const localProfileStore = useLocalProfileStore();
-
     expect(showConfirmSpy).toHaveBeenCalledOnce();
     expect(showConfirmSpy).toHaveBeenCalledWith({
       msg: 'login.local_profile_confirm',
-      cb: localProfileStore.enableLocalProfile,
+      cb: expect.any(Function),
     });
   });
 });

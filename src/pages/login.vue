@@ -10,9 +10,9 @@ import { useSessionStore } from '~/stores/session';
 
 import { showConfirm } from '~/composables/confirm';
 import { useInputGroup } from '~/composables/input';
-import { useRedirectOnAuth } from '~/composables/redirect';
 
 const { t } = useI18n();
+const router = useRouter();
 
 const localProfileStore = useLocalProfileStore();
 const sessionStore = useSessionStore();
@@ -36,17 +36,21 @@ const logIn = async () => {
     errorLabel = t('login.login_failed_error');
     password = '';
     triggerErrorByKey('password');
+    return;
   }
+
+  router.push('/');
 };
 
 const enableLocalProfile = () => {
   showConfirm({
     msg: t('login.local_profile_confirm'),
-    cb: localProfileStore.enableLocalProfile,
+    cb: () => {
+      localProfileStore.enableLocalProfile();
+      router.push('/');
+    },
   });
 };
-
-useRedirectOnAuth();
 </script>
 
 <template>

@@ -8,12 +8,12 @@ meta:
 import { useSessionStore } from '~/stores/session';
 
 import { useInputGroup } from '~/composables/input';
-import { useRedirectOnAuth } from '~/composables/redirect';
 
 import { isEmail } from '~/helpers/string';
 
 const { t } = useI18n();
 
+const router = useRouter();
 const sessionStore = useSessionStore();
 
 const errorLabels = $computed(() => ({
@@ -120,10 +120,11 @@ const register = async () => {
 
   if (!sessionStore.isAuth) {
     updateDisplayedErrorLabel(errorLabels.registrationFailed);
+    return;
   }
-};
 
-useRedirectOnAuth();
+  router.push('/');
+};
 </script>
 
 <template>
