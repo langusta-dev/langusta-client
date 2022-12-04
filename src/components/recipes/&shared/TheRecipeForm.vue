@@ -130,7 +130,7 @@ const { skeletonComponent } = useFormSkeleton();
       <component :is="skeletonComponent">
         <template #metadata>
           <div>
-            <div>{{ t('recipes.form.title') }}</div>
+            <div>{{ t('recipes.form.title') }}*</div>
             <BaseInput v-model="title" />
           </div>
 
@@ -145,7 +145,7 @@ const { skeletonComponent } = useFormSkeleton();
           </div>
 
           <div>
-            <div>{{ t('recipes.form.calorie_count') }}</div>
+            <div>{{ t('recipes.form.calorie_count') }}*</div>
             <BaseInput v-model="calorieCount" numeric />
           </div>
 
@@ -169,7 +169,7 @@ const { skeletonComponent } = useFormSkeleton();
 
         <template #description>
           <div>
-            <div>{{ t('recipes.form.description') }}</div>
+            <div>{{ t('recipes.form.description') }}*</div>
             <BaseInput v-model="description" type="textarea" />
           </div>
         </template>

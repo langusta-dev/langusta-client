@@ -8,7 +8,7 @@ meta:
 </route>
 
 <script setup lang="ts">
-import RecipeList from '~/components/_shared/RecipeList.vue';
+import RecipeList from '~/components/&shared/RecipeList.vue';
 
 import { useRecipeStore } from '~/stores/recipe';
 

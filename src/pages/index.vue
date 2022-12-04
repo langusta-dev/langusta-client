@@ -8,7 +8,7 @@ meta:
 </route>
 
 <script setup lang="ts">
-import TheNavList from '~/components/_shared/TheNavList.vue';
+import TheNavList from '~/components/&shared/TheNavList.vue';
 
 const { t } = useI18n();
 
