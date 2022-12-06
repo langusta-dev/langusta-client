@@ -21,5 +21,5 @@ export interface SynchronizableData {
 
 export type Editable<T extends SynchronizableData> = Omit<
   T,
-  'id' | 'createdAt' | 'updatedAt' | 'isOwned'
+  'id' | 'createdAt' | 'updatedAt' | 'isLocalOnly' | 'isOwned'
 >;

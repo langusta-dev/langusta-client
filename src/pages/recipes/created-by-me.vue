@@ -8,19 +8,11 @@ meta:
 </route>
 
 <script setup lang="ts">
-import RecipeList from '~/components/&shared/RecipeList.vue';
-
-import { useRecipeStore } from '~/stores/recipe';
-
-const recipeStore = useRecipeStore();
-
-const recipesSorted = $computed(() =>
-  recipeStore.ownedRecipes.sort((a, b) => (a.title > b.title ? 1 : -1))
-);
+import TheOwnedRecipeList from '~/components/&shared/TheOwnedRecipeList.vue';
 </script>
 
 <template>
   <div _h-full>
-    <RecipeList :recipes="recipesSorted" />
+    <TheOwnedRecipeList />
   </div>
 </template>

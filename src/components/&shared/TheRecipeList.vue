@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import RecipeItem from './recipe-list/RecipeItem.vue';
-import TheUtilityBar from './recipe-list/TheUtilityBar.vue';
+import RecipeItem from './the-recipe-list/RecipeItem.vue';
+import TheUtilityBar from './the-recipe-list/TheUtilityBar.vue';
 
 import type { Recipe } from '~/types/recipe';
 import type { Uuid } from '~/types/uuid';
 
 const props = defineProps<{
   recipes: Recipe[];
+  editable?: boolean;
   selectedRecipeIds?: Set<Uuid> | null;
   search?: string;
 }>();
@@ -71,7 +72,7 @@ const recipesToDisplay = $computed(() => {
     );
 });
 
-const isEditable = $computed(() => !selectedRecipeIds);
+const isEditable = $computed(() => !!props.editable && !selectedRecipeIds);
 
 const handleRecipeClick = (id: Uuid) => {
   if (selectedRecipeIds) {

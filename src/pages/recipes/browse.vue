@@ -7,6 +7,12 @@ meta:
   navIcon: emojione-monotone:pot-of-food
 </route>
 
+<script setup lang="ts">
+import ThePublicRecipeList from '~/components/&shared/ThePublicRecipeList.vue';
+</script>
+
 <template>
-  <div>browse recipes</div>
+  <div _h-full>
+    <ThePublicRecipeList />
+  </div>
 </template>
