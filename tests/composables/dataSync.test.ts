@@ -19,7 +19,9 @@ interface ExampleDataItem extends SynchronizableData {
 
 type EditableExampleDataItem = Editable<ExampleDataItem>;
 
-const expectExampleDataItem = (item: EditableExampleDataItem) => ({
+const expectExampleDataItem = (
+  item: EditableExampleDataItem & Partial<ExampleDataItem>
+) => ({
   ...item,
   id: expectUuid(),
   createdAt: expectDateString(),
