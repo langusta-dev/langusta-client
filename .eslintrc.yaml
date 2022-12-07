@@ -398,9 +398,12 @@ overrides:
       '@typescript-eslint/ban-types': off
       '@typescript-eslint/no-empty-function': off
       '@typescript-eslint/no-explicit-any': off
+      'max-lines': off
 
   - files: ['*.json', '*.json5', '*.jsonc']
     parser: 'jsonc-eslint-parser'
+    rules:
+      'max-lines': off
 
   - files: ['*.yaml', '*.yml']
     parser: 'yaml-eslint-parser'
