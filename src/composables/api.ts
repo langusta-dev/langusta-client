@@ -17,8 +17,8 @@ type RestFnWithData = <T = unknown, D = unknown>(
   data?: D
 ) => Promise<RestResponse<T>>;
 
-type RestInstance = Record<'get' | 'delete', RestFn> &
-  Record<'post' | 'put' | 'patch', RestFnWithData> &
+type RestInstance = Record<'get', RestFn> &
+  Record<'post' | 'put' | 'patch' | 'delete', RestFnWithData> &
   AxiosInstance;
 
 class ClientOfflineError extends Error {

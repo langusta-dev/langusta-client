@@ -19,6 +19,16 @@ export interface SynchronizableData {
   isOwned?: boolean;
 }
 
+export interface PublishableData extends SynchronizableData {
+  isPublic?: boolean;
+  author?: string;
+  description?: string;
+}
+
+export type LocalOnly<T extends SynchronizableData> = T & { isLocalOnly: true };
+
+export type Owned<T extends SynchronizableData> = T & { isOwned: true };
+
 export type Editable<T extends SynchronizableData> = Omit<
   T,
   'id' | 'createdAt' | 'updatedAt' | 'isLocalOnly' | 'isOwned'

@@ -49,10 +49,11 @@ const handleDelete = () => {
     _rounded
     _bg="#fff/60 hover:accent"
     _text="#222 hover:accent-contrast"
-    _transition-all
+    _transition-colors
     _cursor-pointer
     _select-none
     _p1
+    :_outline="selected ? '~ 3 accent offset-0' : ''"
   >
     <div _h-full _flex="~ col" _items-center>
       <div

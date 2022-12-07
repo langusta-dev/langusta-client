@@ -17,17 +17,23 @@ const emit = defineEmits<{
   (e: 'update:selectedRecipeIds', v: Set<Uuid>): void;
 }>();
 
+const { t } = useI18n();
 const router = useRouter();
 
-const search = $ref(props.search || '');
-const selectedRecipeIds = $ref(props.selectedRecipeIds || null);
-
-watch($$(search), (v) => {
-  emit('update:search', v);
+const search = $computed({
+  get: () => props.search || '',
+  set: (v) => {
+    emit('update:search', v);
+  },
 });
 
-whenever($$(selectedRecipeIds), (v) => {
-  emit('update:selectedRecipeIds', v);
+const selectedRecipeIds = $computed({
+  get: () => props.selectedRecipeIds || null,
+  set: (v) => {
+    if (v) {
+      emit('update:selectedRecipeIds', v);
+    }
+  },
 });
 
 const trimmedSearch = $computed(() =>
@@ -76,9 +82,11 @@ const isEditable = $computed(() => !!props.editable && !selectedRecipeIds);
 
 const handleRecipeClick = (id: Uuid) => {
   if (selectedRecipeIds) {
-    (selectedRecipeIds.has(id)
-      ? selectedRecipeIds.delete
-      : selectedRecipeIds.add)(id);
+    if (selectedRecipeIds.has(id)) {
+      selectedRecipeIds.delete(id);
+    } else {
+      selectedRecipeIds.add(id);
+    }
 
     return;
   }
@@ -91,7 +99,15 @@ const handleRecipeClick = (id: Uuid) => {
   <div _h-full _flex="~ col">
     <TheUtilityBar v-model:search="search" :editable="isEditable" />
 
-    <div _grow _flex="~ wrap" _gap3 _p="x4 y2" _justify-center _content-start>
+    <div
+      _grow
+      _flex="~ wrap"
+      _gap4
+      _p="x4 y2"
+      _justify-center
+      _content-start
+      _relative
+    >
       <BaseScroll>
         <BaseFadeTransitionGroup>
           <RecipeItem
@@ -104,6 +120,12 @@ const handleRecipeClick = (id: Uuid) => {
           />
         </BaseFadeTransitionGroup>
       </BaseScroll>
+
+      <BaseFadeTransition>
+        <div v-show="!recipesToDisplay.length" _cover _text-center _pt6 _op70>
+          {{ t('recipes.no_recipes_to_display') }}
+        </div>
+      </BaseFadeTransition>
     </div>
   </div>
 </template>

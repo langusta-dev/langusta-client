@@ -15,8 +15,6 @@ export const useTabs = () => {
     activeTabKey = key;
   };
 
-  const isActiveTabKey = (key: TabKey) => key === activeTabKey;
-
   const getLocaleByTabKey = (key: TabKey) =>
     ({
       [TabKey.PublicRecipes]: t('recipe_collections.form.tabs.public_recipes'),
@@ -29,7 +27,6 @@ export const useTabs = () => {
     TAB_KEYS,
     activeTabKey,
     setActiveTabKey,
-    isActiveTabKey,
     getLocaleByTabKey,
   });
 };

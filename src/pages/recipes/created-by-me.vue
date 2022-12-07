@@ -13,6 +13,6 @@ import TheOwnedRecipeList from '~/components/&shared/TheOwnedRecipeList.vue';
 
 <template>
   <div _h-full>
-    <TheOwnedRecipeList />
+    <TheOwnedRecipeList editable />
   </div>
 </template>

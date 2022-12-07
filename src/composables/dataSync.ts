@@ -6,7 +6,12 @@ import { useSessionStore } from '~/stores/session';
 import { isOnline } from './online';
 
 import type { Ref } from 'vue';
-import type { Editable, SynchronizableData } from '~/types/dataSync';
+import type {
+  Editable,
+  LocalOnly,
+  Owned,
+  SynchronizableData,
+} from '~/types/dataSync';
 import type { Uuid } from '~/types/uuid';
 
 const now = () => new Date().toString();
@@ -16,7 +21,9 @@ const SYNC_DEBOUNCE = 5000; // ms
 
 export const useSynchronizableArray = <T extends SynchronizableData>(
   localStorageKey: string,
-  initializer: () => T[] | null | Promise<T[] | null>,
+  initializer: (
+    localOnlyData: LocalOnly<T>[]
+  ) => T[] | null | Promise<T[] | null>,
   uploader: (data: T[]) => Promise<Uuid[] | null>,
   deleter: (data: Uuid[]) => Promise<Uuid[] | null>,
   initialData: T[] = []
@@ -25,6 +32,10 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const localProfileStore = useLocalProfileStore();
 
   const data = $(useLocalStorage<T[]>(localStorageKey, initialData));
+
+  const localOnlyData = $computed(() =>
+    data.filter((item): item is LocalOnly<T> => !!item.isLocalOnly)
+  );
 
   const dataToUpload = $(
     useLocalStorage<T[]>(`${localStorageKey}-to-upload`, [])
@@ -49,7 +60,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       ...fullData,
 
       // data created via local profile should be always preserved
-      ...data.filter(({ isLocalOnly }) => isLocalOnly)
+      ...localOnlyData
     );
   };
 
@@ -67,11 +78,11 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     () => !isDataReady,
     async () => {
       if (sessionStore.isAuth) {
-        let newData = await initializer();
+        let newData = await initializer(localOnlyData);
 
         while (!newData && retryCount < MAX_INIT_RETRY_COUNT) {
           retryCount++;
-          newData = await initializer();
+          newData = await initializer(localOnlyData);
         }
 
         if (newData) {
@@ -112,7 +123,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   _autosync($$(dataToUpload), uploader);
   _autosync($$(dataIdsToDelete), deleter);
 
-  const ownedData = $computed(() => data.filter(({ isOwned }) => isOwned));
+  const ownedData = $computed(() =>
+    data.filter((item): item is Owned<T> => !!item.isOwned)
+  );
 
   const _dataPerId = $computed(
     () => new Map<Uuid, T>(data.map((item) => [item.id, item]))

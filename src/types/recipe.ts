@@ -1,4 +1,4 @@
-import type { Editable, SynchronizableData } from './dataSync';
+import type { Editable, PublishableData } from './dataSync';
 
 export enum RecipeMealType {
   Breakfast = 'BREAKFAST',
@@ -68,11 +68,8 @@ export interface RecipeStep {
   description: string;
 }
 
-export interface Recipe extends SynchronizableData {
+export interface Recipe extends PublishableData {
   title: string;
-  description: string;
-  author?: string;
-  isPublic?: boolean;
   externalSourceUrl?: string;
   likeCount?: number;
   rating?: number;

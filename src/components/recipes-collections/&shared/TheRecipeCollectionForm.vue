@@ -1,9 +1,13 @@
 <script setup lang="ts">
+import TheOwnedRecipeList from '~/components/&shared/TheOwnedRecipeList.vue';
+import ThePublicRecipeList from '~/components/&shared/ThePublicRecipeList.vue';
+
 import { useInputGroup } from '~/composables/input';
 
 import { useTabs } from './the-recipe-collection-form/useTabs';
 
 import type { EditableRecipeCollection } from '~/types/recipeCollection';
+import type { Uuid } from '~/types/uuid';
 
 const props = defineProps<{ recipeCollection: EditableRecipeCollection }>();
 
@@ -20,12 +24,17 @@ let title = $(injectValueByKey('title'));
 
 let description = $(injectValueByKey('description'));
 
+let recipeIdsSet = $ref(new Set<Uuid>());
+
+const recipeIds = $computed(() => [...recipeIdsSet]);
+
 let { recipeCollection } = $(useVModels(props, emit));
 
+// TODO isPublic
 watchEffect(() => {
   const newRecipeCollection: EditableRecipeCollection = {
     title,
-    recipeIds: [], // @kw
+    recipeIds,
   };
 
   const trimmedDescription = description.trim();
@@ -47,43 +56,43 @@ const submitRecipeCollection = () => {
   emit('submitRecipeCollection');
 };
 
-const {
-  TabKey,
-  TAB_KEYS,
-  activeTabKey,
-  isActiveTabKey,
-  setActiveTabKey,
-  getLocaleByTabKey,
-} = useTabs();
+const { TabKey, TAB_KEYS, activeTabKey, setActiveTabKey, getLocaleByTabKey } =
+  useTabs();
+
+const sharedRecipeSearch = $ref('');
 
 const initializeForm = () => {
   title = props.recipeCollection.title;
   description = props.recipeCollection.description || '';
+  recipeIdsSet = new Set(props.recipeCollection.recipeIds);
 };
 
 initializeForm();
 </script>
 
 <template>
-  <div _flex="~ col" _gap4 _items-center _p="t6 b4">
+  <div _h-full _flex="~ col" _gap4 _items-center _pt6>
     <div>
       <div>{{ t('recipe_collections.form.title') }}*</div>
       <BaseInput v-model="title" />
     </div>
 
     <div>
-      <BaseButton @click="submitRecipeCollection()">
+      <BaseButton
+        :disabled="!isRecipeCollectionComplete"
+        @click="submitRecipeCollection()"
+      >
         {{ t('recipe_collections.form.submit') }}
       </BaseButton>
     </div>
 
-    <BaseHr _w="9/10" />
+    <div />
 
     <div _flex _gap1>
       <BaseButton
         v-for="tabKey in TAB_KEYS"
         :key="tabKey"
-        :alt="!isActiveTabKey(tabKey)"
+        :alt="tabKey !== activeTabKey"
         sm
         @click="setActiveTabKey(tabKey)"
       >
@@ -91,13 +100,30 @@ initializeForm();
       </BaseButton>
     </div>
 
-    <div>
+    <div _w-full _grow>
       <BaseFadeTransition>
-        <div v-if="activeTabKey === TabKey.PublicRecipes">public recipes</div>
-        <div v-else-if="activeTabKey === TabKey.UserRecipes">user recipes</div>
-        <div v-else-if="activeTabKey === TabKey.Description">
-          <BaseInput v-model="description" type="textarea" />
-        </div>
+        <KeepAlive>
+          <ThePublicRecipeList
+            v-if="activeTabKey === TabKey.PublicRecipes"
+            v-model:selected-recipe-ids="recipeIdsSet"
+            v-model:search="sharedRecipeSearch"
+          />
+
+          <TheOwnedRecipeList
+            v-else-if="activeTabKey === TabKey.UserRecipes"
+            v-model:selected-recipe-ids="recipeIdsSet"
+            v-model:search="sharedRecipeSearch"
+          />
+
+          <div
+            v-else-if="activeTabKey === TabKey.Description"
+            _flex
+            _justify-center
+            _pb4
+          >
+            <BaseInput v-model="description" type="textarea" />
+          </div>
+        </KeepAlive>
       </BaseFadeTransition>
     </div>
   </div>

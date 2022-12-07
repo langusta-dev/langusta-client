@@ -21,7 +21,7 @@ let newRecipeCollection = $ref<EditableRecipeCollection>(
 const submitRecipeCollection = () => {
   recipeCollectionStore.addCollection(newRecipeCollection);
   newRecipeCollection = initialRecipeCollection();
-  router.push('/recipes/colllections/created-by-me');
+  router.push('/recipes/collections/created-by-me');
 };
 </script>
 

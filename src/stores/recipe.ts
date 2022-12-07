@@ -12,11 +12,14 @@ import {
 import { useLocalProfileStore } from './localProfile';
 import { useRecipeCollectionStore } from './recipeCollection';
 
+import type { LocalOnly } from '~/types/dataSync';
+import type { Recipe } from '~/types/recipe';
+
 export const useRecipeStore = defineStore('recipe', () => {
   const localProfileStore = useLocalProfileStore();
   const recipeCollectionStore = useRecipeCollectionStore();
 
-  const recipeInitializer = async () => {
+  const recipeInitializer = async (localOnlyRecipes: LocalOnly<Recipe>[]) => {
     const shouldFetchUserRecipes = !localProfileStore.isLocalProfileEnabled;
 
     const [userRecipes] = await Promise.all([
@@ -24,9 +27,17 @@ export const useRecipeStore = defineStore('recipe', () => {
       until(() => recipeCollectionStore.areCollectionsInSync).toBe(true),
     ]);
 
-    let recipesToFetchIds = recipeCollectionStore.collections.flatMap(
-      ({ recipeIds }) => recipeIds
-    );
+    let recipesToFetchIds = [
+      ...new Set(
+        recipeCollectionStore.collections.flatMap(({ recipeIds }) => recipeIds)
+      ),
+    ];
+
+    if (localOnlyRecipes.length) {
+      recipesToFetchIds = recipesToFetchIds.filter(
+        (id) => !localOnlyRecipes.some((recipe) => recipe.id === id)
+      );
+    }
 
     const newRecipes = [];
 

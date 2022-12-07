@@ -1,10 +1,8 @@
-import type { Editable, SynchronizableData } from './dataSync';
+import type { Editable, PublishableData } from './dataSync';
 import type { Uuid } from './uuid';
 
-export interface RecipeCollection extends SynchronizableData {
+export interface RecipeCollection extends PublishableData {
   title: string;
-  description?: string;
-  author?: string;
   recipeIds: Uuid[];
 }
 

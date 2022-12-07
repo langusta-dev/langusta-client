@@ -7,7 +7,7 @@ const STATIC_CLASSES = [
   'rounded',
   'placeholder:(text-sm italic text-primary-contrast/75)',
   'border-1px',
-  'outline-(~ 2px offset-0 transparent) hover:outline-accent !focus:outline-accent-focus',
+  'outline-(~ 2 offset-0 transparent) hover:outline-accent !focus:outline-accent-focus',
   'transition-(colors property-[outline])',
 ];
 

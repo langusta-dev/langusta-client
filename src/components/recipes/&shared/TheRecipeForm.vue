@@ -64,15 +64,21 @@ let enableSteps = $ref(true);
 
 let { recipe } = $(useVModels(props, emit));
 
+// TODO isPublic
 watchEffect(() => {
   const newRecipe: EditableRecipe = {
     title,
-    description,
     mealType,
     calorieCount: Number(calorieCount || 0),
     preparationTime,
     ingredients,
   };
+
+  const trimmedDescription = description.trim();
+
+  if (trimmedDescription) {
+    newRecipe.description = trimmedDescription;
+  }
 
   if (steps.length) {
     newRecipe.steps = steps;
@@ -82,7 +88,7 @@ watchEffect(() => {
 });
 
 const isRecipeComplete = computed(
-  () => !!(recipe.title && recipe.description && recipe.calorieCount)
+  () => !!(recipe.title && recipe.calorieCount && recipe.preparationTime.value)
 );
 
 const submitRecipe = () => {
@@ -99,7 +105,7 @@ const submitRecipe = () => {
 
 const initializeForm = () => {
   title = props.recipe.title;
-  description = props.recipe.description;
+  description = props.recipe.description || '';
   mealType = props.recipe.mealType;
 
   calorieCount = props.recipe.calorieCount
@@ -150,7 +156,7 @@ const { skeletonComponent } = useFormSkeleton();
           </div>
 
           <div>
-            <div>{{ t('recipes.form.preparation_time') }}</div>
+            <div>{{ t('recipes.form.preparation_time') }}*</div>
 
             <div _flex _children="!w0 grow" _gap2>
               <div>
@@ -169,7 +175,7 @@ const { skeletonComponent } = useFormSkeleton();
 
         <template #description>
           <div>
-            <div>{{ t('recipes.form.description') }}*</div>
+            <div>{{ t('recipes.form.description') }}</div>
             <BaseInput v-model="description" type="textarea" />
           </div>
         </template>
