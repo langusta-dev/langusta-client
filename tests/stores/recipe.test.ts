@@ -157,7 +157,7 @@ describe('recipes store', () => {
     it(`Given authenticated user,
         Then should fetch user recipes
         and not fetch recipes from collections,
-        if they were already fetched as the user ones`, async () => {
+        if they all were already fetched as the user ones`, async () => {
       const fetchUserRecipesSpy = vi
         .spyOn(recipeApi, 'fetchUserRecipes')
         .mockResolvedValue([testRecipe1]);
@@ -217,6 +217,99 @@ describe('recipes store', () => {
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe2.id]);
       expect(recipeStore.recipes).toStrictEqual([testRecipe1, testRecipe2]);
+    });
+
+    it(`Given authenticated user
+        with local recipes created via local profile,
+        Then should fetch user recipes
+        and fetch recipes from collections,
+        excluding the local ones`, async () => {
+      vi.spyOn(
+        recipeCollectionApi,
+        'fetchUserRecipeCollections'
+      ).mockResolvedValue([
+        {
+          ...testRecipeCollection,
+          recipeIds: [testRecipe1.id, testRecipe2.id],
+        },
+      ]);
+
+      const fetchUserRecipesSpy = vi
+        .spyOn(recipeApi, 'fetchUserRecipes')
+        .mockResolvedValue([]);
+
+      const fetchRecipesByIdsSpy = vi
+        .spyOn(recipeApi, 'fetchRecipesByIds')
+        .mockResolvedValue([testRecipe2]);
+
+      const sessionStore = useSessionStore();
+
+      // Given
+      // @ts-expect-error it's readonly
+      sessionStore.isAuth = true;
+
+      const localTestRecipe1 = { ...testRecipe1, isLocalOnly: true };
+      localStorage.setItem('recipes', JSON.stringify([localTestRecipe1]));
+
+      const recipeStore = useRecipeStore();
+      await flushPromises();
+
+      // Then
+      expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
+      expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe2.id]);
+      expect(recipeStore.recipes).toStrictEqual([
+        testRecipe2,
+        localTestRecipe1,
+      ]);
+    });
+
+    it(`Given authenticated user
+        with local recipes created via local profile,
+        Then should fetch user recipes
+        and not fetch recipes from collections,
+        if they all were the local ones`, async () => {
+      vi.spyOn(
+        recipeCollectionApi,
+        'fetchUserRecipeCollections'
+      ).mockResolvedValue([
+        {
+          ...testRecipeCollection,
+          recipeIds: [testRecipe1.id, testRecipe2.id],
+        },
+      ]);
+
+      const fetchUserRecipesSpy = vi
+        .spyOn(recipeApi, 'fetchUserRecipes')
+        .mockResolvedValue([]);
+
+      const fetchRecipesByIdsSpy = vi
+        .spyOn(recipeApi, 'fetchRecipesByIds')
+        .mockResolvedValue([]);
+
+      const sessionStore = useSessionStore();
+
+      // Given
+      // @ts-expect-error it's readonly
+      sessionStore.isAuth = true;
+
+      const localTestRecipe1 = { ...testRecipe1, isLocalOnly: true };
+      const localTestRecipe2 = { ...testRecipe2, isLocalOnly: true };
+      localStorage.setItem(
+        'recipes',
+        JSON.stringify([localTestRecipe1, localTestRecipe2])
+      );
+
+      const recipeStore = useRecipeStore();
+      await flushPromises();
+
+      // Then
+      expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
+      expect(fetchRecipesByIdsSpy).not.toHaveBeenCalled();
+      expect(recipeStore.recipes).toStrictEqual([
+        localTestRecipe1,
+        localTestRecipe2,
+      ]);
     });
 
     it(`Given authenticated user
