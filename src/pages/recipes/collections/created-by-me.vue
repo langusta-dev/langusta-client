@@ -7,6 +7,12 @@ meta:
   navIcon: emojione-monotone:pot-of-food
 </route>
 
+<script setup lang="ts">
+import TheOwnedRecipeCollectionList from '~/components/&shared/TheOwnedRecipeCollectionList.vue';
+</script>
+
 <template>
-  <div>collections created by me</div>
+  <div _h-full>
+    <TheOwnedRecipeCollectionList editable />
+  </div>
 </template>

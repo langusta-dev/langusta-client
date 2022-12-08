@@ -25,7 +25,7 @@ recipes:
     step:
       description: What to do?
     submit: Submit recipe
-  add_recipe: New Recipe
+  add_recipe: New recipe
   delete_recipe_confirm: 'Are you sure you want to delete recipe: {title}'
   no_recipes_to_display: No recipes found...
 
@@ -37,6 +37,9 @@ recipe_collections:
       user_recipes: My recipes
       description: Description
     submit: Submit collection
+  add_recipe_collection: New collection
+  delete_recipe_collection_confirm: 'Are you sure you want to delete collection: {title}'
+  no_recipe_collections_to_display: No collections found...
 
 browse_recipes:
   title: Browse recipes

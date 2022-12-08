@@ -1,6 +1,8 @@
 <script setup lang="ts">
+import TheUtilityBar from './&shared/TheUtilityBar.vue';
 import RecipeItem from './the-recipe-list/RecipeItem.vue';
-import TheUtilityBar from './the-recipe-list/TheUtilityBar.vue';
+
+import { useSearchFilter } from './&shared/useSearchFilter';
 
 import type { Recipe } from '~/types/recipe';
 import type { Uuid } from '~/types/uuid';
@@ -20,12 +22,29 @@ const emit = defineEmits<{
 const { t } = useI18n();
 const router = useRouter();
 
+let _search = $ref('');
 const search = $computed({
-  get: () => props.search || '',
+  get: () => props.search || _search,
   set: (v) => {
+    _search = v;
     emit('update:search', v);
   },
 });
+
+const { filteredItems: recipesToDisplay } = useSearchFilter(
+  $$(search),
+  computed(() => props.recipes),
+  ({ title, description, steps, calorieCount, ingredients }) =>
+    [
+      title,
+      description,
+      steps ? steps.map(({ description }) => description).join('') : '',
+      calorieCount,
+      ingredients.map(({ name, quantity, quantityUnit }) =>
+        [name, quantity, quantityUnit].join('')
+      ),
+    ].join('')
+);
 
 const selectedRecipeIds = $computed({
   get: () => props.selectedRecipeIds || null,
@@ -34,48 +53,6 @@ const selectedRecipeIds = $computed({
       emit('update:selectedRecipeIds', v);
     }
   },
-});
-
-const trimmedSearch = $computed(() =>
-  search ? search.replace(/\s/g, '') : ''
-);
-
-const foundSearchIndexPerRecipeId = $computed(
-  () =>
-    new SafeMap<Uuid, number>(
-      props.recipes.map(
-        ({ id, title, description, steps, calorieCount, ingredients }) => [
-          id,
-          (() =>
-            [
-              title,
-              description,
-              steps ? steps.map(({ description }) => description).join('') : '',
-              calorieCount,
-              ingredients.map(({ name, quantity, quantityUnit }) =>
-                [name, quantity, quantityUnit].join('')
-              ),
-            ]
-              .join('')
-              .indexOf(trimmedSearch))(),
-        ]
-      ),
-      { defaultSetter: () => -1 }
-    )
-);
-
-const recipesToDisplay = $computed(() => {
-  if (!trimmedSearch) {
-    return props.recipes;
-  }
-
-  return props.recipes
-    .filter(({ id }) => foundSearchIndexPerRecipeId.get(id) !== -1)
-    .sort(
-      (a, b) =>
-        foundSearchIndexPerRecipeId.get(a.id) -
-        foundSearchIndexPerRecipeId.get(b.id)
-    );
 });
 
 const isEditable = $computed(() => !!props.editable && !selectedRecipeIds);
@@ -97,7 +74,12 @@ const handleRecipeClick = (id: Uuid) => {
 
 <template>
   <div _h-full _flex="~ col">
-    <TheUtilityBar v-model:search="search" :editable="isEditable" />
+    <TheUtilityBar
+      v-model:search="search"
+      :editable="isEditable"
+      :add-item-button-label="t('recipes.add_recipe')"
+      add-item-button-target-path="/recipes/add"
+    />
 
     <div
       _grow

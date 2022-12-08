@@ -19,8 +19,12 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
   const {
     isInSync: areCollectionsInSync,
     state: collections,
+    ownedState: ownedCollections,
     getById: getCollectionById,
+    isOwnedById: isCollectionOwnedById,
     push: addCollection,
+    editById: editCollectionById,
+    deleteById: deleteCollectionById,
   } = useSynchronizableArray(
     'recipe-collections',
     collectionInitializer,
@@ -31,8 +35,12 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
   return {
     areCollectionsInSync,
     collections,
+    ownedCollections,
     getCollectionById,
     addCollection,
+    isCollectionOwnedById,
+    editCollectionById,
+    deleteCollectionById,
   };
 });
 

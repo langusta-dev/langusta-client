@@ -4,7 +4,12 @@ import TheStandardBar from './the-utility-bar/TheStandardBar.vue';
 
 import { useWindowWidthBreakpoints } from '~/composables/window';
 
-const props = defineProps<{ search: string; editable: boolean }>();
+const props = defineProps<{
+  search: string;
+  editable: boolean;
+  addItemButtonLabel: string;
+  addItemButtonTargetPath: string;
+}>();
 
 const emit = defineEmits<{
   (e: 'update:search', v: string): void;
@@ -24,6 +29,7 @@ const barComponent = $computed(() => (isMd ? TheStandardBar : TheMobileBar));
     :is="barComponent"
     v-model:search="search"
     :editable="editable"
-    @add-recipe="router.push('/recipes/add')"
+    :add-item-button-label="addItemButtonLabel"
+    @add-recipe="router.push(addItemButtonTargetPath)"
   />
 </template>

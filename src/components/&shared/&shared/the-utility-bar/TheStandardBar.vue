@@ -1,5 +1,9 @@
 <script setup lang="ts">
-const props = defineProps<{ search: string; editable: boolean }>();
+const props = defineProps<{
+  search: string;
+  editable: boolean;
+  addItemButtonLabel: string;
+}>();
 
 const emit = defineEmits<{
   (e: 'update:search', v: string): void;
@@ -22,7 +26,7 @@ const { search } = useVModels(props, emit);
 
       <div v-if="editable" _absolute _inset="y-0 r-0" _flex _items-center>
         <BaseButton @click="emit('addRecipe')">
-          {{ t('recipes.add_recipe') }}
+          {{ addItemButtonLabel }}
         </BaseButton>
       </div>
     </div>

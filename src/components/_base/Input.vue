@@ -39,6 +39,7 @@ const value = computed({
     }
 
     emit('update:modelValue', v);
+    el.value = modelValue;
   },
 });
 
