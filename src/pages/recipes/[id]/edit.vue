@@ -18,7 +18,7 @@ const recipeStore = useRecipeStore();
 const recipe = $computed(() => recipeStore.getRecipeById(id));
 
 if (!recipe?.isOwned) {
-  router.replace({ name: 'all', params: { all: ['recipes', id] } });
+  router.replace({ name: 'all', params: { all: ['recipes', id, 'edit'] } });
 }
 
 const editableRecipe = $ref(recipe ? klona(recipe) : null);
