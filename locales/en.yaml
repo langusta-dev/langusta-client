@@ -35,6 +35,7 @@ recipe_collections:
     tabs:
       public_recipes: Public recipes
       user_recipes: My recipes
+      selected_recipes: Selected recipes
       description: Description
     submit: Submit collection
   add_recipe_collection: New collection

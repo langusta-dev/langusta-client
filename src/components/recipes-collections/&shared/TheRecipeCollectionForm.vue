@@ -1,11 +1,15 @@
 <script setup lang="ts">
 import TheOwnedRecipeList from '~/components/&shared/TheOwnedRecipeList.vue';
 import ThePublicRecipeList from '~/components/&shared/ThePublicRecipeList.vue';
+import TheRecipeList from '~/components/&shared/TheRecipeList.vue';
+
+import { useRecipeStore } from '~/stores/recipe';
 
 import { useInputGroup } from '~/composables/input';
 
 import { useTabs } from './the-recipe-collection-form/useTabs';
 
+import type { Recipe } from '~/types/recipe';
 import type { EditableRecipeCollection } from '~/types/recipeCollection';
 import type { Uuid } from '~/types/uuid';
 
@@ -17,6 +21,7 @@ const emit = defineEmits<{
 }>();
 
 const { t } = useI18n();
+const recipeStore = useRecipeStore();
 
 const { injectValueByKey } = $(useInputGroup(['title', 'description']));
 
@@ -57,9 +62,22 @@ const submitRecipeCollection = () => {
 };
 
 const { TabKey, TAB_KEYS, activeTabKey, setActiveTabKey, getLocaleByTabKey } =
-  useTabs();
+  $(useTabs());
 
 const sharedRecipeSearch = $ref('');
+
+const selectedRecipes = $computed(
+  () => recipeIds.map(recipeStore.getRecipeById) as Recipe[]
+);
+
+let lazySelectedRecipes = $ref<Recipe[]>([]);
+
+whenever(
+  () => activeTabKey === TabKey.SelectedRecipes,
+  () => {
+    lazySelectedRecipes = [...selectedRecipes];
+  }
+);
 
 const initializeForm = () => {
   title = props.recipeCollection.title;
@@ -88,7 +106,7 @@ initializeForm();
 
     <div />
 
-    <div _flex _gap1>
+    <div _flex _flex-wrap _justify-center _gap1>
       <BaseButton
         v-for="tabKey in TAB_KEYS"
         :key="tabKey"
@@ -102,28 +120,33 @@ initializeForm();
 
     <div _w-full _grow>
       <BaseFadeTransition>
-        <KeepAlive>
-          <ThePublicRecipeList
-            v-if="activeTabKey === TabKey.PublicRecipes"
-            v-model:selected-recipe-ids="recipeIdsSet"
-            v-model:search="sharedRecipeSearch"
-          />
+        <ThePublicRecipeList
+          v-if="activeTabKey === TabKey.PublicRecipes"
+          v-model:selected-recipe-ids="recipeIdsSet"
+          v-model:search="sharedRecipeSearch"
+        />
 
-          <TheOwnedRecipeList
-            v-else-if="activeTabKey === TabKey.UserRecipes"
-            v-model:selected-recipe-ids="recipeIdsSet"
-            v-model:search="sharedRecipeSearch"
-          />
+        <TheOwnedRecipeList
+          v-else-if="activeTabKey === TabKey.UserRecipes"
+          v-model:selected-recipe-ids="recipeIdsSet"
+          v-model:search="sharedRecipeSearch"
+        />
 
-          <div
-            v-else-if="activeTabKey === TabKey.Description"
-            _flex
-            _justify-center
-            _pb4
-          >
-            <BaseInput v-model="description" type="textarea" />
-          </div>
-        </KeepAlive>
+        <TheRecipeList
+          v-else-if="activeTabKey === TabKey.SelectedRecipes"
+          v-model:selected-recipe-ids="recipeIdsSet"
+          v-model:search="sharedRecipeSearch"
+          :recipes="lazySelectedRecipes"
+        />
+
+        <div
+          v-else-if="activeTabKey === TabKey.Description"
+          _flex
+          _justify-center
+          _pb4
+        >
+          <BaseInput v-model="description" type="textarea" />
+        </div>
       </BaseFadeTransition>
     </div>
   </div>
