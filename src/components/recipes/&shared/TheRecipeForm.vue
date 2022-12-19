@@ -56,6 +56,8 @@ const preparationTime = $computed<RecipePreparationTime>(() => ({
   unit: preparationTimeUnit,
 }));
 
+const imgPath = $ref<string | null>(null);
+
 let ingredients = $ref<RecipeIngredient[]>([]);
 
 let steps = $ref<RecipeStep[]>([]);
@@ -78,6 +80,10 @@ watchEffect(() => {
 
   if (trimmedDescription) {
     newRecipe.description = trimmedDescription;
+  }
+
+  if (imgPath) {
+    newRecipe.imgPath = imgPath;
   }
 
   if (steps.length) {
@@ -135,6 +141,10 @@ const { skeletonComponent } = useFormSkeleton();
     <BaseFadeTransition>
       <component :is="skeletonComponent">
         <template #metadata>
+          <div _flex _justify-center>
+            <BaseImgInput v-model="imgPath" />
+          </div>
+
           <div>
             <div>{{ t('recipes.form.title') }}*</div>
             <BaseInput v-model="title" />

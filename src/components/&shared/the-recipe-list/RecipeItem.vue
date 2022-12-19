@@ -53,9 +53,18 @@ const handleDelete = () => {
     _cursor-pointer
     _select-none
     _p1
+    _relative
     :_outline="selected ? '~ 3 accent offset-0' : ''"
   >
-    <div _h-full _flex="~ col" _items-center>
+    <div
+      v-if="recipe.imgPath"
+      _cover
+      _pointer-events-none
+      :style="{ backgroundImage: `url(${recipe.imgPath})` }"
+      _bg="contain center no-repeat"
+    />
+
+    <div _h-full _flex="~ col" _items-center _relative>
       <div
         v-if="isEditable"
         _flex

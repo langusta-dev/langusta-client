@@ -70,6 +70,7 @@ export interface RecipeStep {
 
 export interface Recipe extends PublishableData {
   title: string;
+  imgPath?: string;
   externalSourceUrl?: string;
   likeCount?: number;
   rating?: number;

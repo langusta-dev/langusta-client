@@ -12,6 +12,7 @@ declare module '@vue/runtime-core' {
     BaseFadeTransition: typeof import('~/components/_base/FadeTransition.vue')['default']
     BaseFadeTransitionGroup: typeof import('~/components/_base/FadeTransitionGroup.vue')['default']
     BaseHr: typeof import('~/components/_base/Hr.vue')['default']
+    BaseImgInput: typeof import('~/components/_base/ImgInput.vue')['default']
     BaseInput: typeof import('~/components/_base/Input.vue')['default']
     BaseLink: typeof import('~/components/_base/Link.vue')['default']
     BaseRouterView: typeof import('~/components/_base/RouterView.vue')['default']
