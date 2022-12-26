@@ -34,9 +34,11 @@ const submitRecipe = () => {
 </script>
 
 <template>
-  <TheRecipeForm
-    v-if="editableRecipe"
-    v-model:recipe="editableRecipe"
-    @submit-recipe="submitRecipe()"
-  />
+  <BaseFadeTransition>
+    <TheRecipeForm
+      v-if="editableRecipe"
+      v-model:recipe="editableRecipe"
+      @submit-recipe="submitRecipe()"
+    />
+  </BaseFadeTransition>
 </template>
