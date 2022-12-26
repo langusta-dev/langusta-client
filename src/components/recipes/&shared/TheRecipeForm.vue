@@ -56,7 +56,7 @@ const preparationTime = $computed<RecipePreparationTime>(() => ({
   unit: preparationTimeUnit,
 }));
 
-const imgPath = $ref<string | null>(null);
+let imgPath = $ref<string | null>(null);
 
 let ingredients = $ref<RecipeIngredient[]>([]);
 
@@ -111,6 +111,7 @@ const submitRecipe = () => {
 
 const initializeForm = () => {
   title = props.recipe.title;
+  imgPath = props.recipe.imgPath || null;
   description = props.recipe.description || '';
   mealType = props.recipe.mealType;
 
