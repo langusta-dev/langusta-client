@@ -42,7 +42,7 @@ const classes = $computed(() => {
     _inline-block
     _fw600
     _text-center
-    _transition-colors
+    _transition-all
     _cursor-pointer
     _select-none
     _disabled:pointer-events-none

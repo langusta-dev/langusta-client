@@ -137,49 +137,49 @@ const register = async () => {
           {{ displayedErrorLabel }}
         </div>
 
-        <div key="email">
-          <div>{{ t('register.email') }}</div>
-          <BaseInput
-            v-model="email"
-            :error="hasErrorByKey('email')"
-            autofocus
-            @blur="validateEmail()"
-          />
-        </div>
+        <BaseInput
+          key="email"
+          v-model="email"
+          :error="hasErrorByKey('email')"
+          autofocus
+          :placeholder="t('register.email')"
+          @blur="validateEmail()"
+        />
 
-        <div key="username">
-          <div>{{ t('register.username') }}</div>
-          <BaseInput v-model="username" />
-        </div>
+        <BaseInput
+          key="username"
+          v-model="username"
+          :placeholder="t('register.username')"
+        />
 
-        <div key="firstname">
-          <div>{{ t('register.firstname') }}</div>
-          <BaseInput v-model="firstname" />
-        </div>
+        <BaseInput
+          key="firstname"
+          v-model="firstname"
+          :placeholder="t('register.firstname')"
+        />
 
-        <div key="lastname">
-          <div>{{ t('register.lastname') }}</div>
-          <BaseInput v-model="lastname" />
-        </div>
+        <BaseInput
+          key="lastname"
+          v-model="lastname"
+          :placeholder="t('register.lastname')"
+        />
 
-        <div key="password">
-          <div>{{ t('register.password') }}</div>
-          <BaseInput
-            v-model="password"
-            type="password"
-            :error="hasErrorByKey('password')"
-            @blur="validatePassword()"
-          />
-        </div>
+        <BaseInput
+          key="password"
+          v-model="password"
+          type="password"
+          :error="hasErrorByKey('password')"
+          :placeholder="t('register.password')"
+          @blur="validatePassword()"
+        />
 
-        <div key="repeatedPassword">
-          <div>{{ t('register.repeat_password') }}</div>
-          <BaseInput
-            v-model="repeatedPassword"
-            type="password"
-            :error="hasErrorByKey('repeatedPassword')"
-          />
-        </div>
+        <BaseInput
+          key="repeatedPassword"
+          v-model="repeatedPassword"
+          type="password"
+          :error="hasErrorByKey('repeatedPassword')"
+          :placeholder="t('register.repeat_password')"
+        />
 
         <div
           key="registerActions"

@@ -102,7 +102,7 @@ const scrollHandleStyle = $computed(() => ({
           _h-full
           _relative
           _transition-colors
-          :_bg="isTrackScrollActive ? 'accent-focus/75' : 'primary-contrast/25'"
+          :_bg="isTrackScrollActive ? 'accent' : 'primary-contrast/25'"
           @mousedown.stop="(e) => startTrackScroll(e)"
         >
           <div
@@ -110,15 +110,22 @@ const scrollHandleStyle = $computed(() => ({
             _absolute
             _inset-x-0
             _rounded-full
-            _transition="background-color,height"
-            :_bg="
-              isMouseScrollActive
-                ? 'accent-focus'
-                : 'primary-contrast !hover:accent'
-            "
+            _transition-height
+            _bg-primary
+            _relative
             :_pointer-events="isTrackScrollActive ? 'none' : 'auto'"
             @mousedown.stop="(e) => startMouseScroll(e)"
-          />
+          >
+            <div
+              _cover
+              :_bg="
+                isMouseScrollActive
+                  ? 'accent-focus'
+                  : 'primary-contrast/70 hover:accent'
+              "
+              _transition-colors
+            />
+          </div>
         </div>
       </div>
     </BaseFadeTransition>

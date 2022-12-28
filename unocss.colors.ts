@@ -26,8 +26,8 @@ export default {
     },
 
     focus: {
-      'DEFAULT': '#33a06f',
-      ':dark': '#42d392',
+      'DEFAULT': '#bb0022',
+      ':dark': '#e5405e',
     },
 
     interactive: {
@@ -62,5 +62,5 @@ export default {
     },
   },
 
-  error: '#d55',
+  error: '#f33',
 };

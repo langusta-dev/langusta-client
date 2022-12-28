@@ -63,19 +63,20 @@ const enableLocalProfile = () => {
           {{ errorLabel }}
         </div>
 
-        <div key="username">
-          <div>{{ t('login.username') }}</div>
-          <BaseInput v-model="username" autofocus />
-        </div>
+        <BaseInput
+          key="username"
+          v-model="username"
+          autofocus
+          :placeholder="t('login.username')"
+        />
 
-        <div key="password">
-          <div>{{ t('login.password') }}</div>
-          <BaseInput
-            v-model="password"
-            type="password"
-            :error="hasErrorByKey('password')"
-          />
-        </div>
+        <BaseInput
+          key="password"
+          v-model="password"
+          type="password"
+          :error="hasErrorByKey('password')"
+          :placeholder="t('login.password')"
+        />
 
         <div key="loginActions" _flex="~ col" _items-center _text-center _gap2>
           <BaseButton :disabled="hasEmptyValues" @click="logIn()">
