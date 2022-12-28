@@ -2,29 +2,51 @@
 const {
   alt,
   sm,
+  circle,
   disabled = false,
 } = defineProps<{
   alt?: boolean;
   sm?: boolean;
+  circle?: boolean;
   disabled?: boolean;
 }>();
+
+const classes = $computed(() => {
+  const classes: string[] = [];
+
+  classes.push(
+    alt
+      ? 'bg-accent-alt-interactive text-accent-alt-interactive-contrast border-(1 accent) hover:border-primary'
+      : 'bg-accent-interactive text-accent-interactive-contrast'
+  );
+
+  if (sm) {
+    classes.push('text-sm');
+  }
+
+  if (circle) {
+    classes.push('h-8 w-8');
+  } else {
+    classes.push(sm ? 'p-(x4 y1) ' : 'p-(x8 y1)');
+  }
+
+  return classes;
+});
 </script>
 
 <template>
   <button
-    :class="[
-      !alt ? 'bg-accent-interactive' : 'bg-accent-alt-interactive',
-      !sm ? 'p-(x4 y.5)' : 'p-(x3 y.5) text-sm',
-    ]"
+    :class="classes"
     :disabled="disabled"
-    _rounded
+    _rounded-full
     _inline-block
     _fw600
-    _text="accent-interactive-contrast center"
+    _text-center
     _transition-colors
     _cursor-pointer
     _select-none
     _disabled:pointer-events-none
+    _disabled:op30
     _flex
     _justify-center
     _items-center

@@ -12,7 +12,7 @@ const router = useRouter();
 
 <template>
   <div>
-    <div _text="center 4xl" _m="t10 b6 lg:b8 2xl:b10">{{ header }}</div>
+    <div _text="center 4xl" _m="t10 b10">{{ header }}</div>
 
     <div
       _flex="~ col md:row md:wrap"
@@ -29,8 +29,9 @@ const router = useRouter();
           _h="auto md:28 lg:32 2xl:36"
           _p2
           _rounded
-          _bg="#fff/60 hover:accent"
-          _text="#222 hover:accent-contrast"
+          _bg-accent-alt-interactive
+          _text-accent-alt-interactive-contrast
+          _border="1 accent"
           _transition-all
           _cursor-pointer
           @click="router.push(path)"

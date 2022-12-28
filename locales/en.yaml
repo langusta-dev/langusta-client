@@ -1,10 +1,12 @@
-title: LANgusta
+title: LANGUSTA
 description: |
-  LANgusta is a food-oriented, multifunctional app providing services to create
+  LANGUSTA is a food-oriented, multifunctional app providing services to create
   and search through thousands of recipes, generate meal plans and more.
 
 index:
   title: Home
+  description: Share recipes, meal plans and groceries in one app!
+  has_account: Already have an account?
 
 recipes:
   title: Recipes

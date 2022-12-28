@@ -128,7 +128,7 @@ const register = async () => {
 </script>
 
 <template>
-  <div _flex="~ col" _items-center>
+  <div _flex="~ col" _items-center _h-full>
     <div _h="[3%]" />
 
     <div _flex="~ col" _items-center _text-center _gap3>

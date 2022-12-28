@@ -43,7 +43,7 @@ const value = computed({
   },
 });
 
-const { classes } = useInputClasses($$(error));
+const { classes } = useInputClasses($$(type), $$(error));
 
 if (type === 'textarea') {
   useTextarea($$(el));

@@ -1,3 +1,9 @@
+<route lang="yaml">
+meta:
+  auth: true
+  title: recipe_collections.add_recipe_collection
+</route>
+
 <script setup lang="ts">
 import TheRecipeCollectionForm from '~/components/recipes-collections/&shared/TheRecipeCollectionForm.vue';
 

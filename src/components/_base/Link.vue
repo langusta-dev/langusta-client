@@ -3,9 +3,10 @@ interface Props {
   to?: string;
   external?: boolean;
   replace?: boolean;
+  alt?: boolean;
 }
 
-const { to, external = false, replace = false } = defineProps<Props>();
+const { to, external, replace, alt } = defineProps<Props>();
 
 const router = useRouter();
 
@@ -27,10 +28,14 @@ const handleClick = () => {
 <template>
   <a
     :href="to || 'javascript:;'"
+    :class="
+      !alt
+        ? 'text-primary-contrast-interactive'
+        : 'text-accent-contrast hover:text-accent-contrast/90'
+    "
     _inline-block
     _underline
     _fw500
-    _text-primary-contrast-interactive
     _transition-colors
     _cursor-pointer
     _select-none

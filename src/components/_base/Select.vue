@@ -68,7 +68,7 @@ const emit = defineEmits<{
   --vs-border-color: rgba(34, 34, 34, 0.3);
   --vs-border-width: 1px;
   --vs-border-style: solid;
-  --vs-border-radius: 0.25rem;
+  --vs-border-radius: 1rem;
 
   /* Actions: house the component controls */
   --vs-actions-padding: 0.25rem 0.4rem 0 0.2rem;
@@ -110,7 +110,7 @@ const emit = defineEmits<{
   --vs-transition-timing-function: cubic-bezier(1, -0.115, 0.975, 0.855);
   --vs-transition-duration: 150ms;
 
-  @apply rounded
+  @apply rounded-[var(--vs-border-radius)]
       outline-(~ 2px offset-0 transparent)
       transition-all;
 

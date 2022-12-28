@@ -1,18 +1,22 @@
 <route lang="yaml">
 meta:
   title: index.title
-  auth: true
   nav: true
   navOrder: 1
   navIcon: fa:home
+  layout: blank
 </route>
 
 <script setup lang="ts">
 import TheNavList from '~/components/&shared/TheNavList.vue';
+import TheUnauthorizedView from '~/components/index/TheUnauthorizedView.vue';
+
+import { useSessionStore } from '~/stores/session';
 
 const { t } = useI18n();
+const sessionStore = useSessionStore();
 
-const navItems = $computed<{ title: string; path: string }[]>(() => [
+const NAV_ITEMS = [
   { title: 'browse_recipes.title', path: '/recipes/browse' },
   {
     title: 'browse_recipe_collections.title',
@@ -25,9 +29,14 @@ const navItems = $computed<{ title: string; path: string }[]>(() => [
   },
   { title: 'add_recipe.title', path: '/recipes/add' },
   { title: 'add_recipe_collection.title', path: '/recipes/collections/add' },
-]);
+];
 </script>
 
 <template>
-  <TheNavList :header="t('title')" :nav-items="navItems" />
+  <TheNavList
+    v-if="sessionStore.isAuth"
+    :header="t('title')"
+    :nav-items="NAV_ITEMS"
+  />
+  <TheUnauthorizedView v-else />
 </template>

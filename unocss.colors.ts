@@ -1,12 +1,12 @@
 // todo color theme
 export default {
   primary: {
-    'DEFAULT': '#eee',
-    ':dark': '#222',
+    'DEFAULT': '#fafafa',
+    ':dark': '#eee',
 
     'contrast': {
-      'DEFAULT': '#222',
-      ':dark': '#fafafa',
+      'DEFAULT': '#111',
+      ':dark': '#111',
 
       'interactive': {
         'DEFAULT': '~',
@@ -17,20 +17,8 @@ export default {
     },
   },
 
-  // secondary: {
-  //   DEFAULT: 'rgba(40,40,40,.8)',
-  //   ':dark': 'rgba(250,250,250,.9)',
-
-  //   interactive: {
-  //     DEFAULT: '~',
-  //     ':hover': 'accent',
-  //     ':dark': '~',
-  //     ':dark:hover': 'accent',
-  //   },
-  // },
-
   accent: {
-    DEFAULT: '#42b883',
+    DEFAULT: '#dc0028',
 
     contrast: {
       'DEFAULT': '#fff',
@@ -48,10 +36,6 @@ export default {
         'DEFAULT': 'accent-focus',
         ':dark': 'accent-focus:dark',
       },
-      ':disabled': {
-        'DEFAULT': '#999',
-        ':dark': '#333',
-      },
 
       'contrast': {
         'DEFAULT': 'accent-contrast',
@@ -64,14 +48,15 @@ export default {
     },
 
     alt: {
-      DEFAULT: '#ddd',
+      DEFAULT: 'primary',
 
       interactive: {
         'DEFAULT': '~',
         ':hover': 'accent',
-        ':disabled': {
-          'DEFAULT': '#999',
-          ':dark': '#333',
+
+        'contrast': {
+          'DEFAULT': 'accent',
+          ':hover': 'accent-contrast',
         },
       },
     },

@@ -77,20 +77,28 @@ initializeSteps();
             <div _flex _justify-between _mb2 _select-none>
               <div># {{ i + 1 }}</div>
 
-              <div _flex _gap2 _children="!px2">
-                <BaseButton alt :disabled="!i" @click="swapSteps(i, i - 1)">
+              <div _flex _gap2>
+                <BaseButton
+                  alt
+                  circle
+                  :disabled="!i"
+                  _text-4xl
+                  @click="swapSteps(i, i - 1)"
+                >
                   <div _icon-material-symbols-keyboard-arrow-up-rounded />
                 </BaseButton>
 
                 <BaseButton
                   alt
+                  circle
                   :disabled="i === editableSteps.length - 1"
+                  _text-4xl
                   @click="swapSteps(i, i + 1)"
                 >
                   <div _icon-material-symbols-keyboard-arrow-down-rounded />
                 </BaseButton>
 
-                <BaseButton alt @click="deleteStepById(item.id)">
+                <BaseButton alt circle @click="deleteStepById(item.id)">
                   <div _icon-heroicons-outline-trash />
                 </BaseButton>
               </div>

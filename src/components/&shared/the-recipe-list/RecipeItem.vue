@@ -73,11 +73,11 @@ const handleDelete = () => {
         _pb1
         _children="border-1 border-accent-contrast"
       >
-        <BaseButton sm alt @click.stop="handleEdit()">
+        <BaseButton sm alt circle @click.stop="handleEdit()">
           <div _icon-material-symbols-edit-rounded />
         </BaseButton>
 
-        <BaseButton sm alt @click.stop="handleDelete()">
+        <BaseButton sm alt circle @click.stop="handleDelete()">
           <div _icon-material-symbols-delete-outline-rounded />
         </BaseButton>
       </div>

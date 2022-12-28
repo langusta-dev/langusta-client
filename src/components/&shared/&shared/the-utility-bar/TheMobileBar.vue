@@ -21,13 +21,13 @@ const { search } = useVModels(props, emit);
     _pointer-events-none
     _children="h12 w12 rounded-full pointer-events-auto shadow-md"
   >
-    <BaseButton v-if="editable" @click="emit('addRecipe')">
+    <BaseButton v-if="editable" circle @click="emit('addRecipe')">
       <div>
         <div _icon-ic-round-plus _text-9 />
       </div>
     </BaseButton>
 
-    <BaseButton>
+    <BaseButton circle>
       <div>
         <div _icon-ic-round-search _text-8 />
       </div>

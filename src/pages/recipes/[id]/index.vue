@@ -1,3 +1,8 @@
+<route lang="yaml">
+meta:
+  auth: true
+</route>
+
 <script setup lang="ts">
 import { useRecipeStore } from '~/stores/recipe';
 
@@ -54,6 +59,8 @@ const preparationTimeUnit = $computed(() =>
 <template>
   <BaseFadeTransition>
     <BaseScroll v-if="recipe">
+      <!-- FIXME unnecessary scroll -->
+
       <div _flex="~ col" _items-center _gap4 _p4>
         <div _text-xl>{{ recipe.title }}</div>
 

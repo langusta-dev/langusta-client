@@ -1,6 +1,7 @@
 <route lang="yaml">
 meta:
   auth: true
+  title: recipes.add_recipe
 </route>
 
 <script setup lang="ts">

@@ -88,7 +88,7 @@ initializeIngredients();
               _grow
             />
 
-            <BaseButton alt _px="!2" @click="deleteIngredientById(item.id)">
+            <BaseButton alt circle @click="deleteIngredientById(item.id)">
               <div _icon-heroicons-outline-trash />
             </BaseButton>
           </div>
