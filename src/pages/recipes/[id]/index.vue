@@ -58,58 +58,77 @@ const preparationTimeUnit = $computed(() =>
 
 <template>
   <BaseFadeTransition>
-    <div v-if="recipe" _flex="~ col" _items-center _gap4 _p4>
-      <div _text-xl>{{ recipe.title }}</div>
+    <div
+      v-if="recipe"
+      _flex="~ col xl:row"
+      _gap="y4 x6"
+      _p4
+      _children="xl:(grow basis-0)"
+    >
+      <div _flex="~ col" _items-center _gap2>
+        <div _text="center xl xl:2xl" _fw600>{{ recipe.title }}</div>
 
-      <div
-        v-if="recipe.imgPath"
-        _w-full
-        _h50
-        _rounded
-        :style="{ backgroundImage: `url(${recipe.imgPath})` }"
-        _bg="cover center no-repeat"
-      />
-
-      <div _flex _gap4 _children="flex gap.5 items-center">
-        <div>
-          <div _icon-tabler-flame />
-          <b>
-            {{ recipe.calorieCount }}
-          </b>
-        </div>
-
-        <div>
-          <div
-            _icon-material-symbols-nest-clock-farsight-analog-outline-rounded
-          />
+        <div _flex _gap4 _children="flex gap.5 items-center">
           <div>
+            <div _icon-tabler-flame />
             <b>
-              {{ recipe.preparationTime.value }}
+              {{ recipe.calorieCount }}
             </b>
           </div>
+
           <div>
-            {{ preparationTimeUnit }}
+            <div
+              _icon-material-symbols-nest-clock-farsight-analog-outline-rounded
+            />
+            <div>
+              <b>
+                {{ recipe.preparationTime.value }}
+              </b>
+            </div>
+            <div>
+              {{ preparationTimeUnit }}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div v-if="recipe.description">
-        {{ recipe.description }}
-      </div>
+        <div
+          v-if="recipe.imgPath"
+          _w-full
+          _pb="1/2"
+          _rounded
+          :style="{ backgroundImage: `url(${recipe.imgPath})` }"
+          _bg="cover center"
+        />
 
-      <div _w-full _flex="~ col" _items-center _gap2>
-        <div _text-lg>Ingredients</div>
-
-        <div v-for="({ name }, i) in recipe.ingredients" :key="i" _w-full>
-          {{ i + 1 }}. {{ name }}
+        <div v-if="recipe.description">
+          {{ recipe.description }}
         </div>
       </div>
 
-      <div v-if="recipe.steps" _w-full _flex="~ col" _items-center _gap2>
-        <div _text-lg>Steps</div>
+      <div _flex="~ col" _gap4>
+        <div _w-full _flex="~ col" _items-center _gap2>
+          <div _text-lg>Ingredients</div>
 
-        <div v-for="({ description }, i) in recipe.steps" :key="i" _w-full>
-          {{ i + 1 }}. {{ description }}
+          <div
+            v-for="({ name, quantity, quantityUnit }, i) in recipe.ingredients"
+            :key="i"
+            _w-full
+          >
+            <div>{{ i + 1 }}. {{ name }}</div>
+
+            <div _op60 _ps4>
+              {{ quantity }}
+              {{ t(`recipe.quantity.unit.${quantityUnit.toLowerCase()}`) }}
+            </div>
+          </div>
+        </div>
+
+        <div v-if="recipe.steps" _w-full _flex="~ col" _items-center _gap2>
+          <div _text-lg>Steps</div>
+
+          <div v-for="({ description }, i) in recipe.steps" :key="i" _w-full>
+            {{ i + 1 }}. {{ description }}
+          </div>
         </div>
       </div>
     </div>

@@ -58,9 +58,7 @@ export default defineConfig({
 
     presetTypography(),
 
-    presetWebFonts({
-      fonts: { sans: 'Inter' },
-    }),
+    presetWebFonts({ fonts: { sans: 'Inter' } }),
   ],
 
   transformers: [transformerDirectives(), transformerVariantGroup()],
