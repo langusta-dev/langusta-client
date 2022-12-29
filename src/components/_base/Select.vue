@@ -100,7 +100,7 @@ const emit = defineEmits<{
 
   /* Active State */
   --vs-dropdown-option--active-bg: v-bind('colors.accent.DEFAULT');
-  --vs-dropdown-option--active-color: v-bind('colors.accent.contrast');
+  --vs-dropdown-option--active-color: v-bind('colors.accent.contrast.DEFAULT');
 
   /* Deselect State */
   --vs-dropdown-option--deselect-bg: #fb5858;

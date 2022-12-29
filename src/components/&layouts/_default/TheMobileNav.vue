@@ -24,7 +24,7 @@ const { navigableRootRoutes, neighboringNavigableRoutes, isActiveRoutePath } =
           _cursor-pointer
           @click="router.push(path)"
         >
-          <div _h-full _p="x1 y.5" _flex _justify-center _items-center>
+          <div _h-full _p="x1 y.5" _flex-center>
             <div _text="center sm">
               {{ t(title) }}
             </div>

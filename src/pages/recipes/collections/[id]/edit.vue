@@ -44,13 +44,15 @@ const submitRecipeCollection = () => {
 </script>
 
 <template>
-  <div>
+  <div _h-full _flex="~ col">
     <ThePageHeader>
       {{ t('recipe_collections.edit_recipe_collection') }}
     </ThePageHeader>
+
     <TheRecipeCollectionForm
       v-if="editableRecipeCollection"
       v-model:recipe-collection="editableRecipeCollection"
+      _grow
       @submit-recipe-collection="submitRecipeCollection()"
     />
   </div>

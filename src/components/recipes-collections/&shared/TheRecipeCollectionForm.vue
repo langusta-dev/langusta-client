@@ -89,7 +89,7 @@ initializeForm();
 </script>
 
 <template>
-  <div _h-full _flex="~ col" _gap4 _items-center>
+  <div _flex="~ col" _gap4 _items-center>
     <BaseInput
       v-model="title"
       :placeholder="t('recipe_collections.form.title') + '*'"
@@ -106,7 +106,7 @@ initializeForm();
 
     <div />
 
-    <div _flex _flex-wrap _justify-center _gap1>
+    <div _flex="~ wrap" _justify-center _gap1>
       <BaseButton
         v-for="tabKey in TAB_KEYS"
         :key="tabKey"

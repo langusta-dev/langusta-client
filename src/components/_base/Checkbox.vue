@@ -19,7 +19,7 @@ const { modelValue } = $(useVModels(props, emit));
         _h4
         _flex
         _relative
-        _rounded
+        _rounded-sm
         _overflow-hidden
         _bg="primary-contrast/30"
         :_outline="`~ 2px offset-0 transparent ${

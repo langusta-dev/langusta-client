@@ -31,7 +31,7 @@ const handleClick = () => {
     :class="
       !alt
         ? 'text-primary-contrast-interactive'
-        : 'text-accent-contrast hover:text-accent-contrast/90'
+        : 'text-accent-contrast hover:text-accent-contrast/70'
     "
     _inline-block
     _underline

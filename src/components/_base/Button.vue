@@ -39,17 +39,14 @@ const classes = $computed(() => {
     :class="classes"
     :disabled="disabled"
     _rounded-full
-    _inline-block
     _fw600
     _text-center
     _transition-all
     _cursor-pointer
     _select-none
     _disabled:pointer-events-none
-    _disabled:op30
-    _flex
-    _justify-center
-    _items-center
+    _disabled:op40
+    _flex-center
   >
     <slot />
   </button>

@@ -17,9 +17,7 @@ const router = useRouter();
     <ThePageHeader>{{ header }}</ThePageHeader>
 
     <div
-      _flex="~ col md:row md:wrap"
-      _items-center
-      _justify-center
+      _flex="center col md:row md:wrap"
       _gap="5 md:6 xl:8"
       _px="6 md:8 xl:10"
     >

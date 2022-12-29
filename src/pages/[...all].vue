@@ -11,7 +11,7 @@ const { t } = useI18n();
 </script>
 
 <template>
-  <div _flex="~ col" _items-center _text-center>
+  <div _flex="~ col" _items-center _text-center _pt10>
     <div _icon-carbon-warning _text-4xl _inline-block _mb-1 />
 
     <div _text-lg>

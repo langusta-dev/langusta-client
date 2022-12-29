@@ -46,7 +46,7 @@ const handleDelete = () => {
     _hover:bg-accent
     _hover:text-accent-contrast
     _border="1 primary-contrast"
-    _transition-colors
+    _transition="~ property-[background,color]"
     _cursor-pointer
     _select-none
     _p1
@@ -60,7 +60,7 @@ const handleDelete = () => {
           :style="{ backgroundImage: `url(${recipe.imgPath})` }"
           _bg="cover center no-repeat"
         />
-        <div v-else _cover _flex _items-center _justify-center>
+        <div v-else _cover _flex-center>
           <div _icon-emojione-monotone:pot-of-food _text-5xl />
         </div>
       </div>

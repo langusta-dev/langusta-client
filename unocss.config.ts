@@ -22,7 +22,8 @@ export default defineConfig({
 
   shortcuts: [
     {
-      cover: 'absolute inset-0 max-w-full max-h-full rounded-[inherit]',
+      'cover': 'absolute inset-0 max-w-full max-h-full rounded-[inherit]',
+      'flex-center': 'flex justify-center items-center',
     },
   ],
 

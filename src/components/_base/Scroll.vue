@@ -121,7 +121,7 @@ const scrollHandleStyle = $computed(() => ({
               :_bg="
                 isMouseScrollActive
                   ? 'accent-focus'
-                  : 'primary-contrast/70 hover:accent'
+                  : 'primary-contrast/70 !hover:accent'
               "
               _transition-colors
             />

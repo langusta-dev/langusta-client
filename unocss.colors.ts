@@ -2,37 +2,47 @@
 export default {
   primary: {
     'DEFAULT': '#fafafa',
-    ':dark': '#fafafa',
+    ':dark': '#222',
 
     'contrast': {
       'DEFAULT': '#111',
-      ':dark': '#111',
+      ':dark': '#eee',
 
       'interactive': {
         'DEFAULT': '~',
         ':hover': 'accent',
-        ':dark': '~',
-        ':dark:hover': 'accent',
+        ':dark': {
+          'DEFAULT': '~',
+          ':hover': 'accent',
+        },
       },
     },
   },
 
   accent: {
-    DEFAULT: '#dc0028',
+    DEFAULT: '#d9293d',
 
-    contrast: '#fff',
+    contrast: {
+      'DEFAULT': '#fff',
+      ':dark': '#222',
+    },
 
     focus: {
-      'DEFAULT': '#bb0022',
-      ':dark': '#e5405e',
+      'DEFAULT': '#ae2131',
+      ':dark': '#df495a',
     },
 
     interactive: {
       'DEFAULT': '~',
-      ':hover': 'accent-focus',
+
+      ':hover': {
+        'DEFAULT': 'accent-focus',
+        ':dark': 'accent-focus:dark',
+      },
 
       'contrast': {
         'DEFAULT': 'accent-contrast',
+        ':dark': 'accent-contrast:dark',
         ':disabled': {
           'DEFAULT': '#f1f1f1',
           ':dark': '#888',
@@ -41,15 +51,25 @@ export default {
     },
 
     alt: {
-      DEFAULT: 'primary',
+      'DEFAULT': 'primary',
+      ':dark': 'primary:dark',
 
-      interactive: {
-        'DEFAULT': '~',
-        ':hover': 'accent',
+      'interactive': {
+        'DEFAULT': 'primary',
+        ':dark': 'primary:dark',
+
+        ':hover': {
+          'DEFAULT': 'accent',
+          ':dark': 'accent',
+        },
 
         'contrast': {
           'DEFAULT': 'accent',
-          ':hover': 'accent-contrast',
+
+          ':hover': {
+            'DEFAULT': 'primary',
+            ':dark': 'primary:dark',
+          },
         },
       },
     },
