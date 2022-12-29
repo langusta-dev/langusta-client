@@ -39,22 +39,33 @@ const handleDelete = () => {
 <template>
   <div
     _w38
-    _h50
+    _h40
     _rounded
-    _bg="#fff/60 hover:accent"
-    _text="#222 hover:accent-contrast"
+    _hover:bg-accent
+    _hover:text-accent-contrast
+    _border="1 primary-contrast"
     _transition-colors
     _cursor-pointer
     _select-none
     _p1
   >
     <div _h-full _flex="~ col" _items-center>
+      <div _text="center sm lines-2" :title="recipeCollection.title">
+        {{ recipeCollection.title }}
+      </div>
+
+      <div _flex _items-center _grow _gap1>
+        <div _text-2xl>
+          {{ recipeCollection.recipeIds.length }}
+        </div>
+        <div _icon-emojione-monotone:pot-of-food _text-3xl />
+      </div>
+
       <div
         v-if="isEditable"
         _flex
         _justify-center
         _gap1
-        _pb1
         _children="border-1 border-accent-contrast"
       >
         <BaseButton
@@ -74,18 +85,6 @@ const handleDelete = () => {
         >
           <div _icon-material-symbols-delete-outline-rounded />
         </BaseButton>
-      </div>
-
-      <div _text="center 3.5" _leading="3.5">
-        {{ recipeCollection.title }}
-      </div>
-
-      <div _grow />
-
-      <div>
-        <i>
-          {{ recipeCollection.recipeIds.length }}
-        </i>
       </div>
     </div>
   </div>
