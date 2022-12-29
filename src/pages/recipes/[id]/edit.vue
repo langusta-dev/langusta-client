@@ -1,9 +1,11 @@
 <route lang="yaml">
 meta:
   auth: true
+  title: recipes.edit_recipe
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import TheRecipeForm from '~/components/recipes/&shared/TheRecipeForm.vue';
 
 import { useRecipeStore } from '~/stores/recipe';
@@ -12,6 +14,7 @@ import type { Uuid } from '~/types/uuid';
 
 const { id } = defineProps<{ id: Uuid }>();
 
+const { t } = useI18n();
 const router = useRouter();
 const recipeStore = useRecipeStore();
 
@@ -34,11 +37,12 @@ const submitRecipe = () => {
 </script>
 
 <template>
-  <BaseFadeTransition>
+  <div>
+    <ThePageHeader>{{ t('recipes.edit_recipe') }}</ThePageHeader>
     <TheRecipeForm
       v-if="editableRecipe"
       v-model:recipe="editableRecipe"
       @submit-recipe="submitRecipe()"
     />
-  </BaseFadeTransition>
+  </div>
 </template>

@@ -1,3 +1,3 @@
 // Vitest Snapshot v1
 
-exports[`Button > should render 1`] = `"<button class=\\"bg-accent-interactive p-x4 p-y.5\\" _rounded=\\"\\" _inline-block=\\"\\" _fw600=\\"\\" _text=\\"accent-interactive-contrast center\\" _transition-colors=\\"\\" _cursor-pointer=\\"\\" _select-none=\\"\\" _disabled:pointer-events-none=\\"\\" _flex=\\"\\" _justify-center=\\"\\" _items-center=\\"\\">abc</button>"`;
+exports[`Button > should render 1`] = `"<button class=\\"bg-accent-interactive text-accent-interactive-contrast p-x8 p-y1\\" _rounded-full=\\"\\" _inline-block=\\"\\" _fw600=\\"\\" _text-center=\\"\\" _transition-all=\\"\\" _cursor-pointer=\\"\\" _select-none=\\"\\" _disabled:pointer-events-none=\\"\\" _disabled:op30=\\"\\" _flex=\\"\\" _justify-center=\\"\\" _items-center=\\"\\">abc</button>"`;

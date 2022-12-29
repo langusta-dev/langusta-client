@@ -22,13 +22,6 @@ describe('register page', () => {
     const buttons = wrapper.findAll('button');
     expect(buttons).toHaveLength(1);
 
-    expect(wrapper.text()).toContain('register.email');
-    expect(wrapper.text()).toContain('register.username');
-    expect(wrapper.text()).toContain('register.firstname');
-    expect(wrapper.text()).toContain('register.lastname');
-    expect(wrapper.text()).toContain('register.password');
-    expect(wrapper.text()).toContain('register.repeat_password');
-
     expect(wrapper.html()).toMatchSnapshot();
   });
 

@@ -89,11 +89,11 @@ initializeForm();
 </script>
 
 <template>
-  <div _h-full _flex="~ col" _gap4 _items-center _pt6>
-    <div>
-      <div>{{ t('recipe_collections.form.title') }}*</div>
-      <BaseInput v-model="title" />
-    </div>
+  <div _h-full _flex="~ col" _gap4 _items-center>
+    <BaseInput
+      v-model="title"
+      :placeholder="t('recipe_collections.form.title') + '*'"
+    />
 
     <div>
       <BaseButton

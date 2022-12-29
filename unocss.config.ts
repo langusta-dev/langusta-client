@@ -26,6 +26,26 @@ export default defineConfig({
     },
   ],
 
+  rules: [
+    [
+      /^text-lines-(\d+)$/,
+      ([, lineCount]) => ({
+        'display': '-webkit-box',
+        '-webkit-box-orient': 'vertical',
+        '-webkit-line-clamp': lineCount,
+        'text-overflow': 'ellipsis',
+        'overflow': 'hidden',
+        'max-height': `${Number(lineCount) * 1.45}em`,
+      }),
+    ],
+  ],
+
+  theme: {
+    borderRadius: {
+      DEFAULT: '0.5rem',
+    },
+  },
+
   presets: [
     presetWind(),
 

@@ -5,6 +5,8 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
+
 import { useSessionStore } from '~/stores/session';
 
 import { useInputGroup } from '~/composables/input';
@@ -129,9 +131,9 @@ const register = async () => {
 
 <template>
   <div _flex="~ col" _items-center _h-full>
-    <div _h="[3%]" />
+    <ThePageHeader>{{ t('register.title') }}</ThePageHeader>
 
-    <div _flex="~ col" _items-center _text-center _gap3>
+    <div _flex="~ col" _items-center _text-center _gap4>
       <BaseFadeTransitionGroup>
         <div v-if="displayedErrorLabel" key="errorLabel" _text-error>
           {{ displayedErrorLabel }}

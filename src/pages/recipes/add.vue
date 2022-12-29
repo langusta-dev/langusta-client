@@ -5,6 +5,7 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import TheRecipeForm from '~/components/recipes/&shared/TheRecipeForm.vue';
 
 import {
@@ -17,6 +18,7 @@ import { useRecipeStore } from '~/stores/recipe';
 
 import type { EditableRecipe } from '~/types/recipe';
 
+const { t } = useI18n();
 const recipeStore = useRecipeStore();
 const router = useRouter();
 
@@ -42,5 +44,8 @@ const submitRecipe = () => {
 </script>
 
 <template>
-  <TheRecipeForm v-model:recipe="newRecipe" @submit-recipe="submitRecipe()" />
+  <div>
+    <ThePageHeader>{{ t('recipes.add_recipe') }}</ThePageHeader>
+    <TheRecipeForm v-model:recipe="newRecipe" @submit-recipe="submitRecipe()" />
+  </div>
 </template>

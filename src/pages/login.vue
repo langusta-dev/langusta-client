@@ -5,6 +5,8 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
+
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
@@ -55,9 +57,9 @@ const enableLocalProfile = () => {
 
 <template>
   <div _flex="~ col" _items-center _h-full>
-    <div _h="[15%]" />
+    <ThePageHeader>{{ t('login.title') }}</ThePageHeader>
 
-    <div _flex="~ col" _items-center _text-center _gap3>
+    <div _flex="~ col" _items-center _text-center _gap4>
       <BaseFadeTransitionGroup>
         <div v-if="errorLabel" key="errorLabel" _text-error>
           {{ errorLabel }}

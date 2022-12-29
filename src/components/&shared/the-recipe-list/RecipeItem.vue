@@ -24,10 +24,6 @@ const preparationTimeUnit = $computed(() =>
   t(`recipe.preparation_time.unit.${recipe.preparationTime.unit.toLowerCase()}`)
 );
 
-const mealType = $computed(() =>
-  t(`recipe.meal_type.${recipe.mealType.toLowerCase()}`)
-);
-
 const handleEdit = () => {
   router.push(`/recipes/${recipe.id}/edit`);
 };
@@ -47,53 +43,39 @@ const handleDelete = () => {
     _w38
     _h50
     _rounded
-    _bg="#fff/60 hover:accent"
-    _text="#222 hover:accent-contrast"
+    _hover:bg-accent
+    _hover:text-accent-contrast
+    _border="1 primary-contrast"
     _transition-colors
     _cursor-pointer
     _select-none
     _p1
-    _relative
     :_outline="selected ? '~ 3 accent offset-0' : ''"
   >
-    <div
-      v-if="recipe.imgPath"
-      _cover
-      _pointer-events-none
-      :style="{ backgroundImage: `url(${recipe.imgPath})` }"
-      _bg="contain center no-repeat"
-    />
-
-    <div _h-full _flex="~ col" _items-center _relative>
-      <div
-        v-if="isEditable"
-        _flex
-        _justify-center
-        _gap1
-        _pb1
-        _children="border-1 border-accent-contrast"
-      >
-        <BaseButton sm alt circle @click.stop="handleEdit()">
-          <div _icon-material-symbols-edit-rounded />
-        </BaseButton>
-
-        <BaseButton sm alt circle @click.stop="handleDelete()">
-          <div _icon-material-symbols-delete-outline-rounded />
-        </BaseButton>
+    <div _h-full _flex="~ col" _items-center _relative _text-sm>
+      <div _grow _relative _w-full _rounded _pointer-events-none>
+        <div
+          v-if="recipe.imgPath"
+          _cover
+          :style="{ backgroundImage: `url(${recipe.imgPath})` }"
+          _bg="cover center no-repeat"
+        />
+        <div v-else _cover _flex _items-center _justify-center>
+          <div _icon-emojione-monotone:pot-of-food _text-5xl />
+        </div>
       </div>
 
-      <div _text="center 3.5" _leading="3.5">
+      <div _text="center lines-2" :title="recipe.title">
         {{ recipe.title }}
       </div>
-
-      <div _grow />
 
       <div
         _p="l1 b1"
         _flex="~ col"
         _w-full
-        _text-sm
         _children="flex gap.5 items-center"
+        _whitespace-nowrap
+        _overflow-hidden
       >
         <div>
           <div
@@ -108,6 +90,7 @@ const handleDelete = () => {
             {{ preparationTimeUnit }}
           </div>
         </div>
+
         <div>
           <div _icon-tabler-flame />
 
@@ -119,10 +102,30 @@ const handleDelete = () => {
         </div>
       </div>
 
-      <div>
-        <i>
-          {{ mealType }}
-        </i>
+      <div
+        v-if="isEditable"
+        _flex
+        _justify-center
+        _gap1
+        _children="border-1 border-accent-contrast"
+      >
+        <BaseButton
+          sm
+          circle
+          :title="t('recipes.edit_recipe')"
+          @click.stop="handleEdit()"
+        >
+          <div _icon-material-symbols-edit-rounded />
+        </BaseButton>
+
+        <BaseButton
+          sm
+          circle
+          :title="t('recipes.delete_recipe')"
+          @click.stop="handleDelete()"
+        >
+          <div _icon-material-symbols-delete-outline-rounded />
+        </BaseButton>
       </div>
     </div>
   </div>

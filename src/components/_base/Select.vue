@@ -100,7 +100,7 @@ const emit = defineEmits<{
 
   /* Active State */
   --vs-dropdown-option--active-bg: v-bind('colors.accent.DEFAULT');
-  --vs-dropdown-option--active-color: v-bind('colors.accent.contrast.DEFAULT');
+  --vs-dropdown-option--active-color: v-bind('colors.accent.contrast');
 
   /* Deselect State */
   --vs-dropdown-option--deselect-bg: #fb5858;
@@ -120,6 +120,10 @@ const emit = defineEmits<{
 
   &.vs--open {
     @apply outline-accent-focus;
+  }
+
+  :deep(.vs__dropdown-toggle) {
+    @apply p-(t.5 b1.5);
   }
 }
 

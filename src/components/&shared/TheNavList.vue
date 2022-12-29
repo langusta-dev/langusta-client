@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ThePageHeader from './ThePageHeader.vue';
+
 import type { LocaleKey } from '~/types/i18n';
 
 const { header, navItems } = defineProps<{
@@ -12,7 +14,7 @@ const router = useRouter();
 
 <template>
   <div>
-    <div _text="center 4xl" _m="t10 b10">{{ header }}</div>
+    <ThePageHeader>{{ header }}</ThePageHeader>
 
     <div
       _flex="~ col md:row md:wrap"

@@ -2,7 +2,7 @@
 export default {
   primary: {
     'DEFAULT': '#fafafa',
-    ':dark': '#eee',
+    ':dark': '#fafafa',
 
     'contrast': {
       'DEFAULT': '#111',
@@ -20,10 +20,7 @@ export default {
   accent: {
     DEFAULT: '#dc0028',
 
-    contrast: {
-      'DEFAULT': '#fff',
-      ':dark': '#333',
-    },
+    contrast: '#fff',
 
     focus: {
       'DEFAULT': '#bb0022',
@@ -32,14 +29,10 @@ export default {
 
     interactive: {
       'DEFAULT': '~',
-      ':hover': {
-        'DEFAULT': 'accent-focus',
-        ':dark': 'accent-focus:dark',
-      },
+      ':hover': 'accent-focus',
 
       'contrast': {
         'DEFAULT': 'accent-contrast',
-        ':dark': 'accent-contrast:dark',
         ':disabled': {
           'DEFAULT': '#f1f1f1',
           ':dark': '#888',

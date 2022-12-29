@@ -5,12 +5,14 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import TheRecipeCollectionForm from '~/components/recipes-collections/&shared/TheRecipeCollectionForm.vue';
 
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 
 import type { EditableRecipeCollection } from '~/types/recipeCollection';
 
+const { t } = useI18n();
 const router = useRouter();
 const recipeCollectionStore = useRecipeCollectionStore();
 
@@ -32,8 +34,13 @@ const submitRecipeCollection = () => {
 </script>
 
 <template>
-  <TheRecipeCollectionForm
-    v-model:recipe-collection="newRecipeCollection"
-    @submit-recipe-collection="submitRecipeCollection()"
-  />
+  <div>
+    <ThePageHeader>
+      {{ t('recipe_collections.add_recipe_collection') }}
+    </ThePageHeader>
+    <TheRecipeCollectionForm
+      v-model:recipe-collection="newRecipeCollection"
+      @submit-recipe-collection="submitRecipeCollection()"
+    />
+  </div>
 </template>

@@ -138,7 +138,7 @@ const { skeletonComponent } = useFormSkeleton();
 </script>
 
 <template>
-  <div _flex _justify-center _py6>
+  <div _flex _justify-center _pb6>
     <BaseFadeTransition>
       <component :is="skeletonComponent">
         <template #metadata>
@@ -146,49 +146,49 @@ const { skeletonComponent } = useFormSkeleton();
             <BaseImgInput v-model="imgPath" />
           </div>
 
-          <div>
-            <div>{{ t('recipes.form.title') }}*</div>
-            <BaseInput v-model="title" />
-          </div>
+          <BaseInput
+            v-model="title"
+            :placeholder="t('recipes.form.title') + '*'"
+          />
 
-          <div>
-            <div>{{ t('recipes.form.meal_type') }}</div>
-            <BaseSelect
-              v-model="mealType"
-              :options="mealTypeOptions"
-              :reduce="MEAL_TYPE_OPTION_REDUCER"
-              label="label"
-            />
-          </div>
+          <BaseSelect
+            v-model="mealType"
+            :options="mealTypeOptions"
+            :reduce="MEAL_TYPE_OPTION_REDUCER"
+            label="label"
+            :title="t('recipes.form.meal_type')"
+          />
 
-          <div>
-            <div>{{ t('recipes.form.calorie_count') }}*</div>
-            <BaseInput v-model="calorieCount" numeric />
-          </div>
+          <BaseInput
+            v-model="calorieCount"
+            numeric
+            :placeholder="t('recipes.form.calorie_count') + '*'"
+          />
 
-          <div>
-            <div>{{ t('recipes.form.preparation_time') }}*</div>
-
-            <div _flex _children="!w0 grow" _gap2>
-              <div>
-                <BaseInput v-model="preparationTimeValue" numeric />
-              </div>
-
-              <BaseSelect
-                v-model="preparationTimeUnit"
-                :options="preparationTimeUnitOptions"
-                :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
-                label="label"
+          <div _flex _children="!w0 grow" _gap2>
+            <div>
+              <BaseInput
+                v-model="preparationTimeValue"
+                numeric
+                :placeholder="t('recipes.form.preparation_time') + '*'"
               />
             </div>
+
+            <BaseSelect
+              v-model="preparationTimeUnit"
+              :options="preparationTimeUnitOptions"
+              :reduce="PREPARATION_TIME_UNIT_OPTION_REDUCER"
+              label="label"
+            />
           </div>
         </template>
 
         <template #description>
-          <div>
-            <div>{{ t('recipes.form.description') }}</div>
-            <BaseInput v-model="description" type="textarea" />
-          </div>
+          <BaseInput
+            v-model="description"
+            type="textarea"
+            :placeholder="t('recipes.form.description')"
+          />
         </template>
 
         <template #steps>

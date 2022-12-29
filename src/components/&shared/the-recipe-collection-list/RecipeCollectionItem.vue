@@ -57,11 +57,21 @@ const handleDelete = () => {
         _pb1
         _children="border-1 border-accent-contrast"
       >
-        <BaseButton sm alt circle @click.stop="handleEdit()">
+        <BaseButton
+          sm
+          circle
+          :title="t('recipe_collections.edit_recipe_collection')"
+          @click.stop="handleEdit()"
+        >
           <div _icon-material-symbols-edit-rounded />
         </BaseButton>
 
-        <BaseButton sm alt circle @click.stop="handleDelete()">
+        <BaseButton
+          sm
+          circle
+          :title="t('recipe_collections.delete_recipe_collection')"
+          @click.stop="handleDelete()"
+        >
           <div _icon-material-symbols-delete-outline-rounded />
         </BaseButton>
       </div>

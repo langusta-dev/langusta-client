@@ -16,9 +16,6 @@ describe('login page', () => {
     const buttons = wrapper.findAll('button');
     expect(buttons).toHaveLength(2);
 
-    expect(wrapper.text()).toContain('login.username');
-    expect(wrapper.text()).toContain('login.password');
-
     expect(wrapper.html()).toMatchSnapshot();
   });
 

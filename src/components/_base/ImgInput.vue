@@ -33,16 +33,8 @@ const handleFileChange = () => {
 </script>
 
 <template>
-  <div _relative _w80 _h40 _rounded>
-    <label
-      class="group"
-      _block
-      _h-full
-      _w-full
-      _rounded
-      _cursor-pointer
-      _relative
-    >
+  <div class="group" _relative _w80 _h40 _rounded>
+    <label _block _h-full _w-full _rounded _cursor-pointer _relative>
       <input
         ref="el"
         type="file"
@@ -54,13 +46,18 @@ const handleFileChange = () => {
       <div
         _cover
         _pointer-events-none
-        _bg="primary-contrast/20 group-hover:accent"
-        _transition-all
+        _bg="primary-contrast/10 group-hover:accent"
+        _transition-colors
       />
     </label>
 
     <div _cover _pointer-events-none _flex _items-center _justify-center>
-      <div _icon-ic-baseline-photo-camera _text-5xl />
+      <div
+        _icon-ic-baseline-photo-camera
+        _text-5xl
+        _group-hover:text-accent-contrast
+        _transition-colors
+      />
     </div>
 
     <BaseFadeTransition>

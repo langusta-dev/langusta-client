@@ -58,64 +58,60 @@ const preparationTimeUnit = $computed(() =>
 
 <template>
   <BaseFadeTransition>
-    <BaseScroll v-if="recipe">
-      <!-- FIXME unnecessary scroll -->
+    <div v-if="recipe" _flex="~ col" _items-center _gap4 _p4>
+      <div _text-xl>{{ recipe.title }}</div>
 
-      <div _flex="~ col" _items-center _gap4 _p4>
-        <div _text-xl>{{ recipe.title }}</div>
+      <div
+        v-if="recipe.imgPath"
+        _w-full
+        _h50
+        _rounded
+        :style="{ backgroundImage: `url(${recipe.imgPath})` }"
+        _bg="cover center no-repeat"
+      />
 
-        <div
-          v-if="recipe.imgPath"
-          _w-full
-          _h50
-          _rounded
-          :style="{ backgroundImage: `url(${recipe.imgPath})` }"
-          _bg="cover center no-repeat"
-        />
+      <div _flex _gap4 _children="flex gap.5 items-center">
+        <div>
+          <div _icon-tabler-flame />
+          <b>
+            {{ recipe.calorieCount }}
+          </b>
+        </div>
 
-        <div _flex _gap4 _children="flex gap.5 items-center">
+        <div>
+          <div
+            _icon-material-symbols-nest-clock-farsight-analog-outline-rounded
+          />
           <div>
-            <div _icon-tabler-flame />
             <b>
-              {{ recipe.calorieCount }}
+              {{ recipe.preparationTime.value }}
             </b>
           </div>
-
           <div>
-            <div
-              _icon-material-symbols-nest-clock-farsight-analog-outline-rounded
-            />
-            <div>
-              <b>
-                {{ recipe.preparationTime.value }}
-              </b>
-            </div>
-            <div>
-              {{ preparationTimeUnit }}
-            </div>
-          </div>
-        </div>
-
-        <div v-if="recipe.description">
-          {{ recipe.description }}
-        </div>
-
-        <div _w-full _flex="~ col" _items-center _gap2>
-          <div _text-lg>Ingredients</div>
-
-          <div v-for="({ name }, i) in recipe.ingredients" :key="i" _w-full>
-            {{ i + 1 }}. {{ name }}
-          </div>
-        </div>
-
-        <div v-if="recipe.steps" _w-full _flex="~ col" _items-center _gap2>
-          <div _text-lg>Steps</div>
-
-          <div v-for="({ description }, i) in recipe.steps" :key="i" _w-full>
-            {{ i + 1 }}. {{ description }}
+            {{ preparationTimeUnit }}
           </div>
         </div>
       </div>
-    </BaseScroll>
+
+      <div v-if="recipe.description">
+        {{ recipe.description }}
+      </div>
+
+      <div _w-full _flex="~ col" _items-center _gap2>
+        <div _text-lg>Ingredients</div>
+
+        <div v-for="({ name }, i) in recipe.ingredients" :key="i" _w-full>
+          {{ i + 1 }}. {{ name }}
+        </div>
+      </div>
+
+      <div v-if="recipe.steps" _w-full _flex="~ col" _items-center _gap2>
+        <div _text-lg>Steps</div>
+
+        <div v-for="({ description }, i) in recipe.steps" :key="i" _w-full>
+          {{ i + 1 }}. {{ description }}
+        </div>
+      </div>
+    </div>
   </BaseFadeTransition>
 </template>

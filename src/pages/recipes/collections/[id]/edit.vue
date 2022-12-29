@@ -1,9 +1,11 @@
 <route lang="yaml">
 meta:
   auth: true
+  title: recipe_collections.edit_recipe_collection
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import TheRecipeCollectionForm from '~/components/recipes-collections/&shared/TheRecipeCollectionForm.vue';
 
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
@@ -12,6 +14,7 @@ import type { Uuid } from '~/types/uuid';
 
 const { id } = defineProps<{ id: Uuid }>();
 
+const { t } = useI18n();
 const router = useRouter();
 const recipeCollectionStore = useRecipeCollectionStore();
 
@@ -41,9 +44,14 @@ const submitRecipeCollection = () => {
 </script>
 
 <template>
-  <TheRecipeCollectionForm
-    v-if="editableRecipeCollection"
-    v-model:recipe-collection="editableRecipeCollection"
-    @submit-recipe-collection="submitRecipeCollection()"
-  />
+  <div>
+    <ThePageHeader>
+      {{ t('recipe_collections.edit_recipe_collection') }}
+    </ThePageHeader>
+    <TheRecipeCollectionForm
+      v-if="editableRecipeCollection"
+      v-model:recipe-collection="editableRecipeCollection"
+      @submit-recipe-collection="submitRecipeCollection()"
+    />
+  </div>
 </template>
