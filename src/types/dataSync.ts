@@ -1,4 +1,5 @@
-import type { DateString } from './basic';
+import type { DateString, JSONString } from './basic';
+import type { IndexableBoolean } from './idb';
 import type { Uuid } from './uuid';
 
 export interface SynchronizableData {
@@ -33,3 +34,10 @@ export type Editable<T extends SynchronizableData> = Omit<
   T,
   'id' | 'createdAt' | 'updatedAt' | 'isLocalOnly' | 'isOwned'
 >;
+
+export interface Idb<_ extends SynchronizableData> {
+  id: Uuid;
+  data: JSONString;
+  toUpload: IndexableBoolean;
+  toDelete: IndexableBoolean;
+}

@@ -26,12 +26,12 @@ if (!recipe?.isOwned) {
 
 const editableRecipe = $ref(recipe ? klona(recipe) : null);
 
-const submitRecipe = () => {
+const submitRecipe = async () => {
   if (!editableRecipe) {
     return;
   }
 
-  recipeStore.editRecipeById(id, editableRecipe);
+  await recipeStore.editRecipeById(id, editableRecipe);
   router.push('/recipes/created-by-me');
 };
 </script>

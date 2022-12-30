@@ -26,7 +26,7 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
     editById: editCollectionById,
     deleteById: deleteCollectionById,
   } = useSynchronizableArray(
-    'recipe-collections',
+    'recipeCollections',
     collectionInitializer,
     uploadRecipeCollections,
     deleteRecipeCollectionsByIds

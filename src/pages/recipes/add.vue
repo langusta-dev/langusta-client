@@ -36,8 +36,8 @@ const initialRecipe = (): EditableRecipe => ({
 
 let newRecipe = $ref<EditableRecipe>(initialRecipe());
 
-const submitRecipe = () => {
-  recipeStore.addRecipe(newRecipe);
+const submitRecipe = async () => {
+  await recipeStore.addRecipe(newRecipe);
   newRecipe = initialRecipe();
   router.push('/recipes/created-by-me');
 };

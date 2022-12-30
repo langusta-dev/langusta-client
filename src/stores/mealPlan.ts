@@ -22,7 +22,7 @@ export const useMealPlanStore = defineStore('recipeCollection', () => {
     getById: getMealPlanById,
     push: addMealPlan,
   } = useSynchronizableArray(
-    'meal-plans',
+    'mealPlans',
     mealPlanInitializer,
     uploadMealPlans,
     deleteMealPlansByIds

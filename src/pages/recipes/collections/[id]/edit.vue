@@ -33,12 +33,12 @@ const editableRecipeCollection = $ref(
   recipeCollection ? klona(recipeCollection) : null
 );
 
-const submitRecipeCollection = () => {
+const submitRecipeCollection = async () => {
   if (!editableRecipeCollection) {
     return;
   }
 
-  recipeCollectionStore.editCollectionById(id, editableRecipeCollection);
+  await recipeCollectionStore.editCollectionById(id, editableRecipeCollection);
   router.push('/recipes/collections/created-by-me');
 };
 </script>

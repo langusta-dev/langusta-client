@@ -26,8 +26,8 @@ let newRecipeCollection = $ref<EditableRecipeCollection>(
   initialRecipeCollection()
 );
 
-const submitRecipeCollection = () => {
-  recipeCollectionStore.addCollection(newRecipeCollection);
+const submitRecipeCollection = async () => {
+  await recipeCollectionStore.addCollection(newRecipeCollection);
   newRecipeCollection = initialRecipeCollection();
   router.push('/recipes/collections/created-by-me');
 };
