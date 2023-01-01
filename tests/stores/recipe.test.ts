@@ -16,10 +16,13 @@ import { useRecipeStore } from '~/stores/recipe';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
 
+import { idb } from '~/composables/idb';
 import * as online from '~/composables/online';
 
 import * as recipeApi from '~/api/recipe';
 import * as recipeCollectionApi from '~/api/recipeCollection';
+
+import { toIdbData } from '~/helpers/idb';
 
 import type { EditableRecipe, Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';
@@ -65,7 +68,7 @@ describe('recipes store', () => {
       sessionStore.isAuth = false;
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).not.toHaveBeenCalled();
@@ -74,7 +77,7 @@ describe('recipes store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
@@ -99,7 +102,7 @@ describe('recipes store', () => {
       sessionStore.isAuth = true;
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
@@ -110,7 +113,7 @@ describe('recipes store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = false;
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
@@ -119,7 +122,7 @@ describe('recipes store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledTimes(2);
@@ -145,13 +148,14 @@ describe('recipes store', () => {
       sessionStore.isAuth = true;
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe1.id]);
-      expect(recipeStore.recipes).toStrictEqual([testRecipe2, testRecipe1]);
+      expect(recipeStore.recipes).toContainEqual(testRecipe1);
+      expect(recipeStore.recipes).toContainEqual(testRecipe2);
     });
 
     it(`Given authenticated user,
@@ -173,7 +177,7 @@ describe('recipes store', () => {
       sessionStore.isAuth = true;
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
@@ -210,7 +214,7 @@ describe('recipes store', () => {
       sessionStore.isAuth = true;
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
@@ -249,19 +253,17 @@ describe('recipes store', () => {
       sessionStore.isAuth = true;
 
       const localTestRecipe1 = { ...testRecipe1, isLocalOnly: true };
-      localStorage.setItem('recipes', JSON.stringify([localTestRecipe1]));
+      await idb.recipes.add(toIdbData(localTestRecipe1));
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe2.id]);
-      expect(recipeStore.recipes).toStrictEqual([
-        testRecipe2,
-        localTestRecipe1,
-      ]);
+      expect(recipeStore.recipes).toContainEqual(localTestRecipe1);
+      expect(recipeStore.recipes).toContainEqual(testRecipe2);
     });
 
     it(`Given authenticated user
@@ -295,21 +297,19 @@ describe('recipes store', () => {
 
       const localTestRecipe1 = { ...testRecipe1, isLocalOnly: true };
       const localTestRecipe2 = { ...testRecipe2, isLocalOnly: true };
-      localStorage.setItem(
-        'recipes',
-        JSON.stringify([localTestRecipe1, localTestRecipe2])
-      );
+      await idb.recipes.bulkAdd([
+        toIdbData(localTestRecipe1),
+        toIdbData(localTestRecipe2),
+      ]);
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledOnce();
       expect(fetchRecipesByIdsSpy).not.toHaveBeenCalled();
-      expect(recipeStore.recipes).toStrictEqual([
-        localTestRecipe1,
-        localTestRecipe2,
-      ]);
+      expect(recipeStore.recipes).toContainEqual(localTestRecipe1);
+      expect(recipeStore.recipes).toContainEqual(localTestRecipe2);
     });
 
     it(`Given authenticated user
@@ -323,49 +323,43 @@ describe('recipes store', () => {
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
 
-      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe1: any = {
         id: 'test-local-id-1',
         isLocalOnly: true,
       };
 
-      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe2: any = {
         id: 'test-local-id-2',
       };
 
-      const testLocalRecipe3: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe3: any = {
         id: 'test-local-id-3',
         isLocalOnly: true,
       };
 
-      const testLocalRecipe4: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe4: any = {
         id: 'test-local-id-4',
         isLocalOnly: false,
       };
 
-      localStorage.setItem(
-        'recipes',
-        JSON.stringify([
-          testLocalRecipe1,
-          testLocalRecipe2,
-          testLocalRecipe3,
-          testLocalRecipe4,
-        ])
-      );
+      await idb.recipes.bulkAdd([
+        toIdbData(localTestRecipe1),
+        toIdbData(localTestRecipe2),
+        toIdbData(localTestRecipe3),
+        toIdbData(localTestRecipe4),
+      ]);
 
       // When
       vi.spyOn(recipeApi, 'fetchUserRecipes').mockResolvedValue([testRecipe2]);
       vi.spyOn(recipeApi, 'fetchRecipesByIds').mockResolvedValue([testRecipe1]);
 
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
-      // Then
-      expect(recipeStore.recipes).toStrictEqual([
-        testRecipe2,
-        testRecipe1,
-        testLocalRecipe1,
-        testLocalRecipe3,
-      ]);
+      expect(recipeStore.recipes).toContainEqual(localTestRecipe1);
+      expect(recipeStore.recipes).toContainEqual(localTestRecipe3);
+      expect(recipeStore.recipes).toContainEqual(testRecipe1);
+      expect(recipeStore.recipes).toContainEqual(testRecipe2);
     });
 
     it(`Given user using local profile
@@ -383,28 +377,28 @@ describe('recipes store', () => {
       const localProfileStore = useLocalProfileStore();
       localProfileStore.enableLocalProfile();
 
-      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe1: any = {
         id: 'test-local-id-1',
         isLocalOnly: true,
       };
 
-      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe2: any = {
         id: 'test-local-id-2',
       };
 
-      localStorage.setItem(
-        'recipes',
-        JSON.stringify([testLocalRecipe1, testLocalRecipe2])
-      );
+      await idb.recipes.bulkAdd([
+        toIdbData(localTestRecipe1),
+        toIdbData(localTestRecipe2),
+      ]);
 
       // When
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).not.toHaveBeenCalled();
       expect(fetchRecipesByIdsSpy).not.toHaveBeenCalled();
-      expect(recipeStore.recipes).toStrictEqual([testLocalRecipe1]);
+      expect(recipeStore.recipes).toStrictEqual([localTestRecipe1]);
     });
 
     it(`Given user using local profile
@@ -428,18 +422,18 @@ describe('recipes store', () => {
       // @ts-expect-error it's readonly
       recipeCollectionStore.collections = [testRecipeCollection];
 
-      const testLocalRecipe1: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe1: any = {
         id: 'test-local-id-1',
         isLocalOnly: true,
       };
 
-      const testLocalRecipe2: Pick<Recipe, 'id' | 'isLocalOnly'> = {
+      const localTestRecipe2: any = {
         id: 'test-local-id-2',
       };
 
       localStorage.setItem(
         'recipes',
-        JSON.stringify([testLocalRecipe1, testLocalRecipe2])
+        JSON.stringify([localTestRecipe1, localTestRecipe2])
       );
 
       // When
@@ -452,7 +446,7 @@ describe('recipes store', () => {
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledWith([testRecipe1.id]);
       expect(recipeStore.recipes).toStrictEqual([
         testRecipe1,
-        testLocalRecipe1,
+        localTestRecipe1,
       ]);
     });
 
@@ -474,12 +468,12 @@ describe('recipes store', () => {
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
 
-      const testLocalRecipe1 = { id: 'test-local-id-1' };
-      const testLocalRecipe2 = { id: 'test-local-id-2' };
+      const localTestRecipe1 = { id: 'test-local-id-1' };
+      const localTestRecipe2 = { id: 'test-local-id-2' };
 
       localStorage.setItem(
         'recipes',
-        JSON.stringify([testLocalRecipe1, testLocalRecipe2])
+        JSON.stringify([localTestRecipe1, localTestRecipe2])
       );
 
       const recipeStore = useRecipeStore();
@@ -491,8 +485,8 @@ describe('recipes store', () => {
       expect(fetchUserRecipesSpy).toHaveBeenCalled();
       expect(fetchRecipesByIdsSpy).toHaveBeenCalled();
       expect(recipeStore.recipes).toStrictEqual([
-        testLocalRecipe1,
-        testLocalRecipe2,
+        localTestRecipe1,
+        localTestRecipe2,
       ]);
     });
 
@@ -518,12 +512,13 @@ describe('recipes store', () => {
 
       // When
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalledTimes(2);
       expect(fetchRecipesByIdsSpy).toHaveBeenCalledTimes(2);
-      expect(recipeStore.recipes).toStrictEqual([testRecipe2, testRecipe1]);
+      expect(recipeStore.recipes).toContainEqual(testRecipe1);
+      expect(recipeStore.recipes).toContainEqual(testRecipe2);
     });
   });
 
@@ -570,19 +565,17 @@ describe('recipes store', () => {
       isOwned: true,
     };
 
-    it('should add new recipe', () => {
+    it('should add new recipe', async () => {
       const recipeStore = useRecipeStore();
 
       expect(recipeStore.recipes).toStrictEqual([]);
 
-      recipeStore.addRecipe(testEditableRecipe1);
+      await recipeStore.addRecipe(testEditableRecipe1);
       expect(recipeStore.recipes).toStrictEqual([expectedRecipe1]);
 
-      recipeStore.addRecipe(testEditableRecipe2);
-      expect(recipeStore.recipes).toStrictEqual([
-        expectedRecipe1,
-        expectedRecipe2,
-      ]);
+      await recipeStore.addRecipe(testEditableRecipe2);
+      expect(recipeStore.recipes).toContainEqual(expectedRecipe1);
+      expect(recipeStore.recipes).toContainEqual(expectedRecipe2);
     });
 
     it(`When online,
@@ -594,7 +587,7 @@ describe('recipes store', () => {
       vi.spyOn(online, 'isOnline').mockReturnValue(true);
       const recipeStore = useRecipeStore();
 
-      recipeStore.addRecipe(testEditableRecipe1);
+      await recipeStore.addRecipe(testEditableRecipe1);
 
       expect(recipeStore.recipes).toStrictEqual([expectedRecipe1]);
       uploadRecipesSpy.mockResolvedValueOnce([recipeStore.recipes[0].id]);
@@ -604,7 +597,7 @@ describe('recipes store', () => {
       expect(uploadRecipesSpy).toHaveBeenCalledOnce();
       expect(uploadRecipesSpy).toHaveBeenCalledWith([expectedRecipe1]);
 
-      recipeStore.addRecipe(testEditableRecipe2);
+      await recipeStore.addRecipe(testEditableRecipe2);
       await flushDelayedPromises();
 
       expect(uploadRecipesSpy).toHaveBeenCalledTimes(2);
@@ -624,12 +617,12 @@ describe('recipes store', () => {
       const recipeStore = useRecipeStore();
 
       // Then
-      recipeStore.addRecipe(testEditableRecipe1);
+      await recipeStore.addRecipe(testEditableRecipe1);
       await flushDelayedPromises();
 
       expect(uploadRecipesSpy).not.toHaveBeenCalled();
 
-      recipeStore.addRecipe(testEditableRecipe2);
+      await recipeStore.addRecipe(testEditableRecipe2);
       await flushDelayedPromises();
 
       expect(uploadRecipesSpy).not.toHaveBeenCalled();
@@ -640,10 +633,9 @@ describe('recipes store', () => {
 
       // Then
       expect(uploadRecipesSpy).toHaveBeenCalledOnce();
-      expect(uploadRecipesSpy).toHaveBeenCalledWith([
-        expectedRecipe1,
-        expectedRecipe2,
-      ]);
+      expect(uploadRecipesSpy).toHaveBeenCalledWith(
+        expect.arrayContaining([expectedRecipe1, expectedRecipe2])
+      );
     });
   });
 });

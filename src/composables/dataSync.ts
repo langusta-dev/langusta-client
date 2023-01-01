@@ -6,14 +6,16 @@ import { IndexableBoolean } from '~/types/idb';
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
+import { parseIdbData, toIdbData } from '~/helpers/idb';
+
 import { idb } from './idb';
 import { isOnline } from './online';
 
-import type { Table } from 'dexie';
+import type { Table, IndexableType } from 'dexie';
 import type { Ref } from 'vue';
 import type {
   Editable,
-  Idb,
+  IdbData,
   LocalOnly,
   Owned,
   SynchronizableData,
@@ -37,27 +39,41 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const sessionStore = useSessionStore();
   const localProfileStore = useLocalProfileStore();
 
-  const idbTable = idb[idbTableKey] as Table<Idb<T>>;
+  const idbTable = idb[idbTableKey] as Table<IdbData<T>>;
 
-  let idbData = $ref<Idb<T>[]>([]);
+  let idbData = $ref<IdbData<T>[]>([]);
   let isIdbDataReady = $ref(false);
 
-  const idbDataObserver = liveQuery<Idb<T>[]>(() => idbTable.toArray());
+  let idbTransactionCount = $ref(0);
+  let idbRequestedTransactionCount = 0;
+
+  const waitForTransaction = async (transaction: Promise<IndexableType>) => {
+    const result = await transaction;
+
+    if (result) {
+      idbRequestedTransactionCount++;
+      await until($$(idbTransactionCount)).toBe(idbRequestedTransactionCount);
+    }
+  };
+
+  const idbDataObserver = liveQuery<IdbData<T>[]>(() => idbTable.toArray());
 
   idbDataObserver.subscribe({
     next: (v) => {
       idbData = v;
 
-      if (!isIdbDataReady) {
+      if (isIdbDataReady) {
+        if (idbTransactionCount < idbRequestedTransactionCount) {
+          idbTransactionCount++;
+        }
+      } else {
         isIdbDataReady = true;
       }
     },
   });
 
   const data = $computed(() =>
-    isIdbDataReady
-      ? idbData.map(({ data }) => JSON.parse(data) as T)
-      : initialData()
+    isIdbDataReady ? idbData.map(parseIdbData).filter(Boolean) : initialData()
   ) as T[];
 
   const localOnlyData = $computed<LocalOnly<T>[]>(() =>
@@ -67,7 +83,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const dataToUpload = $computed<T[]>(() =>
     idbData
       .filter(({ toUpload }) => toUpload)
-      .map(({ data }) => JSON.parse(data) as T)
+      .map(parseIdbData)
+      .filter((item): item is T => !!item)
   );
 
   const dataIdsToUploadSet = $computed(
@@ -85,22 +102,22 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   const setData = async (newData: T[]) => {
     const localOnlyDataCopy = [...localOnlyData];
 
-    await idbTable.where('toUpload').equals(IndexableBoolean.False).delete();
+    await waitForTransaction(
+      idbTable.where('toUpload').equals(IndexableBoolean.False).delete()
+    );
 
-    await idbTable.bulkAdd(
-      [
-        ...newData.filter(
-          ({ id }) => !dataIdsToDeleteSet.has(id) && !dataIdsToUploadSet.has(id)
-        ),
+    await waitForTransaction(
+      idbTable.bulkAdd(
+        [
+          ...newData.filter(
+            ({ id }) =>
+              !dataIdsToDeleteSet.has(id) && !dataIdsToUploadSet.has(id)
+          ),
 
-        // data created via local profile should be always preserved
-        ...localOnlyDataCopy,
-      ].map((item) => ({
-        id: item.id,
-        data: JSON.stringify(item),
-        toUpload: IndexableBoolean.False,
-        toDelete: IndexableBoolean.False,
-      }))
+          // data created via local profile should be always preserved
+          ...localOnlyDataCopy,
+        ].map((item) => toIdbData(item))
+      )
     );
   };
 
@@ -109,7 +126,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     () => sessionStore.isAuth,
     () => {
       isDataReady = false;
-    }
+    },
+    { flush: 'sync' }
   );
 
   let retryCount = 0;
@@ -177,6 +195,12 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     }
   });
 
+  const isDataInSync = $computed(
+    () => isDataReady && !dataToUpload.length && !dataIdsToDelete.length
+  );
+
+  const dataSyncPromise = $computed(() => until($$(isDataInSync)).toBe(true));
+
   const ownedData = $computed(() =>
     data.filter((item): item is Owned<T> => !!item.isOwned)
   );
@@ -202,14 +226,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       newItem.isLocalOnly = true;
     }
 
-    await idbTable.add({
-      id: newItem.id,
-      data: JSON.stringify(newItem),
-      toDelete: IndexableBoolean.False,
-      toUpload: newItem.isLocalOnly
-        ? IndexableBoolean.False
-        : IndexableBoolean.True,
-    });
+    await waitForTransaction(
+      idbTable.add(toIdbData(newItem, !newItem.isLocalOnly))
+    );
   };
 
   const editById = async (id: Uuid, item: Editable<T>) => {
@@ -233,13 +252,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       newItem.isLocalOnly = true;
     }
 
-    await idbTable.update(newItem.id, {
-      data: JSON.stringify(newItem),
-      toDelete: IndexableBoolean.False,
-      toUpload: newItem.isLocalOnly
-        ? IndexableBoolean.False
-        : IndexableBoolean.True,
-    });
+    await waitForTransaction(
+      idbTable.update(id, toIdbData(newItem, !newItem.isLocalOnly))
+    );
   };
 
   const deleteById = async (id: Uuid) => {
@@ -251,16 +266,19 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
       return;
     }
 
-    await (item.isLocalOnly
-      ? idbTable.where('id').equals(id).delete()
-      : idbTable.update(id, { toDelete: IndexableBoolean.True }));
+    await waitForTransaction(
+      item.isLocalOnly
+        ? idbTable.where('id').equals(id).delete()
+        : idbTable.update(id, { toDelete: IndexableBoolean.True })
+    );
   };
 
   return {
     state: computed(() => data),
     ownedState: computed(() => ownedData),
     isReady: computed(() => isDataReady),
-    isInSync: computed(() => !dataToUpload.length && !dataIdsToDelete.length),
+    isInSync: computed(() => isDataInSync),
+    syncPromise: computed(() => dataSyncPromise),
     getById,
     isOwnedById,
     push,

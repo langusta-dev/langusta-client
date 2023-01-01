@@ -72,6 +72,7 @@
     "eslint-plugin-vue": "^9.8.0",
     "eslint-plugin-vue-scoped-css": "^2.2.0",
     "eslint-plugin-yml": "^1.2.0",
+    "fake-indexeddb": "^4.0.1",
     "jsonc-eslint-parser": "^2.1.0",
     "pnpm": "^7.17.0",
     "prettier": "^2.8.0",

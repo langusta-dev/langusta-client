@@ -1,3 +1,5 @@
+import 'fake-indexeddb/auto';
+
 import { createTestingPinia } from '@pinia/testing';
 import { config } from '@vue/test-utils';
 import { setActivePinia } from 'pinia';
@@ -9,13 +11,14 @@ import {
 } from 'vue-router-mock';
 
 import { rest } from '~/composables/api';
+import { idb } from '~/composables/idb';
 
 const router = createRouterMock();
 const i18n = createI18n({ legacy: false, locale: 'en', messages: {} });
 
 config.plugins.VueWrapper.install(VueRouterMock);
 
-beforeEach(() => {
+beforeEach(async () => {
   injectRouterMock(router);
 
   const pinia = createTestingPinia({ stubActions: false });
@@ -31,6 +34,8 @@ beforeEach(() => {
 
   localStorage.clear();
   sessionStorage.clear();
+
+  await idb.clear();
 });
 
 afterEach(() => {

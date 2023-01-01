@@ -69,6 +69,7 @@ export const useRecipeStore = defineStore('recipe', () => {
 
   const {
     isInSync: areRecipesInSync,
+    syncPromise: recipesSyncPromise,
     state: recipes,
     ownedState: ownedRecipes,
     getById: getRecipeById,
@@ -85,6 +86,7 @@ export const useRecipeStore = defineStore('recipe', () => {
 
   return {
     areRecipesInSync,
+    recipesSyncPromise,
     recipes,
     ownedRecipes,
     getRecipeById,
