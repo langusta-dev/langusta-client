@@ -1,5 +1,3 @@
-import { flushPromises } from '@vue/test-utils';
-
 import {
   RecipeIngredientQuantityUnit,
   RecipeMealType,
@@ -431,14 +429,14 @@ describe('recipes store', () => {
         id: 'test-local-id-2',
       };
 
-      localStorage.setItem(
-        'recipes',
-        JSON.stringify([localTestRecipe1, localTestRecipe2])
-      );
+      await idb.recipes.bulkAdd([
+        toIdbData(localTestRecipe1),
+        toIdbData(localTestRecipe2),
+      ]);
 
       // When
       const recipeStore = useRecipeStore();
-      await flushPromises();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).not.toHaveBeenCalled();
@@ -468,18 +466,17 @@ describe('recipes store', () => {
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
 
-      const localTestRecipe1 = { id: 'test-local-id-1' };
-      const localTestRecipe2 = { id: 'test-local-id-2' };
+      const localTestRecipe1: any = { id: 'test-local-id-1' };
+      const localTestRecipe2: any = { id: 'test-local-id-2' };
 
-      localStorage.setItem(
-        'recipes',
-        JSON.stringify([localTestRecipe1, localTestRecipe2])
-      );
-
-      const recipeStore = useRecipeStore();
+      await idb.recipes.bulkAdd([
+        toIdbData(localTestRecipe1),
+        toIdbData(localTestRecipe2),
+      ]);
 
       // When
-      await flushPromises();
+      const recipeStore = useRecipeStore();
+      await recipeStore.recipesSyncPromise;
 
       // Then
       expect(fetchUserRecipesSpy).toHaveBeenCalled();
