@@ -158,6 +158,9 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
         ].map((item) => toIdbData(item))
       )
     );
+
+    // FIXME: makes sure that idb is updated
+    await wait(100);
   };
 
   let isDataReady = $ref(!sessionStore.isAuth);
