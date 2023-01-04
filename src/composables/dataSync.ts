@@ -48,12 +48,21 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   let idbRequestedTransactionCount = 0;
 
   const waitForTransaction = async (transaction: Promise<IndexableType>) => {
+    idbRequestedTransactionCount++;
+
     const result = await transaction;
 
-    if (result) {
-      idbRequestedTransactionCount++;
-      await until($$(idbTransactionCount)).toBe(idbRequestedTransactionCount);
+    if (!result && idbTransactionCount < idbRequestedTransactionCount) {
+      idbTransactionCount++;
     }
+
+    await Promise.any([
+      until($$(idbTransactionCount)).toBe(idbRequestedTransactionCount),
+
+      // FIXME: operations are usually almost instant
+      // this hack handles operations that update records without modifying them
+      wait(100),
+    ]);
   };
 
   const idbDataObserver = liveQuery<IdbData<T>[]>(() => idbTable.toArray());
@@ -73,7 +82,12 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
   });
 
   const data = $computed(() =>
-    isIdbDataReady ? idbData.map(parseIdbData).filter(Boolean) : initialData()
+    isIdbDataReady
+      ? idbData
+          .filter(({ toDelete }) => !toDelete)
+          .map(parseIdbData)
+          .filter(Boolean)
+      : initialData()
   ) as T[];
 
   const localOnlyData = $computed<LocalOnly<T>[]>(() =>

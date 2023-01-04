@@ -1,5 +1,3 @@
-import { flushPromises } from '@vue/test-utils';
-
 import {
   expectUuid,
   expectDateString,
@@ -10,6 +8,9 @@ import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
 import { useSynchronizableArray } from '~/composables/dataSync';
+import { idb } from '~/composables/idb';
+
+import { toIdbData } from '~/helpers/idb';
 
 import type { Editable, SynchronizableData } from '~/types/dataSync';
 
@@ -49,191 +50,193 @@ describe('useSynchronizableArray', () => {
     // @ts-expect-error it's readonly
     sessionStore.isAuth = true;
 
-    const { state } = $(
+    const { state, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([testItem])),
         vi.fn(),
         vi.fn()
       )
     );
 
-    await flushPromises();
+    await syncPromise;
 
     // Then
     expect(state).toStrictEqual([testItem]);
   });
 
-  it('should allow to add new items to state', () => {
-    const { state, push } = $(
+  it('should allow to add new items to state', async () => {
+    const { state, push, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
+
+    await syncPromise;
 
     expect(state).toStrictEqual([]);
 
-    push(testItem1);
+    await push(testItem1);
 
     expect(state).toStrictEqual([expectExampleDataItem(testItem1)]);
 
-    push(testItem2);
-    push(testItem3);
-    push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
+    await push(testItem1);
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem1),
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-      expectExampleDataItem(testItem1),
-    ]);
+    expect(state).toContainEqual(expectExampleDataItem(testItem1));
+    expect(state).toContainEqual(expectExampleDataItem(testItem2));
+    expect(state).toContainEqual(expectExampleDataItem(testItem3));
+    expect(
+      state.filter(({ someValue }) => someValue === testItem1.someValue)
+    ).toHaveLength(2);
   });
 
-  it('should allow to retrieve items by their id', () => {
-    const { state, push, getById } = $(
+  it('should allow to retrieve items by their id', async () => {
+    const { state, push, getById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
 
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await syncPromise;
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem1),
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-    ]);
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
 
-    expect(getById(state[0].id)).toStrictEqual(
-      expectExampleDataItem(testItem1)
-    );
+    expect(state).toContainEqual(expectExampleDataItem(testItem1));
+    expect(state).toContainEqual(expectExampleDataItem(testItem2));
+    expect(state).toContainEqual(expectExampleDataItem(testItem3));
 
-    expect(getById(state[1].id)).toStrictEqual(
-      expectExampleDataItem(testItem2)
-    );
-
-    expect(getById(state[2].id)).toStrictEqual(
-      expectExampleDataItem(testItem3)
-    );
+    expect(getById(state[0].id)).toStrictEqual(state[0]);
+    expect(getById(state[1].id)).toStrictEqual(state[1]);
+    expect(getById(state[2].id)).toStrictEqual(state[2]);
 
     expect(getById('non-existing-id')).toBe(null);
   });
 
-  it('should allow to delete items from state', () => {
-    const { state, push, deleteById } = $(
+  it('should allow to delete items from state', async () => {
+    const { state, push, deleteById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
 
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await syncPromise;
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem1),
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-    ]);
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
 
-    deleteById(state[0].id);
-    deleteById(state[1].id);
+    expect(state).toContainEqual(expectExampleDataItem(testItem1));
+    expect(state).toContainEqual(expectExampleDataItem(testItem2));
+    expect(state).toContainEqual(expectExampleDataItem(testItem3));
 
-    expect(state).toStrictEqual([expectExampleDataItem(testItem2)]);
+    const preservedItem = state[2];
+
+    await deleteById(state[0].id);
+    await deleteById(state[0].id);
+
+    expect(state).toStrictEqual([preservedItem]);
   });
 
-  it('should allow to overwrite items in state', () => {
-    const { state, push, editById } = $(
+  it('should allow to overwrite items in state', async () => {
+    const { state, getById, push, editById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
 
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await syncPromise;
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem1),
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-    ]);
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
 
-    editById(state[0].id, testItem2);
-    editById(state[1].id, testItem3);
-    editById(state[2].id, testItem2);
+    expect(state).toContainEqual(expectExampleDataItem(testItem1));
+    expect(state).toContainEqual(expectExampleDataItem(testItem2));
+    expect(state).toContainEqual(expectExampleDataItem(testItem3));
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-      expectExampleDataItem(testItem2),
-    ]);
+    const id1 = state[0].id;
+    const id2 = state[1].id;
+    const id3 = state[2].id;
+
+    await editById(id1, testItem2);
+    await editById(id2, testItem3);
+    await editById(id3, testItem2);
+
+    expect(getById(id1)).toStrictEqual(expectExampleDataItem(testItem2));
+    expect(getById(id2)).toStrictEqual(expectExampleDataItem(testItem3));
+    expect(getById(id3)).toStrictEqual(expectExampleDataItem(testItem2));
   });
 
-  it('should preserve `createdAt` entry on edit', () => {
+  it('should preserve `createdAt` entry on edit', async () => {
     vi.useFakeTimers();
 
-    const { state, getById, push, editById } = $(
+    const { state, getById, push, editById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
+
+    await syncPromise;
 
     const getItem = () => getById(state[0].id) as ExampleDataItem;
 
     const createdAtDate = new Date();
 
-    push(testItem1);
+    await push(testItem1);
     expect(getItem().createdAt).toBe(createdAtDate.toString());
 
     vi.advanceTimersByTime(1000);
 
-    editById(state[0].id, testItem2);
+    await editById(state[0].id, testItem2);
     expect(getItem().createdAt).toBe(createdAtDate.toString());
   });
 
-  it('should update `updatedAt` entry on edit', () => {
+  it('should update `updatedAt` entry on edit', async () => {
     vi.useFakeTimers();
 
-    const { state, getById, push, editById } = $(
+    const { state, getById, push, editById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         vi.fn()
       )
     );
+
+    await syncPromise;
 
     const getItem = () => getById(state[0].id) as ExampleDataItem;
 
     const createdAtDate = new Date();
     const updatedAtDate = new Date(createdAtDate);
 
-    push(testItem1);
+    await push(testItem1);
     expect(getItem().updatedAt).toBe(getItem().createdAt);
     expect(getItem().updatedAt).toBe(updatedAtDate.toString());
 
     vi.advanceTimersByTime(1000);
     updatedAtDate.setSeconds(createdAtDate.getSeconds() + 1);
 
-    editById(state[0].id, testItem2);
+    await editById(state[0].id, testItem2);
     expect(getItem().updatedAt).not.toBe(getItem().createdAt);
     expect(getItem().updatedAt).toBe(updatedAtDate.toString());
   });
@@ -242,26 +245,28 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
-    const { push } = $(
+    const { push, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         uploader,
         vi.fn()
       )
     );
 
-    push(testItem1);
+    await syncPromise;
+
+    await push(testItem1);
     await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledOnce();
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem1)]);
 
-    push(testItem2);
+    await push(testItem2);
     await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledTimes(2);
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem2)]);
 
-    push(testItem3);
+    await push(testItem3);
     await flushDelayedPromises();
     expect(uploader).toHaveBeenCalledTimes(3);
     expect(uploader).toHaveBeenCalledWith([expectExampleDataItem(testItem3)]);
@@ -271,30 +276,30 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const deleter = vi.fn(() => Promise.resolve([]));
 
-    const { state, push, deleteById } = $(
+    const { state, push, deleteById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         vi.fn(),
         deleter
       )
     );
 
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await syncPromise;
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem(testItem1),
-      expectExampleDataItem(testItem2),
-      expectExampleDataItem(testItem3),
-    ]);
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
+
+    expect(state).toContainEqual(expectExampleDataItem(testItem1));
+    expect(state).toContainEqual(expectExampleDataItem(testItem2));
+    expect(state).toContainEqual(expectExampleDataItem(testItem3));
 
     await flushDelayedPromises();
 
     {
       const id = state[0].id;
-      deleteById(id);
+      await deleteById(id);
       await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledOnce();
       expect(deleter).toHaveBeenCalledWith([id]);
@@ -302,7 +307,7 @@ describe('useSynchronizableArray', () => {
 
     {
       const id = state[0].id;
-      deleteById(id);
+      await deleteById(id);
       await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledTimes(2);
       expect(deleter).toHaveBeenCalledWith([id]);
@@ -310,7 +315,7 @@ describe('useSynchronizableArray', () => {
 
     {
       const id = state[0].id;
-      deleteById(id);
+      await deleteById(id);
       await flushDelayedPromises();
       expect(deleter).toHaveBeenCalledTimes(3);
       expect(deleter).toHaveBeenCalledWith([id]);
@@ -321,24 +326,26 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
-    const { state, push, editById } = $(
+    const { state, push, editById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         uploader,
         vi.fn()
       )
     );
 
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await syncPromise;
+
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
     await flushDelayedPromises();
     uploader.mockClear();
 
     {
       const id = state[0].id;
-      editById(id, testItem2);
+      await editById(id, testItem2);
       await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledOnce();
       expect(uploader).toHaveBeenCalledWith([
@@ -348,7 +355,7 @@ describe('useSynchronizableArray', () => {
 
     {
       const id = state[0].id;
-      editById(id, testItem3);
+      await editById(id, testItem3);
       await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledTimes(2);
       expect(uploader).toHaveBeenCalledWith([
@@ -358,7 +365,7 @@ describe('useSynchronizableArray', () => {
 
     {
       const id = state[2].id;
-      editById(id, testItem1);
+      await editById(id, testItem1);
       await flushDelayedPromises();
       expect(uploader).toHaveBeenCalledTimes(3);
       expect(uploader).toHaveBeenCalledWith([
@@ -368,9 +375,9 @@ describe('useSynchronizableArray', () => {
   });
 
   it(`Given authenticated user
-      and some data in local storage,
+      and some data in IndexedDB,
       When initializer returns null,
-      Then should use the data from local storage`, async () => {
+      Then should use the data from IndexedDB`, async () => {
     const sessionStore = useSessionStore();
 
     const testItem: ExampleDataItem = {
@@ -383,21 +390,21 @@ describe('useSynchronizableArray', () => {
     // Given
     // @ts-expect-error it's readonly
     sessionStore.isAuth = true;
-    localStorage.setItem('some-data', JSON.stringify([testItem]));
+    await idb.recipes.add(toIdbData(testItem));
 
     // When
     const initializer = vi.fn(() => Promise.resolve(null));
 
-    const { state } = $(
+    const { state, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         initializer,
         vi.fn(),
         vi.fn()
       )
     );
 
-    await flushPromises();
+    await syncPromise;
 
     expect(initializer).toHaveBeenCalled();
 
@@ -417,14 +424,16 @@ describe('useSynchronizableArray', () => {
     // When
     const initializer = vi.fn(() => Promise.resolve(null));
 
-    useSynchronizableArray<ExampleDataItem>(
-      'some-data',
-      initializer,
-      vi.fn(),
-      vi.fn()
+    const { syncPromise } = $(
+      useSynchronizableArray<ExampleDataItem>(
+        'recipes',
+        initializer,
+        vi.fn(),
+        vi.fn()
+      )
     );
 
-    await flushPromises();
+    await syncPromise;
 
     // Then
     expect(initializer).toHaveBeenCalledTimes(2);
@@ -441,35 +450,37 @@ describe('useSynchronizableArray', () => {
     const localProfileStore = useLocalProfileStore();
     localProfileStore.enableLocalProfile();
 
-    const { state, push, editById, deleteById } = $(
+    const { state, push, editById, deleteById, syncPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
-        'some-data',
+        'recipes',
         vi.fn(() => Promise.resolve([])),
         uploader,
         deleter
       )
     );
 
-    await flushPromises();
+    await syncPromise;
 
     // When
-    push(testItem1);
-    push(testItem2);
-    push(testItem3);
+    await push(testItem1);
+    await push(testItem2);
+    await push(testItem3);
 
-    editById(state[0].id, testItem3);
+    await editById(state[0].id, testItem3);
 
-    deleteById(state[2].id);
-
-    await flushPromises();
+    await deleteById(state[2].id);
 
     // Then
     expect(uploader).not.toHaveBeenCalled();
     expect(deleter).not.toHaveBeenCalled();
 
-    expect(state).toStrictEqual([
-      expectExampleDataItem({ ...testItem3, isLocalOnly: true }),
-      expectExampleDataItem({ ...testItem2, isLocalOnly: true }),
-    ]);
+    expect(state).toHaveLength(2);
+    expect(state).toContainEqual(
+      expectExampleDataItem({ ...testItem3, isLocalOnly: true })
+    );
+
+    expect(state).toContainEqual(
+      expectExampleDataItem({ ...testItem2, isLocalOnly: true })
+    );
   });
 });

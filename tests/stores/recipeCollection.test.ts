@@ -1,5 +1,3 @@
-import { flushPromises } from '@vue/test-utils';
-
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
 
@@ -40,7 +38,7 @@ describe('recipe collections store', () => {
       sessionStore.isAuth = false;
 
       const recipeCollectionStore = useRecipeCollectionStore();
-      await flushPromises();
+      await recipeCollectionStore.collectionsSyncPromise;
 
       // Then
       expect(fetchUserRecipeCollectionsSpy).not.toHaveBeenCalled();
@@ -49,7 +47,7 @@ describe('recipe collections store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
-      await flushPromises();
+      await recipeCollectionStore.collectionsSyncPromise;
 
       // Then
       expect(fetchUserRecipeCollectionsSpy).toHaveBeenCalledOnce();
@@ -75,7 +73,7 @@ describe('recipe collections store', () => {
       sessionStore.isAuth = true;
 
       const recipeCollectionStore = useRecipeCollectionStore();
-      await flushPromises();
+      await recipeCollectionStore.collectionsSyncPromise;
 
       // Then
       expect(fetchUserRecipeCollectionsSpy).toHaveBeenCalledOnce();
@@ -88,7 +86,7 @@ describe('recipe collections store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = false;
-      await flushPromises();
+      await recipeCollectionStore.collectionsSyncPromise;
 
       // Then
       expect(fetchUserRecipeCollectionsSpy).toHaveBeenCalledOnce();
@@ -99,7 +97,7 @@ describe('recipe collections store', () => {
       // When
       // @ts-expect-error it's readonly
       sessionStore.isAuth = true;
-      await flushPromises();
+      await recipeCollectionStore.collectionsSyncPromise;
 
       // Then
       expect(fetchUserRecipeCollectionsSpy).toHaveBeenCalledTimes(2);

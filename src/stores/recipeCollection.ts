@@ -18,6 +18,7 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
 
   const {
     isInSync: areCollectionsInSync,
+    syncPromise: collectionsSyncPromise,
     state: collections,
     ownedState: ownedCollections,
     getById: getCollectionById,
@@ -34,6 +35,7 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
 
   return {
     areCollectionsInSync,
+    collectionsSyncPromise,
     collections,
     ownedCollections,
     getCollectionById,
