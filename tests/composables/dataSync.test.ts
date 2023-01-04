@@ -7,10 +7,9 @@ import {
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
-import { useSynchronizableArray } from '~/composables/dataSync';
-import { idb } from '~/composables/idb';
+import { useSynchronizableArray, idb } from '~/composables/dataSync';
 
-import { toIdbData } from '~/helpers/idb';
+import { toIdbData } from '~/helpers/dataSync';
 
 import type { Editable, SynchronizableData } from '~/types/dataSync';
 

@@ -14,13 +14,13 @@ import { useRecipeStore } from '~/stores/recipe';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 import { useSessionStore } from '~/stores/session';
 
-import { idb } from '~/composables/idb';
+import { idb } from '~/composables/dataSync';
 import * as online from '~/composables/online';
 
 import * as recipeApi from '~/api/recipe';
 import * as recipeCollectionApi from '~/api/recipeCollection';
 
-import { toIdbData } from '~/helpers/idb';
+import { toIdbData } from '~/helpers/dataSync';
 
 import type { EditableRecipe, Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';

@@ -11,7 +11,7 @@ import {
 } from 'vue-router-mock';
 
 import { rest } from '~/composables/api';
-import { idb } from '~/composables/idb';
+import { idb } from '~/composables/dataSync';
 
 const router = createRouterMock();
 const i18n = createI18n({ legacy: false, locale: 'en', messages: {} });

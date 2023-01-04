@@ -1,4 +1,4 @@
-import { liveQuery } from 'dexie';
+import Dexie, { liveQuery } from 'dexie';
 import { v4 as uuid } from 'uuid';
 
 import { IndexableBoolean } from '~/types/idb';
@@ -6,9 +6,8 @@ import { IndexableBoolean } from '~/types/idb';
 import { useLocalProfileStore } from '~/stores/localProfile';
 import { useSessionStore } from '~/stores/session';
 
-import { parseIdbData, toIdbData } from '~/helpers/idb';
+import { parseIdbData, toIdbData } from '~/helpers/dataSync';
 
-import { idb } from './idb';
 import { isOnline } from './online';
 
 import type { Table, IndexableType } from 'dexie';
@@ -20,7 +19,33 @@ import type {
   Owned,
   SynchronizableData,
 } from '~/types/dataSync';
+import type { MealPlan } from '~/types/mealPlan';
+import type { Recipe } from '~/types/recipe';
+import type { RecipeCollection } from '~/types/recipeCollection';
 import type { Uuid } from '~/types/uuid';
+
+const SYNCHRONIZABLE_TABLE = 'id, data, toUpload, toDelete';
+
+class IdbInstance extends Dexie {
+  recipes!: Table<IdbData<Recipe>>;
+  recipeCollections!: Table<IdbData<RecipeCollection>>;
+  mealPlans!: Table<IdbData<MealPlan>>;
+
+  constructor() {
+    super('langusta');
+    this.version(1).stores({
+      recipes: SYNCHRONIZABLE_TABLE,
+      recipeCollections: SYNCHRONIZABLE_TABLE,
+      mealPlan: SYNCHRONIZABLE_TABLE,
+    });
+  }
+
+  async clear() {
+    await Promise.all(this.tables.map((table) => table.clear()));
+  }
+}
+
+export const idb = new IdbInstance();
 
 const now = () => new Date().toString();
 
