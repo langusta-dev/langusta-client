@@ -252,7 +252,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
 
   const isOwnedById = (id: Uuid): boolean => !!getById(id)?.isOwned;
 
-  const push = async (item: Editable<T>) => {
+  const push = async (item: Editable<T>): Promise<Uuid> => {
     const newItem = {
       ...item,
       id: uuid(),
@@ -268,6 +268,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     await waitForTransaction(
       idbTable.add(toIdbData(newItem, !newItem.isLocalOnly))
     );
+
+    return newItem.id;
   };
 
   const editById = async (id: Uuid, item: Editable<T>) => {

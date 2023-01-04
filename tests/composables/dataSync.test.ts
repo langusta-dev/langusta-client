@@ -461,19 +461,19 @@ describe('useSynchronizableArray', () => {
     await syncPromise;
 
     // When
-    await push(testItem1);
+    const id1 = await push(testItem1);
+    const id2 = await push(testItem3);
     await push(testItem2);
-    await push(testItem3);
 
-    await editById(state[0].id, testItem3);
-
-    await deleteById(state[2].id);
+    await editById(id1, testItem3);
+    await deleteById(id2);
 
     // Then
     expect(uploader).not.toHaveBeenCalled();
     expect(deleter).not.toHaveBeenCalled();
 
     expect(state).toHaveLength(2);
+
     expect(state).toContainEqual(
       expectExampleDataItem({ ...testItem3, isLocalOnly: true })
     );
