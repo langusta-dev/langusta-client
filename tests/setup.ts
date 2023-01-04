@@ -29,8 +29,14 @@ beforeEach(async () => {
   const emptyResponse = { data: null };
   vi.spyOn(rest, 'get').mockResolvedValue(emptyResponse);
   vi.spyOn(rest, 'post').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest, 'put').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest, 'patch').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest, 'delete').mockResolvedValue(emptyResponse);
   vi.spyOn(rest.silent, 'get').mockResolvedValue(emptyResponse);
   vi.spyOn(rest.silent, 'post').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest.silent, 'put').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest.silent, 'patch').mockResolvedValue(emptyResponse);
+  vi.spyOn(rest.silent, 'delete').mockResolvedValue(emptyResponse);
 
   localStorage.clear();
   sessionStorage.clear();
