@@ -33,7 +33,7 @@ const CONFIG: AxiosRequestConfig = {
   withCredentials: true,
 };
 
-const rest = axios.create(CONFIG) as RestInstance & { silent: AxiosInstance };
+const rest = axios.create(CONFIG) as RestInstance & { silent: RestInstance };
 rest.silent = axios.create(CONFIG) as RestInstance;
 rest.silent.defaults.headers = rest.defaults.headers;
 

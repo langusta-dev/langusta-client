@@ -35,6 +35,9 @@ export type Editable<T extends SynchronizableData> = Omit<
   'id' | 'createdAt' | 'updatedAt' | 'isLocalOnly' | 'isOwned'
 >;
 
+export type Published<T extends PublishableData> = T &
+  Required<PublishableData>;
+
 // eslint-disable-next-line unused-imports/no-unused-vars
 export interface IdbData<_ extends SynchronizableData> {
   id: Uuid;
