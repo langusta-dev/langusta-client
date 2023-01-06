@@ -37,8 +37,22 @@ const initialRecipe = (): EditableRecipe => ({
 let newRecipe = $ref<EditableRecipe>(initialRecipe());
 
 const submitRecipe = async () => {
+  newRecipe.steps = (newRecipe.steps || []).filter(({ description }) =>
+    description.trim()
+  );
+
+  if (!newRecipe.steps?.length) {
+    delete newRecipe.steps;
+  }
+
+  newRecipe.ingredients = newRecipe.ingredients.filter(
+    ({ name, quantity }) => name.trim() && quantity > 0
+  );
+
   await recipeStore.addRecipe(newRecipe);
+
   newRecipe = initialRecipe();
+
   router.push('/recipes/created-by-me');
 };
 </script>

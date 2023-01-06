@@ -18,8 +18,8 @@ const toggle = () => {
     _rounded-full
     _cursor-pointer
     _bg-primary
-    _border="2 primary-contrast/50"
-    _outline="~ 2px offset-0 transparent hover:accent"
+    _border="1 primary-contrast/30"
+    _outline="~ 2 offset--1 transparent hover:accent"
     _transition-all
     _p="x.5"
     @click.stop="toggle()"

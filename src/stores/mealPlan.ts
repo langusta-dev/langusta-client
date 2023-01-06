@@ -18,6 +18,7 @@ export const useMealPlanStore = defineStore('recipeCollection', () => {
 
   const {
     isInSync: areMealPlansInSync,
+    syncPromise: mealPlansSyncPromise,
     state: mealPlans,
     getById: getMealPlanById,
     push: addMealPlan,
@@ -30,6 +31,7 @@ export const useMealPlanStore = defineStore('recipeCollection', () => {
 
   return {
     areMealPlansInSync,
+    mealPlansSyncPromise,
     mealPlans,
     getMealPlanById,
     addMealPlan,

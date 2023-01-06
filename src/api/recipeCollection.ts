@@ -11,6 +11,17 @@ export const fetchUserRecipeCollections = async () => {
   return data;
 };
 
+export const fetchRecipeCollectionsByIds = async (
+  recipeCollectionIds: Uuid[]
+) => {
+  const { data } = await rest.post<RecipeCollection[]>(
+    '/recipes/collections/get',
+    { recipeCollectionIds }
+  );
+
+  return data;
+};
+
 export const uploadRecipeCollections = async (
   recipeCollections: RecipeCollection[]
 ) => {
