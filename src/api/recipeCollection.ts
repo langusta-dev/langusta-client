@@ -1,6 +1,10 @@
 import { rest } from '~/composables/api';
 
-import type { RecipeCollection } from '~/types/recipeCollection';
+import type {
+  PublishedRecipeCollection,
+  RecipeCollection,
+  RecipeCollectionQuery,
+} from '~/types/recipeCollection';
 import type { Uuid } from '~/types/uuid';
 
 export const fetchUserRecipeCollections = async () => {
@@ -38,6 +42,17 @@ export const deleteRecipeCollectionsByIds = async (
   const { data } = await rest.delete<Uuid[]>('/recipes/collections/delete', {
     recipeCollectionIds,
   });
+
+  return data;
+};
+
+export const fetchPublicRecipeCollections = async (
+  query: RecipeCollectionQuery
+) => {
+  const { data } = await rest.silent.post<PublishedRecipeCollection[]>(
+    '/recipes/collections/public',
+    query
+  );
 
   return data;
 };

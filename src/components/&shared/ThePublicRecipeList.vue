@@ -47,7 +47,7 @@ watchDebounced(
       recipes.push(...newRecipes.filter(({ id }) => !recipeIds.has(id)));
     }
   },
-  { immediate: true, debounce: 500, maxWait: 1000 }
+  { immediate: true, debounce: 800, maxWait: 2000 }
 );
 </script>
 

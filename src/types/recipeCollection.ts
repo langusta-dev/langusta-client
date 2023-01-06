@@ -1,4 +1,4 @@
-import type { Editable, PublishableData } from './dataSync';
+import type { Editable, PublishableData, Published } from './dataSync';
 import type { Uuid } from './uuid';
 
 export interface RecipeCollection extends PublishableData {
@@ -7,3 +7,9 @@ export interface RecipeCollection extends PublishableData {
 }
 
 export type EditableRecipeCollection = Editable<RecipeCollection>;
+
+export type PublishedRecipeCollection = Published<RecipeCollection>;
+
+export interface RecipeCollectionQuery {
+  search?: string;
+}

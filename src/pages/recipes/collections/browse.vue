@@ -8,11 +8,16 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import ThePublicRecipeCollectionList from '~/components/&shared/ThePublicRecipeCollectionList.vue';
+
+const { t } = useI18n();
 </script>
 
 <template>
-  <div _h-full>
+  <div _h-full _flex="~ col">
+    <ThePageHeader>{{ t('browse_recipe_collections.title') }}</ThePageHeader>
+
     <ThePublicRecipeCollectionList />
   </div>
 </template>
