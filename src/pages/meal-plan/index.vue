@@ -1,0 +1,59 @@
+<route lang="yaml">
+meta:
+  title: meal_plan.title
+  auth: true
+  nav: true
+  navOrder: 3
+  navIcon: fa:calendar
+</route>
+
+<script setup lang="ts">
+import TheMealPlanForm from '~/components/meal-plan/TheMealPlanForm.vue';
+
+import { useMealPlanStore } from '~/stores/mealPlan';
+import { useRecipeCollectionStore } from '~/stores/recipeCollection';
+
+import { initialMealPlan } from '~/helpers/mealPlan';
+
+import type { EditableMealPlan, MealPlan } from '~/types/mealPlan';
+import type { RecipeCollection } from '~/types/recipeCollection';
+
+const recipeCollectionStore = useRecipeCollectionStore();
+const mealPlanStore = useMealPlanStore();
+
+const firstRecipeCollection = $computed<RecipeCollection | undefined>(
+  () => recipeCollectionStore.ownedCollectionsOrderedByTitle[0]
+);
+
+const oldMealPlan = $computed<MealPlan | undefined>(
+  () => mealPlanStore.mealPlans[0]
+);
+
+const editableMealPlan = $ref<EditableMealPlan | null>(
+  oldMealPlan ||
+    (firstRecipeCollection ? initialMealPlan(firstRecipeCollection.id) : null)
+);
+
+const submitMealPlan = async () => {
+  if (!editableMealPlan) {
+    return;
+  }
+
+  if (oldMealPlan) {
+    await mealPlanStore.deleteMealPlanById(oldMealPlan.id);
+  }
+
+  await mealPlanStore.addMealPlan(editableMealPlan);
+};
+</script>
+
+<template>
+  <div>
+    <TheMealPlanForm
+      v-if="editableMealPlan"
+      v-model:meal-plan="editableMealPlan"
+      @submit-meal-plan="submitMealPlan()"
+    />
+    <div v-else>cannot create a meal plan</div>
+  </div>
+</template>

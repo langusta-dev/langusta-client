@@ -8,6 +8,8 @@ import {
   deleteRecipeCollectionsByIds,
 } from '~/api/recipeCollection';
 
+import { sortByTitle } from '~/helpers/array';
+
 import { useLocalProfileStore } from './localProfile';
 
 export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
@@ -18,6 +20,7 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
 
   const {
     isInSync: areCollectionsInSync,
+    readyPromise: collectionsReadyPromise,
     syncPromise: collectionsSyncPromise,
     state: collections,
     ownedState: ownedCollections,
@@ -33,11 +36,17 @@ export const useRecipeCollectionStore = defineStore('recipeCollection', () => {
     deleteRecipeCollectionsByIds
   );
 
+  const ownedCollectionsOrderedByTitle = computed(() =>
+    sortByTitle(ownedCollections.value)
+  );
+
   return {
     areCollectionsInSync,
+    collectionsReadyPromise,
     collectionsSyncPromise,
     collections,
     ownedCollections,
+    ownedCollectionsOrderedByTitle,
     getCollectionById,
     addCollection,
     isCollectionOwnedById,

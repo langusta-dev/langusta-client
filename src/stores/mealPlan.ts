@@ -10,7 +10,7 @@ import {
 
 import { useLocalProfileStore } from './localProfile';
 
-export const useMealPlanStore = defineStore('recipeCollection', () => {
+export const useMealPlanStore = defineStore('mealPlan', () => {
   const localProfileStore = useLocalProfileStore();
 
   const mealPlanInitializer = () =>
@@ -18,10 +18,12 @@ export const useMealPlanStore = defineStore('recipeCollection', () => {
 
   const {
     isInSync: areMealPlansInSync,
+    readyPromise: mealPlansReadyPromise,
     syncPromise: mealPlansSyncPromise,
     state: mealPlans,
     getById: getMealPlanById,
     push: addMealPlan,
+    deleteById: deleteMealPlanById,
   } = useSynchronizableArray(
     'mealPlans',
     mealPlanInitializer,
@@ -31,10 +33,12 @@ export const useMealPlanStore = defineStore('recipeCollection', () => {
 
   return {
     areMealPlansInSync,
+    mealPlansReadyPromise,
     mealPlansSyncPromise,
     mealPlans,
     getMealPlanById,
     addMealPlan,
+    deleteMealPlanById,
   };
 });
 

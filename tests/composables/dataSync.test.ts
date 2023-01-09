@@ -49,7 +49,7 @@ describe('useSynchronizableArray', () => {
     // @ts-expect-error it's readonly
     sessionStore.isAuth = true;
 
-    const { state, syncPromise } = $(
+    const { state, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([testItem])),
@@ -58,14 +58,14 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     // Then
     expect(state).toStrictEqual([testItem]);
   });
 
   it('should allow to add new items to state', async () => {
-    const { state, push, syncPromise } = $(
+    const { state, push, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -74,7 +74,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     expect(state).toStrictEqual([]);
 
@@ -95,7 +95,7 @@ describe('useSynchronizableArray', () => {
   });
 
   it('should allow to retrieve items by their id', async () => {
-    const { state, push, getById, syncPromise } = $(
+    const { state, push, getById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -104,7 +104,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await push(testItem2);
@@ -122,7 +122,7 @@ describe('useSynchronizableArray', () => {
   });
 
   it('should allow to delete items from state', async () => {
-    const { state, push, deleteById, syncPromise } = $(
+    const { state, push, deleteById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -131,7 +131,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await push(testItem2);
@@ -150,7 +150,7 @@ describe('useSynchronizableArray', () => {
   });
 
   it('should allow to overwrite items in state', async () => {
-    const { state, getById, push, editById, syncPromise } = $(
+    const { state, getById, push, editById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -159,7 +159,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await push(testItem2);
@@ -185,7 +185,7 @@ describe('useSynchronizableArray', () => {
   it('should preserve `createdAt` entry on edit', async () => {
     vi.useFakeTimers();
 
-    const { state, getById, push, editById, syncPromise } = $(
+    const { state, getById, push, editById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -194,7 +194,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     const getItem = () => getById(state[0].id) as ExampleDataItem;
 
@@ -212,7 +212,7 @@ describe('useSynchronizableArray', () => {
   it('should update `updatedAt` entry on edit', async () => {
     vi.useFakeTimers();
 
-    const { state, getById, push, editById, syncPromise } = $(
+    const { state, getById, push, editById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -221,7 +221,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     const getItem = () => getById(state[0].id) as ExampleDataItem;
 
@@ -244,7 +244,7 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
-    const { push, syncPromise } = $(
+    const { push, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -253,7 +253,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await flushDelayedPromises();
@@ -275,7 +275,7 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const deleter = vi.fn(() => Promise.resolve([]));
 
-    const { state, push, deleteById, syncPromise } = $(
+    const { state, push, deleteById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -284,7 +284,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await push(testItem2);
@@ -325,7 +325,7 @@ describe('useSynchronizableArray', () => {
     vi.useFakeTimers();
     const uploader = vi.fn(() => Promise.resolve([]));
 
-    const { state, push, editById, syncPromise } = $(
+    const { state, push, editById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -334,7 +334,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     await push(testItem1);
     await push(testItem2);
@@ -394,7 +394,7 @@ describe('useSynchronizableArray', () => {
     // When
     const initializer = vi.fn(() => Promise.resolve(null));
 
-    const { state, syncPromise } = $(
+    const { state, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         initializer,
@@ -403,7 +403,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     expect(initializer).toHaveBeenCalled();
 
@@ -423,7 +423,7 @@ describe('useSynchronizableArray', () => {
     // When
     const initializer = vi.fn(() => Promise.resolve(null));
 
-    const { syncPromise } = $(
+    const { readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         initializer,
@@ -432,7 +432,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     // Then
     expect(initializer).toHaveBeenCalledTimes(2);
@@ -449,7 +449,7 @@ describe('useSynchronizableArray', () => {
     const localProfileStore = useLocalProfileStore();
     localProfileStore.enableLocalProfile();
 
-    const { state, push, editById, deleteById, syncPromise } = $(
+    const { state, push, editById, deleteById, readyPromise } = $(
       useSynchronizableArray<ExampleDataItem>(
         'recipes',
         vi.fn(() => Promise.resolve([])),
@@ -458,7 +458,7 @@ describe('useSynchronizableArray', () => {
       )
     );
 
-    await syncPromise;
+    await readyPromise;
 
     // When
     const id1 = await push(testItem1);

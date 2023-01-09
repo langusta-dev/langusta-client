@@ -15,26 +15,22 @@ const emit = defineEmits<{
   (e: 'update:selectedRecipeIds', v: Set<Uuid>): void;
 }>();
 
+let _search = $ref('');
 const search = $computed({
-  get: () => props.search || '',
+  get: () => props.search || _search,
   set: (v) => {
+    _search = v;
     emit('update:search', v);
   },
 });
 
 const recipeCollectionStore = useRecipeCollectionStore();
-
-const recipeCollectionsSorted = $computed(() =>
-  recipeCollectionStore.ownedCollections.sort((a, b) =>
-    a.title > b.title ? 1 : -1
-  )
-);
 </script>
 
 <template>
   <TheRecipeCollectionList
     v-model:search="search"
-    :recipes-collections="recipeCollectionsSorted"
+    :recipes-collections="recipeCollectionStore.ownedCollectionsOrderedByTitle"
     :editable="!!editable"
   />
 </template>

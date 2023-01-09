@@ -16,9 +16,11 @@ const emit = defineEmits<{
   (e: 'update:selectedRecipeIds', v: Set<Uuid>): void;
 }>();
 
+let _search = $ref('');
 const search = $computed({
-  get: () => props.search || '',
+  get: () => props.search || _search,
   set: (v) => {
+    _search = v;
     emit('update:search', v);
   },
 });
@@ -33,17 +35,13 @@ const selectedRecipeIds = $computed({
 });
 
 const recipeStore = useRecipeStore();
-
-const recipesSorted = $computed(() =>
-  recipeStore.ownedRecipes.sort((a, b) => (a.title > b.title ? 1 : -1))
-);
 </script>
 
 <template>
   <TheRecipeList
     v-model:selected-recipe-ids="selectedRecipeIds"
     v-model:search="search"
-    :recipes="recipesSorted"
+    :recipes="recipeStore.ownedRecipesOrderedByTitle"
     :editable="!!editable"
   />
 </template>

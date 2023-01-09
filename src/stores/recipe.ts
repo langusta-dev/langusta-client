@@ -9,6 +9,8 @@ import {
   uploadRecipes,
 } from '~/api/recipe';
 
+import { sortByTitle } from '~/helpers/array';
+
 import { useLocalProfileStore } from './localProfile';
 import { useRecipeCollectionStore } from './recipeCollection';
 
@@ -69,6 +71,7 @@ export const useRecipeStore = defineStore('recipe', () => {
 
   const {
     isInSync: areRecipesInSync,
+    readyPromise: recipesReadyPromise,
     syncPromise: recipesSyncPromise,
     state: recipes,
     ownedState: ownedRecipes,
@@ -84,11 +87,17 @@ export const useRecipeStore = defineStore('recipe', () => {
     deleteRecipesByIds
   );
 
+  const ownedRecipesOrderedByTitle = computed(() =>
+    sortByTitle(ownedRecipes.value)
+  );
+
   return {
     areRecipesInSync,
+    recipesReadyPromise,
     recipesSyncPromise,
     recipes,
     ownedRecipes,
+    ownedRecipesOrderedByTitle,
     getRecipeById,
     isRecipeOwnedById,
     addRecipe,

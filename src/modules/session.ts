@@ -25,9 +25,9 @@ export const install: InstallModule = ({ isClient, router }) => {
       const mealPlanStore = useMealPlanStore();
 
       await Promise.all([
-        recipeStore.recipesSyncPromise,
-        recipeCollectionStore.collectionsSyncPromise,
-        mealPlanStore.mealPlansSyncPromise,
+        recipeStore.recipesReadyPromise,
+        recipeCollectionStore.collectionsReadyPromise,
+        mealPlanStore.mealPlansReadyPromise,
       ]);
     }
 

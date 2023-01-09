@@ -66,8 +66,8 @@ add_recipe:
 add_recipe_collection:
   title: Create new collection
 
-calendar:
-  title: Calendar
+meal_plan:
+  title: Meal plan
 
 settings:
   title: Settings

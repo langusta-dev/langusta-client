@@ -36,7 +36,7 @@ class IdbInstance extends Dexie {
     this.version(1).stores({
       recipes: SYNCHRONIZABLE_TABLE,
       recipeCollections: SYNCHRONIZABLE_TABLE,
-      mealPlan: SYNCHRONIZABLE_TABLE,
+      mealPlans: SYNCHRONIZABLE_TABLE,
     });
   }
 
@@ -237,6 +237,8 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     }
   });
 
+  const dataReadyPromise = $computed(() => until($$(isDataReady)).toBe(true));
+
   const isDataInSync = $computed(
     () => isDataReady && !dataToUpload.length && !dataIdsToDelete.length
   );
@@ -322,6 +324,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     ownedState: computed(() => ownedData),
     isReady: computed(() => isDataReady),
     isInSync: computed(() => isDataInSync),
+    readyPromise: computed(() => dataReadyPromise),
     syncPromise: computed(() => dataSyncPromise),
     getById,
     isOwnedById,
