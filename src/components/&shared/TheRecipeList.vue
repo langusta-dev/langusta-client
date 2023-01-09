@@ -104,7 +104,7 @@ const handleRecipeClick = (id: Uuid) => {
       </BaseScroll>
 
       <BaseFadeTransition>
-        <div v-show="!recipesToDisplay.length" _cover _text-center _pt6 _op70>
+        <div v-if="!recipesToDisplay.length" _cover _text-center _pt6 _op70>
           {{ t('recipes.no_recipes_to_display') }}
         </div>
       </BaseFadeTransition>

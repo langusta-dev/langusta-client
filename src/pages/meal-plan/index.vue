@@ -8,16 +8,18 @@ meta:
 </route>
 
 <script setup lang="ts">
+import ThePageHeader from '~/components/&shared/ThePageHeader.vue';
 import TheMealPlanForm from '~/components/meal-plan/TheMealPlanForm.vue';
 
 import { useMealPlanStore } from '~/stores/mealPlan';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 
-import { initialMealPlan } from '~/helpers/mealPlan';
+import { emptyMealPlan } from '~/helpers/mealPlan';
 
 import type { EditableMealPlan, MealPlan } from '~/types/mealPlan';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
+const { t } = useI18n();
 const recipeCollectionStore = useRecipeCollectionStore();
 const mealPlanStore = useMealPlanStore();
 
@@ -31,7 +33,7 @@ const oldMealPlan = $computed<MealPlan | undefined>(
 
 const editableMealPlan = $ref<EditableMealPlan | null>(
   oldMealPlan ||
-    (firstRecipeCollection ? initialMealPlan(firstRecipeCollection.id) : null)
+    (firstRecipeCollection ? emptyMealPlan(firstRecipeCollection.id) : null)
 );
 
 const submitMealPlan = async () => {
@@ -49,6 +51,8 @@ const submitMealPlan = async () => {
 
 <template>
   <div>
+    <ThePageHeader>{{ t('meal_plan.title') }}</ThePageHeader>
+
     <TheMealPlanForm
       v-if="editableMealPlan"
       v-model:meal-plan="editableMealPlan"

@@ -68,6 +68,14 @@ add_recipe_collection:
 
 meal_plan:
   title: Meal plan
+  form:
+    recipe_collection: Collection
+    daily_calorie_count: Daily calories
+    daily_meal_count: Daily amount of meals
+    generate: Generate meal plan
+    submit: Submit meal plan
+    restore: Restore last submitted plan
+    no_recipes_to_display: Meal plan not generated...
 
 settings:
   title: Settings
