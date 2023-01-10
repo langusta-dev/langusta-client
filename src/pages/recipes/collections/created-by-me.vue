@@ -4,7 +4,7 @@ meta:
   auth: true
   nav: true
   navOrder: 4
-  navIcon: emojione-monotone:pot-of-food
+  navIcon: [fa-solid:user, heroicons-solid:collection]
 </route>
 
 <script setup lang="ts">

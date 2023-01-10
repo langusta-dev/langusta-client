@@ -18,6 +18,9 @@ export default defineConfig({
     'icon-emojione-monotone:pot-of-food',
     'icon-fa:calendar',
     'icon-fa6-solid:gear',
+    'icon-mdi:world-wide-web',
+    'icon-heroicons-solid:collection',
+    'icon-fa-solid:user',
   ],
 
   shortcuts: [

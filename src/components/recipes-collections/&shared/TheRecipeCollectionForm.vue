@@ -95,7 +95,7 @@ initializeForm();
       :placeholder="t('recipe_collections.form.title') + '*'"
     />
 
-    <div>
+    <div _pb2>
       <BaseButton
         :disabled="!isRecipeCollectionComplete"
         @click="submitRecipeCollection()"
@@ -103,8 +103,6 @@ initializeForm();
         {{ t('recipe_collections.form.submit') }}
       </BaseButton>
     </div>
-
-    <div />
 
     <div _flex="~ wrap" _justify-center _gap1>
       <BaseButton

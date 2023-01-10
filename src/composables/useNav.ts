@@ -4,7 +4,7 @@ import type { LocaleKey } from '~/types/i18n';
 interface NavigableRouteRecordMeta extends RouteMeta {
   nav: true;
   navOrder: number;
-  navIcon: string;
+  navIcon: string | [string, string];
   title: LocaleKey;
 }
 

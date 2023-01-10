@@ -4,77 +4,84 @@ import { useNav } from '~/composables/useNav';
 const { t } = useI18n();
 const router = useRouter();
 const { navigableRootRoutes, neighboringNavigableRoutes, isActiveRoutePath } =
-  useNav();
+  $(useNav());
+
+const STATIC_NAV_BTN_CLASSES = [
+  'flex-center',
+  'rounded-full',
+  'cursor-pointer',
+  'transition-colors',
+  'bg-primary !hover:bg-accent',
+];
+
+const composeBtnClasses = (path: string) => [
+  ...STATIC_NAV_BTN_CLASSES,
+  isActiveRoutePath(path) ? '!bg-accent' : null,
+];
+
+type NavIcon = string | string[];
+
+const parseNeighboringNavIcon = (navIcon: NavIcon) =>
+  isStr(navIcon) ? [navIcon] : navIcon;
+
+const parseRootNavIcon = (navIcon: NavIcon) =>
+  isStr(navIcon) ? navIcon : navIcon[0];
 </script>
 
 <template>
-  <div _flex="~ col" _gap1 _bg="primary-contrast/30" _p="t1 x1" _select-none>
+  <div _flex="~ col" _bg="primary-contrast/30" _select-none>
     <BaseFadeTransition>
-      <div v-if="neighboringNavigableRoutes" _flex _gap1>
+      <div
+        v-if="neighboringNavigableRoutes"
+        _flex
+        _justify-center
+        _gap4
+        _py1
+        _bg="primary/30"
+      >
         <div
-          v-for="{ path, meta: { title } } in neighboringNavigableRoutes"
+          v-for="{
+            path,
+            meta: { title, navIcon },
+          } in neighboringNavigableRoutes"
           :key="path"
-          _grow
-          _basis-0
-          _rounded
-          _relative
-          _bg="#fff/60 hover:accent"
-          _text="#222 hover:accent-contrast"
-          _transition-all
-          _cursor-pointer
+          :title="t(title)"
+          :class="composeBtnClasses(path)"
+          _h10
+          _w10
           @click="router.push(path)"
         >
-          <div _h-full _p="x1 y.5" _flex-center>
-            <div _text="center sm">
-              {{ t(title) }}
-            </div>
-          </div>
-
-          <BaseFadeTransition>
-            <div
-              v-if="isActiveRoutePath(path)"
-              _cover
-              _pointer-events-none
-              _border="2 accent"
-            />
-          </BaseFadeTransition>
+          <BaseIconGroup :icons="parseNeighboringNavIcon(navIcon)" />
         </div>
       </div>
     </BaseFadeTransition>
 
-    <div _flex _justify-center _gap1>
+    <div _flex _justify-center _pt1>
       <div
         v-for="{ path, meta: { navIcon, title } } in navigableRootRoutes"
         :key="path"
         _grow
         _basis-0
+        _flex
+        _justify-center
       >
         <div
+          class="group"
           _flex="~ col"
           _items-center
-          _gap=".5"
-          _rounded
-          _p="t2"
-          _relative
+          _gap=".2"
           _cursor-pointer
-          _bg="#fff/60 hover:accent"
-          _text="#222 hover:accent-contrast"
-          _transition-all
           @click="router.push(path)"
         >
-          <div :class="`icon-${navIcon}`" />
-          <div _text-sm>
-            {{ t(title) }}
+          <div :class="composeBtnClasses(path)" _h9 _w9>
+            <div _text-lg>
+              <div :class="`icon-${parseRootNavIcon(navIcon)}`" _text-lg />
+            </div>
           </div>
 
-          <BaseFadeTransition>
-            <div
-              v-if="isActiveRoutePath(path)"
-              _cover
-              _pointer-events-none
-              _border="2 accent"
-            />
-          </BaseFadeTransition>
+          <div _text-xs>
+            {{ t(title) }}
+          </div>
         </div>
       </div>
     </div>
