@@ -72,7 +72,9 @@ onBeforeUnmount(unsubscribe);
       </div>
 
       <div _mt4 _flex _justify-center _gap4>
-        <BaseButton alt @click="dropPayload(id)">{{ cancelMsg }}</BaseButton>
+        <BaseButton v-if="cancelMsg" alt @click="dropPayload(id)">
+          {{ cancelMsg }}
+        </BaseButton>
 
         <BaseButton @click="executePayloadCb(id, cb)">
           {{ confirmMsg }}
