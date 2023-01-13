@@ -6,12 +6,12 @@ import { mapDays } from './array';
 import type {
   EditableMealPlan,
   MealPlanOptions,
-  MealPlanRecipesPerDay,
+  MealPlanRecipeIdsPerDay,
 } from '~/types/mealPlan';
 import type { Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
-const emptyMealPlanRecipesPerDay = (): MealPlanRecipesPerDay => ({
+const emptyMealPlanRecipesPerDay = (): MealPlanRecipeIdsPerDay => ({
   [Day.Monday]: [],
   [Day.Tuesday]: [],
   [Day.Wednesday]: [],
@@ -230,7 +230,7 @@ const generateRecipesForDay = (
 export const generateMealPlanRecipesPerDay = (
   options: MealPlanOptions,
   recipes: Recipe[]
-): MealPlanRecipesPerDay | never => {
+): MealPlanRecipeIdsPerDay | never => {
   if (!areMealPlanOptionsValid(options)) {
     throw new InvalidMealPlanOptionsError();
   }
@@ -247,13 +247,15 @@ export const generateMealPlanRecipesPerDay = (
         remainingRecipes
       );
 
-      const recipesForDayIds = new Set(recipesForDay.map(({ id }) => id));
+      const recipeIdsForDay = recipesForDay.map(({ id }) => id);
+
+      const recipeIdsForDaySet = new Set(recipeIdsForDay);
 
       remainingRecipes = remainingRecipes.filter(
-        ({ id }) => !recipesForDayIds.has(id)
+        ({ id }) => !recipeIdsForDaySet.has(id)
       );
 
-      return { [day]: recipesForDay };
+      return { [day]: recipeIdsForDay };
     })
   );
 };
