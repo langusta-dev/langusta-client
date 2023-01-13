@@ -20,10 +20,10 @@ jobs:
           node-version: 18.12
           cache: pnpm
 
-      - run: npx playwright install --with-deps
-
       - name: Install node_modules
         run: pnpm i --frozen-lockfile
+
+      - run: npx playwright install --with-deps
 
       - name: Typecheck
         run: pnpm tsc
