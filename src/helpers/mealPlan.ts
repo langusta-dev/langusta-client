@@ -222,7 +222,7 @@ export const generateMealPlanRecipeIdsPerDay = (
 
   const dailyMealCalorieCounts = generateDailyMealCalorieCounts(options);
 
-  let remainingRecipes = [...recipes];
+  const remainingRecipes = [...recipes];
 
   return Object.assign(
     {},
@@ -234,11 +234,13 @@ export const generateMealPlanRecipeIdsPerDay = (
 
       const recipeIdsForDay = recipesForDay.map(({ id }) => id);
 
-      const recipeIdsForDaySet = new Set(recipeIdsForDay);
+      // TODO: make sure that all meals are unique per week
 
-      remainingRecipes = remainingRecipes.filter(
-        ({ id }) => !recipeIdsForDaySet.has(id)
-      );
+      // const recipeIdsForDaySet = new Set(recipeIdsForDay);
+
+      // remainingRecipes = remainingRecipes.filter(
+      //   ({ id }) => !recipeIdsForDaySet.has(id)
+      // );
 
       return { [day]: recipeIdsForDay };
     })

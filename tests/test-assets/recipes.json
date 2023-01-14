@@ -2,441 +2,560 @@
   {
     "id": "10fef6b9-3ef4-485d-b20d-c4ff0f50aaaa",
     "createdAt": "2023-01-12T18:53:49.2474041",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Scrambled eggs",
     "calorieCount": 400,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "ad9bb515-c916-42a3-86ff-0dce1be7fdc1",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Toast with nutella",
     "calorieCount": 200,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "71dcd7df-12c0-4980-985f-398436840ac6",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Toast with jam",
     "calorieCount": 150,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "d80d766b-ca70-409c-8607-bbdd5c6591a4",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Toast with shit",
     "calorieCount": 350,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "5a171a33-4a2d-46f3-86b1-edb5f7faf2e4",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "American pancakes",
     "calorieCount": 356,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "c6d26a05-1cb7-4c4f-a2dc-45a642822d9d",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Poached eggs",
     "calorieCount": 310,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "b56ec46d-084d-4ec2-8f25-4f80e734c645",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Overnight oats",
     "calorieCount": 348,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "6a3c1c89-a610-4ba3-8705-94e5a375d7fe",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Baked oats",
     "calorieCount": 300,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "b5ebc19d-9efa-4e31-bf54-319fc24f767b",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Panettone French toast",
     "calorieCount": 626,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "7a9bfd04-ec47-4725-9aaf-f852148fd1f0",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Eggy cheese crumpets",
     "calorieCount": 545,
     "mealType": "BREAKFAST",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "272f4630-fdb1-449e-9dc3-95585dc5e2f8",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Mexican Burrito",
     "calorieCount": 600,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "042fe94d-c6f8-41e7-b513-a7ad3b930225",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Chicken pasta bake",
     "calorieCount": 575,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "e6342533-a6be-41ad-b3f9-73ee83772563",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Chicken & chorizo ragu",
     "calorieCount": 383,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "8f4d92e5-b1cd-4c2d-803f-29b627856c2f",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Vegetarian lasagne",
     "calorieCount": 461,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "e8a915bf-34b7-4dc3-a574-6c3ac5a06799",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Herby fish fingers",
     "calorieCount": 487,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "50bb6ff0-9b83-4f71-b906-4c72e71709ed",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Oven-baked pork chops",
     "calorieCount": 805,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "322ae301-48c2-41a9-b76e-15d869260638",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Cheesy fish pie",
     "calorieCount": 634,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "6846e736-c555-453b-8fc5-0b32272eaeea",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Mustard & parmesan- crumbed chicken",
     "calorieCount": 484,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "f2bd01a0-a1c4-46fa-a9ba-c2e5a92c2f12",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Pulled pork tacos",
     "calorieCount": 537,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "f94831b7-694d-4bd3-8e4b-940e4e8e7fb7",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Pork chops & mustardy butter beans",
     "calorieCount": 610,
     "mealType": "DINNER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "25cd7d76-9454-42b6-a75f-6835fc225262",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Viennese egg",
     "calorieCount": 220,
     "mealType": "APPETIZER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "62fece6d-5d33-4cdc-8b5d-bf7487c127a9",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Savory Party Bread",
     "calorieCount": 400,
     "mealType": "APPETIZER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "52f9f3a5-7c31-4aed-bf54-66981aacff4f",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Teriyaki Meatballs",
     "calorieCount": 275,
     "mealType": "APPETIZER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "faea166a-93d2-4936-8808-fd04bb0eb03c",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Fruit and Cheese Board",
     "calorieCount": 304,
     "mealType": "APPETIZER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "a44ef36c-d789-49f4-8c43-4cd9d800c277",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Orange-Glazed Meatballs",
     "calorieCount": 375,
     "mealType": "APPETIZER",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "17cc63b6-1c6f-4cf5-b1e6-d9ea4e39f5b0",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Quinoa tabbouleh",
     "calorieCount": 290,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "b9870f9f-70f4-455f-bf9b-9247d5865e26",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Vegan chickpea curry jacket potatoes",
     "calorieCount": 276,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "60bdb0f9-e4fc-4020-9e4c-60fa5c51d5af",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Salmon salad with sesame dressing",
     "calorieCount": 478,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "d68ea36b-dbb2-4546-a598-4889aefc85d6",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Smoky tomato, chipotle & charred corn soup",
     "calorieCount": 185,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "4b937203-a561-42c0-9f45-36bdfc45617a",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Veggie olive wraps with mustard vinaigrette",
     "calorieCount": 281,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "8d292560-e5af-4592-9f67-a36709320530",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Cauliflower soup",
     "calorieCount": 176,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "78cd0a1f-e88b-4e18-8844-1c20ed858443",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Healthy tomato soup",
     "calorieCount": 198,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "3cb6b7bc-c862-4a34-9393-1f079de65a7e",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Tomato, pepper & bean one pot",
     "calorieCount": 236,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "43b438d8-90e4-4533-976d-a8e114b7eed4",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Spiced lentil & butternut squash soup",
     "calorieCount": 167,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "bd4ffb11-cbdb-4537-93e5-6594f10801f8",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Lentil & tuna salad",
     "calorieCount": 374,
     "mealType": "LUNCH",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "8cb54a96-3181-4f72-ac65-e9ffa75344e4",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Baba ganoush",
     "calorieCount": 167,
     "mealType": "SNACK",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "c768fd54-55dc-45b0-83ad-aa9453a6bb8f",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Chilli & ginger nuts",
     "calorieCount": 224,
     "mealType": "SNACK",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "7398600d-d141-4dd8-8a7f-20a5b1f45deb",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Pepper & walnut hummus",
     "calorieCount": 296,
     "mealType": "SNACK",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "374a8199-049f-4c43-a24e-1cb1e4a103c7",
     "createdAt": "2023-01-12T18:53:49.2484028",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Chilli corn & spring onion quesadilla",
     "calorieCount": 375,
     "mealType": "SNACK",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   },
   {
     "id": "c732cda5-8ab8-4728-a821-502340b0770b",
     "createdAt": "2023-01-12T18:53:49.2494017",
-    "updatedAt": null,
+    "updatedAt": "",
     "title": "Bacon, sundried tomato & feta rolls",
     "calorieCount": 100,
     "mealType": "SNACK",
     "ingredients": [],
     "steps": [],
-    "preparationTime": { "value": 1, "unit": "MINUTE" }
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
+  },
+  {
+    "id": "1732cda5-8ab8-4728-a821-502340b0770b",
+    "createdAt": "2023-01-12T18:53:49.2494017",
+    "updatedAt": "",
+    "title": "perfect 2000/3 - 1",
+    "calorieCount": 700,
+    "mealType": "BREAKFAST",
+    "ingredients": [],
+    "steps": [],
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
+  },
+  {
+    "id": "2732cda5-8ab8-4728-a821-502340b0770b",
+    "createdAt": "2023-01-12T18:53:49.2494017",
+    "updatedAt": "",
+    "title": "perfect 2000/3 - 2",
+    "calorieCount": 900,
+    "mealType": "DINNER",
+    "ingredients": [],
+    "steps": [],
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
+  },
+  {
+    "id": "3732cda5-8ab8-4728-a821-502340b0770b",
+    "createdAt": "2023-01-12T18:53:49.2494017",
+    "updatedAt": "",
+    "title": "perfect 2000/3 - 3",
+    "calorieCount": 400,
+    "mealType": "SNACK",
+    "ingredients": [],
+    "steps": [],
+    "preparationTime": { "value": 1, "unit": "MINUTE" },
+    "isOwned": true,
+    "isLocalOnly": true
   }
 ]

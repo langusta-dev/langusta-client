@@ -76,13 +76,15 @@ meal_plan:
     submit: Submit meal plan
     restore: Restore last submitted plan
     no_recipes_to_display: Meal plan not generated...
-    meal_plan_generation_error:
+    generation_error:
       title: Failed to generate a meal plan
       reason:
         unknown: Unknown error
         invalid_meal_plan_options: The configuration is invalid
         invalid_daily_meal_count: Daily amount of meals is invalid
         insufficient_recipe_count: The chosen collection has not enough fitting recipes
+  no_collections: Meal plans are generated from collections
+  create_first_collection: Create my first collection
 
 settings:
   title: Settings

@@ -20,6 +20,7 @@ import type { EditableMealPlan, MealPlan } from '~/types/mealPlan';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
 const { t } = useI18n();
+const router = useRouter();
 const recipeCollectionStore = useRecipeCollectionStore();
 const mealPlanStore = useMealPlanStore();
 
@@ -58,6 +59,12 @@ const submitMealPlan = async () => {
       v-model:meal-plan="editableMealPlan"
       @submit-meal-plan="submitMealPlan()"
     />
-    <div v-else>cannot create a meal plan</div>
+    <div v-else _flex="~ col" _items-center _gap4>
+      <div>{{ t('meal_plan.no_collections') }}</div>
+
+      <BaseButton @click="router.push('/recipes/collections/add')">
+        {{ t('meal_plan.create_first_collection') }}
+      </BaseButton>
+    </div>
   </div>
 </template>

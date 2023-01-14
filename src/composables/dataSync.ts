@@ -146,7 +146,7 @@ export const useSynchronizableArray = <T extends SynchronizableData>(
     );
 
     await waitForTransaction(
-      idbTable.bulkAdd(
+      idbTable.bulkPut(
         [
           ...newData.filter(
             ({ id }) =>

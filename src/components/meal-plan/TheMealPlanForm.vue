@@ -78,20 +78,29 @@ const isMealPlanComplete = $computed(() => isMealPlanValid(mealPlan));
 const recipesPerDayToDisplay = $computed<Record<Day, Recipe[]>>(() =>
   Object.assign(
     {},
-    ...Object.entries(mealPlan.recipeIdsPerDay).map(([day, recipeIds]) => [
-      day,
-      recipeIds.map(recipeStore.getRecipeById).filter(Boolean),
-    ])
+    ...Object.entries(mealPlan.recipeIdsPerDay).map(([day, recipeIds]) => ({
+      [day]: recipeIds.map(recipeStore.getRecipeById).filter(Boolean),
+    }))
   )
 );
 
-const daysToDisplay = $computed(() => {
-  if (!isMealPlanComplete) {
-    return null;
-  }
+const daysToDisplay = $computed(() =>
+  mapDays((day) => ({ day, recipes: recipesPerDayToDisplay[day] }))
+);
 
-  return mapDays((day) => ({ day, recipes: recipesPerDayToDisplay[day] }));
-});
+const recipeCollection = $computed(() =>
+  recipeCollectionId
+    ? recipeCollectionStore.getCollectionById(recipeCollectionId)
+    : null
+);
+
+const recipeCollectionRecipes = $computed<Recipe[]>(() =>
+  recipeCollection
+    ? recipeCollection.recipeIds
+        .map(recipeStore.getRecipeById)
+        .filter((item): item is Recipe => !!item)
+    : []
+);
 
 const generateMealPlan = () => {
   try {
@@ -100,40 +109,34 @@ const generateMealPlan = () => {
         dailyCalorieCount: dailyCalorieCountNum,
         dailyMealCount: dailyMealCountNum,
       },
-      []
+      recipeCollectionRecipes
     );
   } catch (error) {
-    let errorReasonMsg = t('meal_plan_generation_error.reason.unknown');
+    let errorReasonMsgKey = 'unknown';
 
     if (error instanceof MealPlanGenerationError) {
       switch (error.constructor) {
         case InvalidMealPlanOptionsError: {
-          errorReasonMsg = t(
-            'meal_plan_generation_error.reason.invalid_meal_plan_options'
-          );
-
+          errorReasonMsgKey = 'invalid_meal_plan_options';
           break;
         }
 
         case InvalidDailyMealCountError: {
-          errorReasonMsg = t(
-            'meal_plan_generation_error.reason.invalid_daily_meal_count'
-          );
-
+          errorReasonMsgKey = 'invalid_daily_meal_count';
           break;
         }
 
         case InsufficientRecipeCountError: {
-          errorReasonMsg = t(
-            'meal_plan_generation_error.reason.insufficient_recipe_count'
-          );
-
+          errorReasonMsgKey = 'insufficient_recipe_count';
           break;
         }
       }
     }
 
-    const msg = t('meal_plan_generation_error.title') + '.\n' + errorReasonMsg;
+    const msg =
+      t('meal_plan.form.generation_error.title') +
+      '.\n' +
+      t(`meal_plan.form.generation_error.reason.${errorReasonMsgKey}`);
 
     showConfirm({
       msg,
@@ -142,19 +145,29 @@ const generateMealPlan = () => {
   }
 };
 
-const submitMealPlan = () => {
-  if (!isMealPlanComplete) {
-    return;
-  }
-
-  emit('submitMealPlan');
-};
-
-const initialMealPlan = klona(props.mealPlan);
+let initialMealPlan = $ref(klona(props.mealPlan));
 
 const isInitialMealPlanValid = $computed(() =>
   isMealPlanValid(initialMealPlan)
 );
+
+const isMealPlanChanged = $computed(
+  () => !deepEqual(initialMealPlan.recipeIdsPerDay, mealPlan.recipeIdsPerDay)
+);
+
+const isMealPlanSubmittable = $computed(
+  () => isMealPlanComplete && isMealPlanChanged
+);
+
+const submitMealPlan = () => {
+  if (!isMealPlanSubmittable) {
+    return;
+  }
+
+  emit('submitMealPlan');
+
+  initialMealPlan = klona(mealPlan);
+};
 
 const initializeForm = () => {
   dailyCalorieCount = initialMealPlan.dailyCalorieCount
@@ -218,7 +231,7 @@ const restoreMealPlan = () => {
         {{ t('meal_plan.form.generate') }}
       </BaseButton>
 
-      <BaseButton :disabled="!isMealPlanComplete" @click="submitMealPlan()">
+      <BaseButton :disabled="!isMealPlanSubmittable" @click="submitMealPlan()">
         {{ t('meal_plan.form.submit') }}
       </BaseButton>
 

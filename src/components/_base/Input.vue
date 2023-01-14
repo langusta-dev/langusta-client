@@ -32,14 +32,19 @@ const el = $ref<HTMLInputElement>();
 
 const value = computed({
   get: () => modelValue,
-  set: (v) => {
+  set: async (v) => {
     if (el && numeric && !/^\d*$/.test(v)) {
       el.value = modelValue;
       return;
     }
 
     emit('update:modelValue', v);
-    el.value = modelValue;
+
+    await nextTick();
+
+    if (el.value !== modelValue) {
+      el.value = modelValue;
+    }
   },
 });
 

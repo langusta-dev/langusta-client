@@ -29,6 +29,7 @@ const NAV_ITEMS = [
   },
   { title: 'add_recipe.title', path: '/recipes/add' },
   { title: 'add_recipe_collection.title', path: '/recipes/collections/add' },
+  { title: 'meal_plan.title', path: '/meal-plan' },
 ];
 </script>
 

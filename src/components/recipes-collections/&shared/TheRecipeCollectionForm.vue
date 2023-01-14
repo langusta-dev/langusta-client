@@ -89,31 +89,33 @@ initializeForm();
 </script>
 
 <template>
-  <div _flex="~ col" _gap4 _items-center>
-    <BaseInput
-      v-model="title"
-      :placeholder="t('recipe_collections.form.title') + '*'"
-    />
+  <div _flex="~ col" _gap1 _items-center>
+    <div _flex="~ col" _gap="2 lg:4" _items-center>
+      <BaseInput
+        v-model="title"
+        :placeholder="t('recipe_collections.form.title') + '*'"
+      />
 
-    <div _pb2>
-      <BaseButton
-        :disabled="!isRecipeCollectionComplete"
-        @click="submitRecipeCollection()"
-      >
-        {{ t('recipe_collections.form.submit') }}
-      </BaseButton>
-    </div>
+      <div _pb1>
+        <BaseButton
+          :disabled="!isRecipeCollectionComplete"
+          @click="submitRecipeCollection()"
+        >
+          {{ t('recipe_collections.form.submit') }}
+        </BaseButton>
+      </div>
 
-    <div _flex="~ wrap" _justify-center _gap1>
-      <BaseButton
-        v-for="tabKey in TAB_KEYS"
-        :key="tabKey"
-        :alt="tabKey !== activeTabKey"
-        sm
-        @click="setActiveTabKey(tabKey)"
-      >
-        {{ getLocaleByTabKey(tabKey) }}
-      </BaseButton>
+      <div _flex="~ wrap" _justify-center _gap1>
+        <BaseButton
+          v-for="tabKey in TAB_KEYS"
+          :key="tabKey"
+          :alt="tabKey !== activeTabKey"
+          sm
+          @click="setActiveTabKey(tabKey)"
+        >
+          {{ getLocaleByTabKey(tabKey) }}
+        </BaseButton>
+      </div>
     </div>
 
     <div _w-full _grow>
