@@ -185,8 +185,12 @@ const initializeForm = () => {
 
 initializeForm();
 
+const isMealPlanRestorable = $computed(
+  () => isInitialMealPlanValid && isMealPlanChanged
+);
+
 const restoreMealPlan = () => {
-  if (isInitialMealPlanValid) {
+  if (isMealPlanRestorable) {
     initializeForm();
   }
 };
@@ -237,7 +241,7 @@ const restoreMealPlan = () => {
 
       <BaseButton
         alt
-        :disabled="!isInitialMealPlanValid"
+        :disabled="!isMealPlanRestorable"
         @click="restoreMealPlan()"
       >
         {{ t('meal_plan.form.restore') }}
