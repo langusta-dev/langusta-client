@@ -200,9 +200,7 @@ const restoreMealPlan = () => {
   <div _flex="~ col" _items-center _px4 _gap4>
     <div _w="xl:full" _flex="~ col xl:row" _justify-center _gap4>
       <div _flex _items-center _gap2 _w-full _max-w-100>
-        <div>
-          {{ t('meal_plan.form.recipe_collection') }}
-        </div>
+        <div>{{ t('meal_plan.form.recipe_collection') }}:</div>
 
         <BaseSelect
           v-model="recipeCollectionId"
@@ -251,12 +249,60 @@ const restoreMealPlan = () => {
     <BaseHr _w-full />
 
     <BaseFadeTransition>
-      <div v-if="daysToDisplay" _flex="~ col xl:row">
-        <div v-for="{ day, recipes } in daysToDisplay" :key="day">
-          <div _capitalize>{{ day }}</div>
+      <div v-if="daysToDisplay" _flex="~ col xl:row" _gap4 _w-full _px1>
+        <div
+          v-for="{ day, recipes } in daysToDisplay"
+          :key="day"
+          _xl:grow
+          _basis-0
+          _w="full xl:unset"
+        >
+          <div _capitalize _text-xl _fw600 _pb1>{{ day }}</div>
 
-          <div v-for="recipe in recipes" :key="recipe.id">
-            {{ recipe.title }}
+          <div _flex="~ col" _gap1>
+            <div
+              v-for="recipe in recipes"
+              :key="recipe.id"
+              class="group"
+              _flex
+              _h="12 md:14"
+              _gap2
+              _cursor-pointer
+              _select-none
+              _items-center
+            >
+              <div
+                _w="1/5"
+                _max-w-20
+                _h-full
+                _relative
+                _rounded
+                _border="1 primary-contrast/70 group-hover:accent"
+                _group-hover:text-accent
+                _transition-colors
+              >
+                <div
+                  v-if="recipe.imgPath"
+                  _cover
+                  :style="{ backgroundImage: `url(${recipe.imgPath})` }"
+                  _bg="cover center no-repeat"
+                />
+                <div v-else _cover _flex-center>
+                  <div _icon-emojione-monotone:pot-of-food _text-3xl />
+                </div>
+              </div>
+
+              <div
+                _grow
+                _basis-0
+                _text-lines-2
+                :title="recipe.title"
+                _group-hover:text-accent
+                _transition-colors
+              >
+                {{ recipe.title }}
+              </div>
+            </div>
           </div>
         </div>
       </div>

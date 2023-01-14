@@ -45,7 +45,7 @@ export default {
         ':dark': 'accent-contrast:dark',
         ':disabled': {
           'DEFAULT': '#f1f1f1',
-          ':dark': '#888',
+          ':dark': '#444',
         },
       },
     },

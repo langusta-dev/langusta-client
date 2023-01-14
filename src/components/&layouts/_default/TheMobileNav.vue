@@ -11,7 +11,7 @@ const STATIC_NAV_BTN_CLASSES = [
   'rounded-full',
   'cursor-pointer',
   'transition-colors',
-  'bg-primary !hover:bg-accent',
+  'bg-primary !hover:bg-accent group-hover:bg-accent',
 ];
 
 const composeBtnClasses = (path: string) => [
