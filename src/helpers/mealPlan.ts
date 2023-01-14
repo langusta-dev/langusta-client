@@ -1,4 +1,9 @@
 import { Day } from '~/types/basic';
+import {
+  InsufficientRecipeCountError,
+  InvalidDailyMealCountError,
+  InvalidMealPlanOptionsError,
+} from '~/types/mealPlan';
 import { RecipeMealType } from '~/types/recipe';
 
 import { mapDays } from './array';
@@ -11,7 +16,7 @@ import type {
 import type { Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
-const emptyMealPlanRecipesPerDay = (): MealPlanRecipeIdsPerDay => ({
+const emptyMealPlanRecipeIdsPerDay = (): MealPlanRecipeIdsPerDay => ({
   [Day.Monday]: [],
   [Day.Tuesday]: [],
   [Day.Wednesday]: [],
@@ -27,7 +32,7 @@ export const emptyMealPlan = (
   recipeCollectionId,
   dailyCalorieCount: 0,
   dailyMealCount: 0,
-  recipesPerDay: emptyMealPlanRecipesPerDay(),
+  recipeIdsPerDay: emptyMealPlanRecipeIdsPerDay(),
 });
 
 const MIN_DAILY_CALORIE_COUNT = 1000;
@@ -47,32 +52,12 @@ export const areMealPlanOptionsValid = ({
 export const isMealPlanValid = ({
   dailyCalorieCount,
   dailyMealCount,
-  recipesPerDay,
+  recipeIdsPerDay,
 }: EditableMealPlan) =>
   areMealPlanOptionsValid({ dailyCalorieCount, dailyMealCount }) &&
-  Object.values(recipesPerDay).every(
+  Object.values(recipeIdsPerDay).every(
     (dailyRecipes) => dailyRecipes.length === dailyMealCount
   );
-
-class MealPlanGenerationError extends Error {}
-
-class InvalidMealPlanOptionsError extends MealPlanGenerationError {
-  constructor() {
-    super('Invalid meal plan options');
-  }
-}
-
-class InvalidDailyMealCountError extends MealPlanGenerationError {
-  constructor() {
-    super('Invalid daily meal count');
-  }
-}
-
-class InsufficientRecipeCountError extends MealPlanGenerationError {
-  constructor() {
-    super('Insufficient recipe count');
-  }
-}
 
 type SequentialMealNumber = number;
 
@@ -227,7 +212,7 @@ const generateRecipesForDay = (
     .map(([, recipe]) => recipe);
 };
 
-export const generateMealPlanRecipesPerDay = (
+export const generateMealPlanRecipeIdsPerDay = (
   options: MealPlanOptions,
   recipes: Recipe[]
 ): MealPlanRecipeIdsPerDay | never => {

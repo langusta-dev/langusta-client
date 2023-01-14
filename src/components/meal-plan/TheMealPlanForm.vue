@@ -1,17 +1,30 @@
 <script setup lang="ts">
+import {
+  InsufficientRecipeCountError,
+  InvalidDailyMealCountError,
+  InvalidMealPlanOptionsError,
+  MealPlanGenerationError,
+} from '~/types/mealPlan';
+
 import { useRecipeStore } from '~/stores/recipe';
 import { useRecipeCollectionStore } from '~/stores/recipeCollection';
 
+import { showConfirm } from '~/composables/confirm';
 import { useInputGroup } from '~/composables/input';
 
 import { mapDays } from '~/helpers/array';
 import {
-  generateMealPlanRecipesPerDay,
+  generateMealPlanRecipeIdsPerDay,
   isMealPlanValid,
   areMealPlanOptionsValid as _areMealPlanOptionsValid,
 } from '~/helpers/mealPlan';
 
-import type { EditableMealPlan, MealPlanRecipesPerDay } from '~/types/mealPlan';
+import type { Day } from '~/types/basic';
+import type {
+  EditableMealPlan,
+  MealPlanRecipeIdsPerDay,
+} from '~/types/mealPlan';
+import type { Recipe } from '~/types/recipe';
 import type { RecipeCollection } from '~/types/recipeCollection';
 
 const props = defineProps<{ mealPlan: EditableMealPlan }>();
@@ -34,7 +47,7 @@ let dailyMealCount = $(injectValueByKey('dailyMealCount'));
 
 let recipeCollectionId = $ref<RecipeCollection['id'] | null>(null);
 
-let recipesPerDay = $ref<MealPlanRecipesPerDay | null>(null);
+let recipeIdsPerDay = $ref<MealPlanRecipeIdsPerDay | null>(null);
 
 let { mealPlan } = $(useVModels(props, emit));
 
@@ -42,7 +55,7 @@ const dailyCalorieCountNum = $computed(() => Number(dailyCalorieCount || 0));
 const dailyMealCountNum = $computed(() => Number(dailyMealCount || 0));
 
 watchEffect(() => {
-  if (!recipesPerDay || !recipeCollectionId) {
+  if (!recipeIdsPerDay || !recipeCollectionId) {
     return;
   }
 
@@ -50,7 +63,7 @@ watchEffect(() => {
     dailyCalorieCount: dailyCalorieCountNum,
     dailyMealCount: dailyMealCountNum,
     recipeCollectionId,
-    recipesPerDay,
+    recipeIdsPerDay,
   };
 
   mealPlan = newMealPlan;
@@ -62,23 +75,72 @@ const areMealPlanOptionsValid = $computed(() =>
 
 const isMealPlanComplete = $computed(() => isMealPlanValid(mealPlan));
 
-const generateMealPlan = () => {
-  recipesPerDay = generateMealPlanRecipesPerDay(
-    {
-      dailyCalorieCount: dailyCalorieCountNum,
-      dailyMealCount: dailyMealCountNum,
-    },
-    []
-  );
-};
+const recipesPerDayToDisplay = $computed<Record<Day, Recipe[]>>(() =>
+  Object.assign(
+    {},
+    ...Object.entries(mealPlan.recipeIdsPerDay).map(([day, recipeIds]) => [
+      day,
+      recipeIds.map(recipeStore.getRecipeById).filter(Boolean),
+    ])
+  )
+);
 
 const daysToDisplay = $computed(() => {
   if (!isMealPlanComplete) {
     return null;
   }
 
-  return mapDays((day) => ({ day, recipes: mealPlan.recipesPerDay[day] }));
+  return mapDays((day) => ({ day, recipes: recipesPerDayToDisplay[day] }));
 });
+
+const generateMealPlan = () => {
+  try {
+    recipeIdsPerDay = generateMealPlanRecipeIdsPerDay(
+      {
+        dailyCalorieCount: dailyCalorieCountNum,
+        dailyMealCount: dailyMealCountNum,
+      },
+      []
+    );
+  } catch (error) {
+    let errorReasonMsg = t('meal_plan_generation_error.reason.unknown');
+
+    if (error instanceof MealPlanGenerationError) {
+      switch (error.constructor) {
+        case InvalidMealPlanOptionsError: {
+          errorReasonMsg = t(
+            'meal_plan_generation_error.reason.invalid_meal_plan_options'
+          );
+
+          break;
+        }
+
+        case InvalidDailyMealCountError: {
+          errorReasonMsg = t(
+            'meal_plan_generation_error.reason.invalid_daily_meal_count'
+          );
+
+          break;
+        }
+
+        case InsufficientRecipeCountError: {
+          errorReasonMsg = t(
+            'meal_plan_generation_error.reason.insufficient_recipe_count'
+          );
+
+          break;
+        }
+      }
+    }
+
+    const msg = t('meal_plan_generation_error.title') + '.\n' + errorReasonMsg;
+
+    showConfirm({
+      msg,
+      cancelMsg: null,
+    });
+  }
+};
 
 const submitMealPlan = () => {
   if (!isMealPlanComplete) {
@@ -105,7 +167,7 @@ const initializeForm = () => {
 
   recipeCollectionId = initialMealPlan.recipeCollectionId;
 
-  recipesPerDay = initialMealPlan.recipesPerDay;
+  recipeIdsPerDay = initialMealPlan.recipeIdsPerDay;
 };
 
 initializeForm();

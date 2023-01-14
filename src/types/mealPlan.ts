@@ -12,7 +12,27 @@ export type MealPlanRecipeIdsPerDay = Record<Day, Uuid[]>;
 
 export interface MealPlan extends MealPlanOptions, SynchronizableData {
   recipeCollectionId: RecipeCollection['id'];
-  recipesPerDay: MealPlanRecipeIdsPerDay;
+  recipeIdsPerDay: MealPlanRecipeIdsPerDay;
 }
 
 export type EditableMealPlan = Editable<MealPlan>;
+
+export class MealPlanGenerationError extends Error {}
+
+export class InvalidMealPlanOptionsError extends MealPlanGenerationError {
+  constructor() {
+    super('Invalid meal plan options');
+  }
+}
+
+export class InvalidDailyMealCountError extends MealPlanGenerationError {
+  constructor() {
+    super('Invalid daily meal count');
+  }
+}
+
+export class InsufficientRecipeCountError extends MealPlanGenerationError {
+  constructor() {
+    super('Insufficient recipe count');
+  }
+}
