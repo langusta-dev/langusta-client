@@ -26,6 +26,7 @@ recipes:
     add_step: Add step
     step:
       description: What to do?
+    is_public: Make recipe public
     submit: Submit recipe
   add_recipe: New recipe
   edit_recipe: Edit recipe
@@ -41,6 +42,7 @@ recipe_collections:
       user_recipes: My recipes
       selected_recipes: Selected recipes
       description: Description
+    is_public: Make collection public
     submit: Submit collection
   add_recipe_collection: New collection
   edit_recipe_collection: Edit collection

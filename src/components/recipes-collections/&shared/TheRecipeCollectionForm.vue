@@ -33,6 +33,12 @@ let recipeIdsSet = $ref(new Set<Uuid>());
 
 const recipeIds = $computed(() => [...recipeIdsSet]);
 
+const trimmedDescription = $computed(() => description.trim());
+
+const isPublishable = $computed(() => !!trimmedDescription);
+
+const isPublic = $ref(false);
+
 let { recipeCollection } = $(useVModels(props, emit));
 
 // TODO isPublic
@@ -42,10 +48,12 @@ watchEffect(() => {
     recipeIds,
   };
 
-  const trimmedDescription = description.trim();
-
   if (trimmedDescription) {
     newRecipeCollection.description = trimmedDescription;
+  }
+
+  if (isPublishable && isPublic) {
+    newRecipeCollection.isPublic = isPublic;
   }
 
   recipeCollection = newRecipeCollection;
@@ -94,6 +102,11 @@ initializeForm();
       <BaseInput
         v-model="title"
         :placeholder="t('recipe_collections.form.title') + '*'"
+      />
+
+      <BaseCheckbox
+        v-model="isPublic"
+        :label="t('recipe_collections.form.is_public')"
       />
 
       <div _pb1>

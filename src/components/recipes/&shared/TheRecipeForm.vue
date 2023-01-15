@@ -64,9 +64,14 @@ let steps = $ref<RecipeStep[]>([]);
 
 let enableSteps = $ref(true);
 
+const trimmedDescription = $computed(() => description.trim());
+
+const isPublishable = $computed(() => !!trimmedDescription);
+
+let isPublic = $ref(false);
+
 let { recipe } = $(useVModels(props, emit));
 
-// TODO isPublic
 watchEffect(() => {
   const newRecipe: EditableRecipe = {
     title,
@@ -76,10 +81,12 @@ watchEffect(() => {
     ingredients,
   };
 
-  const trimmedDescription = description.trim();
-
   if (trimmedDescription) {
     newRecipe.description = trimmedDescription;
+  }
+
+  if (isPublishable && isPublic) {
+    newRecipe.isPublic = isPublic;
   }
 
   if (imgPath) {
@@ -130,6 +137,8 @@ const initializeForm = () => {
   steps = props.recipe.steps ? klona(props.recipe.steps) : [];
 
   enableSteps = !!steps.length;
+
+  isPublic = !!props.recipe.isPublic;
 };
 
 initializeForm();
@@ -181,6 +190,11 @@ const { skeletonComponent } = useFormSkeleton();
               label="label"
             />
           </div>
+
+          <BaseCheckbox
+            v-model="isPublic"
+            :label="t('recipes.form.is_public')"
+          />
         </template>
 
         <template #description>
