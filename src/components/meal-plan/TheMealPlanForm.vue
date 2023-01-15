@@ -84,9 +84,15 @@ const recipesPerDayToDisplay = $computed<Record<Day, Recipe[]>>(() =>
   )
 );
 
-const daysToDisplay = $computed(() =>
-  mapDays((day) => ({ day, recipes: recipesPerDayToDisplay[day] }))
-);
+const daysToDisplay = $computed(() => {
+  if (
+    Object.values(recipesPerDayToDisplay).some((recipes) => !recipes.length)
+  ) {
+    return null;
+  }
+
+  return mapDays((day) => ({ day, recipes: recipesPerDayToDisplay[day] }));
+});
 
 const recipeCollection = $computed(() =>
   recipeCollectionId
@@ -249,7 +255,7 @@ const restoreMealPlan = () => {
     <BaseHr _w-full />
 
     <BaseFadeTransition>
-      <div v-if="daysToDisplay" _flex="~ col xl:row" _gap4 _w-full _px1>
+      <div v-if="daysToDisplay" _flex="~ col xl:row" _gap4 _w-full _p="x1 b4">
         <div
           v-for="{ day, recipes } in daysToDisplay"
           :key="day"
@@ -259,22 +265,23 @@ const restoreMealPlan = () => {
         >
           <div _capitalize _text-xl _fw600 _pb1>{{ day }}</div>
 
-          <div _flex="~ col" _gap1>
+          <div _flex="~ col" _gap="1 xl:3">
             <div
               v-for="recipe in recipes"
               :key="recipe.id"
               class="group"
-              _flex
-              _h="12 md:14"
-              _gap2
+              _flex="~ wrap"
+              _h="12 md:14 xl:auto"
+              _gap="x2 y1"
               _cursor-pointer
               _select-none
               _items-center
             >
               <div
-                _w="1/5"
-                _max-w-20
+                _w="1/5 xl:full"
+                _max-w="20 xl:full"
                 _h-full
+                _xl:pb="1/2"
                 _relative
                 _rounded
                 _border="1 primary-contrast/70 group-hover:accent"
@@ -294,7 +301,7 @@ const restoreMealPlan = () => {
 
               <div
                 _grow
-                _basis-0
+                _basis="0 xl:full"
                 _text-lines-2
                 :title="recipe.title"
                 _group-hover:text-accent
