@@ -17,7 +17,7 @@ export const uploadMealPlans = async (mealPlans: MealPlan[]) => {
 };
 
 export const deleteMealPlansByIds = async (mealPlanIds: Uuid[]) => {
-  const { data } = await rest.delete<Uuid[]>('/recipes/meeal-plan/delete', {
+  const { data } = await rest.delete<Uuid[]>('/recipes/meal-plan/delete', {
     mealPlanIds,
   });
 
