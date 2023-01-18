@@ -12,7 +12,6 @@ export const fetchRecipesByIds = async (recipeIds: Uuid[]) => {
   const { data } = await rest.post<Recipe[]>('/recipes/get/by-id', {
     recipeIds,
   });
-
   return data;
 };
 
