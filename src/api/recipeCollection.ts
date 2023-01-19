@@ -8,9 +8,7 @@ import type {
 import type { Uuid } from '~/types/uuid';
 
 export const fetchUserRecipeCollections = async () => {
-  const { data } = await rest.get<RecipeCollection[]>(
-    '/recipes/collections/user'
-  );
+  const { data } = await rest.get<RecipeCollection[]>('/collections/get/user');
 
   return data;
 };
@@ -19,7 +17,7 @@ export const fetchRecipeCollectionsByIds = async (
   recipeCollectionIds: Uuid[]
 ) => {
   const { data } = await rest.post<RecipeCollection[]>(
-    '/recipes/collections/get',
+    '/collections/get/by-id',
     { recipeCollectionIds }
   );
 
@@ -29,7 +27,7 @@ export const fetchRecipeCollectionsByIds = async (
 export const uploadRecipeCollections = async (
   recipeCollections: RecipeCollection[]
 ) => {
-  const { data } = await rest.put<Uuid[]>('/recipes/collections/update', {
+  const { data } = await rest.put<Uuid[]>('/collections/save', {
     recipeCollections,
   });
 
@@ -39,7 +37,7 @@ export const uploadRecipeCollections = async (
 export const deleteRecipeCollectionsByIds = async (
   recipeCollectionIds: Uuid[]
 ) => {
-  const { data } = await rest.delete<Uuid[]>('/recipes/collections/delete', {
+  const { data } = await rest.delete<Uuid[]>('/collections/delete', {
     recipeCollectionIds,
   });
 
@@ -50,7 +48,7 @@ export const fetchPublicRecipeCollections = async (
   query: RecipeCollectionQuery
 ) => {
   const { data } = await rest.silent.post<PublishedRecipeCollection[]>(
-    '/recipes/collections/public',
+    '/collections/get/public',
     query
   );
 
