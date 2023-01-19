@@ -4,7 +4,7 @@ import type { MealPlan } from '~/types/mealPlan';
 import type { Uuid } from '~/types/uuid';
 
 export const fetchUserMealPlans = async () => {
-  const { data } = await rest.get<MealPlan[]>('/meal-plan/user');
+  const { data } = await rest.get<MealPlan[]>('/meal-plan/get/user');
 
   return data;
 };
