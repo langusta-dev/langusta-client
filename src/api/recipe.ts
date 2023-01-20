@@ -9,25 +9,20 @@ export const fetchUserRecipes = async () => {
 };
 
 export const fetchRecipesByIds = async (recipeIds: Uuid[]) => {
-  const { data } = await rest.post<Recipe[]>('/recipes/get/by-id', {
-    recipeIds,
-  });
-
+  const { data } = await rest.post<Recipe[]>('/recipes/get/by-id', recipeIds);
   return data;
 };
 
 export const uploadRecipes = async (recipes: Recipe[]) => {
-  const { data } = await rest.silent.put<Uuid[]>('/recipes/save', {
-    recipes,
-  });
-
+  const { data } = await rest.silent.put<Uuid[]>('/recipes/save', recipes);
   return data;
 };
 
 export const deleteRecipesByIds = async (recipeIds: Uuid[]) => {
-  const { data } = await rest.silent.delete<Uuid[]>('/recipes/delete', {
-    recipeIds,
-  });
+  const { data } = await rest.silent.delete<Uuid[]>(
+    '/recipes/delete',
+    recipeIds
+  );
 
   return data;
 };
