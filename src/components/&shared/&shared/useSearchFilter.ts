@@ -8,7 +8,7 @@ export const useSearchFilter = <T extends Record<string, any> & { id: Uuid }>(
   stringifier: (item: T) => string
 ) => {
   const _trimmedSearch = $computed(() =>
-    search.value ? search.value.replace(/\s/g, '') : ''
+    search.value ? search.value.replace(/\s/g, '').toLowerCase() : ''
   );
 
   const _foundSearchIndexPerId = $computed(
@@ -16,7 +16,7 @@ export const useSearchFilter = <T extends Record<string, any> & { id: Uuid }>(
       new SafeMap<Uuid, number>(
         items.value.map((item) => [
           item.id,
-          stringifier(item).indexOf(_trimmedSearch),
+          stringifier(item).toLowerCase().indexOf(_trimmedSearch),
         ]),
         { defaultSetter: () => -1 }
       )
