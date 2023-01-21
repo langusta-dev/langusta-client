@@ -16,7 +16,7 @@
     "format": "prettier -w -u . !{coverage/**,dist/**,**/__vite*,pnpm-lock.yaml}",
     "test": "vitest",
     "test:run": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest run --coverage --reporter=verbose --silent",
     "test:e2e": "pnpm build && playwright test",
     "review": "pnpm tsc && pnpm lint && pnpm test:run && pnpm test:e2e",
     "prod": "pnpm review && pnpm build"
